@@ -28,6 +28,8 @@ public class UIManager extends javax.swing.JFrame {
         Course c = new Course();
         c.id = "SE360";
         courseManager.AddNewCourse(c);
+        
+       
     }
 
 
@@ -40,8 +42,17 @@ public class UIManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,15 +97,15 @@ public class UIManager extends javax.swing.JFrame {
         {
             System.out.println("okay");
             if(!jLabel1.isVisible())
-                jLabel1.setVisible(true);
+            jLabel1.setVisible(true);
         }
         else{
-                        
- if(jLabel1.isVisible())
-                jLabel1.setVisible(false);
-           
+
+            if(jLabel1.isVisible())
+            jLabel1.setVisible(false);
+
         }
-                
+
     }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
@@ -137,6 +148,8 @@ public class UIManager extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
