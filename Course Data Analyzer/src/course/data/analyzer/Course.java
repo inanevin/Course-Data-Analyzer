@@ -9,13 +9,8 @@ package course.data.analyzer;
  *
  * @author InanEvin
  */
-public class CourseDataAnalyzer {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class Course {
+    
+    public String id;
     
 }
