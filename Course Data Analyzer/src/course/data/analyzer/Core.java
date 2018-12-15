@@ -18,8 +18,6 @@ public class Core {
     
     public Core()
     {
-        System.out.println("Core is alive");
-        //
         m_CourseManager = new CourseManager(); 
     }
     

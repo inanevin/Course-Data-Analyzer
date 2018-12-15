@@ -6,6 +6,7 @@
 package course.data.analyzer;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 
 /**
  *
@@ -25,10 +26,15 @@ public class UIManager extends javax.swing.JFrame {
         core = new Core();
         courseManager = core.GetCourseManager();
 
-        
-       
+        SetAppIcon();
+      
     }
 
+    private void SetAppIcon()
+    {
+        // Set app ico
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("appicon.png")));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,10 +45,6 @@ public class UIManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MainTabPane = new javax.swing.JTabbedPane();
-        CourseSelection = new javax.swing.JPanel();
-        CSRightPanel = new javax.swing.JPanel();
-        CourseData = new javax.swing.JPanel();
         MainPanel = new javax.swing.JPanel();
         LeftPanel = new javax.swing.JPanel();
         CourseList = new javax.swing.JScrollPane();
@@ -53,60 +55,10 @@ public class UIManager extends javax.swing.JFrame {
         Duplicate = new javax.swing.JButton();
         Remove = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        MenuBar = new javax.swing.JMenuBar();
-        FileMenu = new javax.swing.JMenu();
-        EditMenu = new javax.swing.JMenu();
-        ViewMenu = new javax.swing.JMenu();
-        OptionsMenu = new javax.swing.JMenu();
-        AboutMenu = new javax.swing.JMenu();
-
-        MainTabPane.setBackground(new java.awt.Color(238, 239, 247));
-        MainTabPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        MainTabPane.setDoubleBuffered(true);
-        MainTabPane.setName(""); // NOI18N
-        MainTabPane.setOpaque(true);
-
-        CourseSelection.setBackground(new java.awt.Color(30, 30, 32));
-        CourseSelection.setLayout(new javax.swing.BoxLayout(CourseSelection, javax.swing.BoxLayout.LINE_AXIS));
-
-        CSRightPanel.setBackground(new java.awt.Color(28, 29, 33));
-
-        javax.swing.GroupLayout CSRightPanelLayout = new javax.swing.GroupLayout(CSRightPanel);
-        CSRightPanel.setLayout(CSRightPanelLayout);
-        CSRightPanelLayout.setHorizontalGroup(
-            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 643, Short.MAX_VALUE)
-        );
-        CSRightPanelLayout.setVerticalGroup(
-            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 697, Short.MAX_VALUE)
-        );
-
-        CourseSelection.add(CSRightPanel);
-
-        MainTabPane.addTab("Course Selection", CourseSelection);
-
-        CourseData.setBackground(new java.awt.Color(30, 30, 32));
-        CourseData.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-
-        javax.swing.GroupLayout CourseDataLayout = new javax.swing.GroupLayout(CourseData);
-        CourseData.setLayout(CourseDataLayout);
-        CourseDataLayout.setHorizontalGroup(
-            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 643, Short.MAX_VALUE)
-        );
-        CourseDataLayout.setVerticalGroup(
-            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 697, Short.MAX_VALUE)
-        );
-
-        MainTabPane.addTab("CourseData", CourseData);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Course Analyzer");
-        setBackground(new java.awt.Color(30, 30, 32));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+        MainTabPane = new javax.swing.JTabbedPane();
+        CourseSelection = new javax.swing.JPanel();
+        CSRightPanel = new javax.swing.JPanel();
+        CourseData = new javax.swing.JPanel();
 
         MainPanel.setBackground(new java.awt.Color(28, 29, 31));
         MainPanel.setLayout(new javax.swing.BoxLayout(MainPanel, javax.swing.BoxLayout.LINE_AXIS));
@@ -119,6 +71,11 @@ public class UIManager extends javax.swing.JFrame {
         jList2.setBackground(new java.awt.Color(28, 29, 33));
         jList2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0)));
         jList2.setForeground(new java.awt.Color(238, 239, 247));
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "1 - SE366  - Advances In Software Engineering" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
         CourseList.setViewportView(jList2);
 
         CourseListTitleLabel.setBackground(new java.awt.Color(238, 239, 247));
@@ -171,7 +128,7 @@ public class UIManager extends javax.swing.JFrame {
                 .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Duplicate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         MainPanel.add(LeftPanel);
@@ -180,43 +137,74 @@ public class UIManager extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
+            .addGap(0, 804, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 747, Short.MAX_VALUE)
+            .addGap(0, 777, Short.MAX_VALUE)
         );
 
         MainPanel.add(jPanel1);
 
-        getContentPane().add(MainPanel);
+        MainTabPane.setBackground(new java.awt.Color(238, 239, 247));
+        MainTabPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        MainTabPane.setDoubleBuffered(true);
+        MainTabPane.setName(""); // NOI18N
+        MainTabPane.setOpaque(true);
 
-        MenuBar.setBackground(new java.awt.Color(238, 249, 247));
-        MenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        MenuBar.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
-        MenuBar.setPreferredSize(new java.awt.Dimension(185, 30));
+        CourseSelection.setBackground(new java.awt.Color(30, 30, 32));
+        CourseSelection.setLayout(new javax.swing.BoxLayout(CourseSelection, javax.swing.BoxLayout.LINE_AXIS));
 
-        FileMenu.setBackground(new java.awt.Color(0, 0, 0));
-        FileMenu.setText("File");
-        MenuBar.add(FileMenu);
+        CSRightPanel.setBackground(new java.awt.Color(28, 29, 33));
 
-        EditMenu.setBackground(new java.awt.Color(0, 0, 0));
-        EditMenu.setText("Edit");
-        MenuBar.add(EditMenu);
+        javax.swing.GroupLayout CSRightPanelLayout = new javax.swing.GroupLayout(CSRightPanel);
+        CSRightPanel.setLayout(CSRightPanelLayout);
+        CSRightPanelLayout.setHorizontalGroup(
+            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 643, Short.MAX_VALUE)
+        );
+        CSRightPanelLayout.setVerticalGroup(
+            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 697, Short.MAX_VALUE)
+        );
 
-        ViewMenu.setBackground(new java.awt.Color(0, 0, 0));
-        ViewMenu.setText("View");
-        MenuBar.add(ViewMenu);
+        CourseSelection.add(CSRightPanel);
 
-        OptionsMenu.setBackground(new java.awt.Color(0, 0, 0));
-        OptionsMenu.setText("Options");
-        MenuBar.add(OptionsMenu);
+        MainTabPane.addTab("Course Selection", CourseSelection);
 
-        AboutMenu.setBackground(new java.awt.Color(0, 0, 0));
-        AboutMenu.setText("About");
-        MenuBar.add(AboutMenu);
+        CourseData.setBackground(new java.awt.Color(30, 30, 32));
+        CourseData.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
-        setJMenuBar(MenuBar);
+        javax.swing.GroupLayout CourseDataLayout = new javax.swing.GroupLayout(CourseData);
+        CourseData.setLayout(CourseDataLayout);
+        CourseDataLayout.setHorizontalGroup(
+            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 643, Short.MAX_VALUE)
+        );
+        CourseDataLayout.setVerticalGroup(
+            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 697, Short.MAX_VALUE)
+        );
+
+        MainTabPane.addTab("CourseData", CourseData);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tina Analyzer");
+        setBackground(new java.awt.Color(30, 30, 32));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1004, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 777, Short.MAX_VALUE)
+        );
+
+        getAccessibleContext().setAccessibleName("Tina");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -262,7 +250,6 @@ public class UIManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu AboutMenu;
     private javax.swing.JButton AddNew;
     private javax.swing.JPanel CSRightPanel;
     private javax.swing.JPanel CourseData;
@@ -270,16 +257,11 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JLabel CourseListTitleLabel;
     private javax.swing.JPanel CourseSelection;
     private javax.swing.JButton Duplicate;
-    private javax.swing.JMenu EditMenu;
-    private javax.swing.JMenu FileMenu;
     private javax.swing.JPanel LeftPanel;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JTabbedPane MainTabPane;
-    private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenu OptionsMenu;
     private javax.swing.JButton Remove;
     private javax.swing.JButton Undo;
-    private javax.swing.JMenu ViewMenu;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
