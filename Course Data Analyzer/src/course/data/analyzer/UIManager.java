@@ -169,7 +169,7 @@ public class UIManager extends javax.swing.JFrame {
         ReportsImage.setToolTipText("");
 
         CoursesLabel.setBackground(new java.awt.Color(199, 50, 38));
-        CoursesLabel.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
+        CoursesLabel.setFont(new java.awt.Font("Monospaced", 0, 28)); // NOI18N
         CoursesLabel.setForeground(new java.awt.Color(227, 227, 227));
         CoursesLabel.setText("Courses");
 
@@ -180,15 +180,18 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ReportsImage)
-                    .addComponent(ExamsImage)
-                    .addComponent(AttendanceImage)
-                    .addComponent(SyllabusImage)
-                    .addComponent(CoursesImage)
                     .addGroup(LeftPanelLayout.createSequentialGroup()
-                        .addComponent(DashboardImage)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CoursesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16)
+                        .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ReportsImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ExamsImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AttendanceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SyllabusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CoursesImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LeftPanelLayout.createSequentialGroup()
+                                .addComponent(DashboardImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CoursesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(LeftPanelLayout.createSequentialGroup()
                         .addComponent(ImageLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,23 +210,24 @@ public class UIManager extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(ImageLabel1))
-                .addGap(52, 52, 52)
                 .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DashboardImage)
                     .addGroup(LeftPanelLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(CoursesLabel)))
-                .addGap(28, 28, 28)
-                .addComponent(CoursesImage)
-                .addGap(28, 28, 28)
-                .addComponent(SyllabusImage)
+                        .addGap(52, 52, 52)
+                        .addComponent(DashboardImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LeftPanelLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(CoursesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(39, 39, 39)
+                .addComponent(CoursesImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(SyllabusImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
-                .addComponent(AttendanceImage)
+                .addComponent(AttendanceImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(ExamsImage)
+                .addComponent(ExamsImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(ReportsImage)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addComponent(ReportsImage, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         getContentPane().add(LeftPanel);
@@ -234,11 +238,11 @@ public class UIManager extends javax.swing.JFrame {
         RightPanel.setLayout(RightPanelLayout);
         RightPanelLayout.setHorizontalGroup(
             RightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGap(0, 739, Short.MAX_VALUE)
         );
         RightPanelLayout.setVerticalGroup(
             RightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 777, Short.MAX_VALUE)
         );
 
         getContentPane().add(RightPanel);
