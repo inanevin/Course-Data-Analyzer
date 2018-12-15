@@ -12,5 +12,10 @@ package course.data.analyzer;
 public class Course {
     
     public String id;
+    public String description;
     
+    public Course(String id,String describe){
+        this.description=describe;
+        this.id=id;
+}
 }

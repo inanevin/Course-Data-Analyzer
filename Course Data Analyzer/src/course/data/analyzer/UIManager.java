@@ -5,6 +5,8 @@
  */
 package course.data.analyzer;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author InanEvin
@@ -13,7 +15,17 @@ public class UIManager extends javax.swing.JFrame {
 
     private Core core;
     private CourseManager courseManager;
-    
+    private static ArrayList<Course> course_list= new ArrayList<Course>();
+     public static ArrayList<Course> getCourse_list() {
+        return course_list;
+    }
+
+    /**
+     * @param aCourse_list the course_list to set
+     */
+    public static void setCourse_list(ArrayList<Course> aCourse_list) {
+        course_list = aCourse_list;
+    }
     /**
      * Creates new form MainFrame
      */
@@ -23,11 +35,11 @@ public class UIManager extends javax.swing.JFrame {
         core = new Core();
         courseManager = core.GetCourseManager();
         
-        jLabel1.setVisible(false);
+        course_label.setVisible(false);
         
-        Course c = new Course();
-        c.id = "SE360";
-        courseManager.AddNewCourse(c);
+      //  Course c = new Course();
+      //  c.id = "SE360";
+       // courseManager.AddNewCourse(c);
         
        
     }
@@ -44,8 +56,12 @@ public class UIManager extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        courses_list = new javax.swing.JList<>();
+        course_label = new javax.swing.JLabel();
+        addcourse_button = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -54,59 +70,60 @@ public class UIManager extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+        jScrollPane3.setViewportView(courses_list);
+
+        course_label.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        course_label.setText("Courses");
+
+        addcourse_button.setText("ADD COURSE");
+        addcourse_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addcourse_buttonActionPerformed(evt);
             }
         });
-
-        jLabel1.setForeground(new java.awt.Color(255, 0, 102));
-        jLabel1.setText("This course already exists!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(addcourse_button)
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(course_label, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(course_label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addcourse_button, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        // TODO add your handling code here:
-        if(courseManager.CheckIfExists(jTextField1.getText()))
-        {
-            System.out.println("okay");
-            if(!jLabel1.isVisible())
-            jLabel1.setVisible(true);
-        }
-        else{
-
-            if(jLabel1.isVisible())
-            jLabel1.setVisible(false);
-
-        }
-
-    }//GEN-LAST:event_jTextField1KeyReleased
+    private void addcourse_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcourse_buttonActionPerformed
+        add_course addcourse =new add_course();
+        addcourse.setVisible(true);
+        
+    }//GEN-LAST:event_addcourse_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,7 +156,9 @@ public class UIManager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UIManager().setVisible(true);
+               new UIManager().setVisible(true);
+               
+                
             }
         });
         
@@ -147,9 +166,18 @@ public class UIManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton addcourse_button;
+    private javax.swing.JLabel course_label;
+    private javax.swing.JList<String> courses_list;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the course_list
+     */
+   
 }
