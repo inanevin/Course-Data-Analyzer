@@ -5,6 +5,8 @@
  */
 package course.data.analyzer;
 
+import java.awt.Color;
+
 /**
  *
  * @author InanEvin
@@ -22,12 +24,7 @@ public class UIManager extends javax.swing.JFrame {
         initComponents();
         core = new Core();
         courseManager = core.GetCourseManager();
-        
-        jLabel1.setVisible(false);
-        
-        Course c = new Course();
-        c.id = "SE360";
-        courseManager.AddNewCourse(c);
+
         
        
     }
@@ -42,71 +39,187 @@ public class UIManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        MainTabPane = new javax.swing.JTabbedPane();
+        CourseSelection = new javax.swing.JPanel();
+        CSRightPanel = new javax.swing.JPanel();
+        CourseData = new javax.swing.JPanel();
+        MainPanel = new javax.swing.JPanel();
+        LeftPanel = new javax.swing.JPanel();
+        CourseList = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        CourseListTitleLabel = new javax.swing.JLabel();
+        Undo = new javax.swing.JButton();
+        AddNew = new javax.swing.JButton();
+        Duplicate = new javax.swing.JButton();
+        Remove = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        MenuBar = new javax.swing.JMenuBar();
+        FileMenu = new javax.swing.JMenu();
+        EditMenu = new javax.swing.JMenu();
+        ViewMenu = new javax.swing.JMenu();
+        OptionsMenu = new javax.swing.JMenu();
+        AboutMenu = new javax.swing.JMenu();
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        MainTabPane.setBackground(new java.awt.Color(238, 239, 247));
+        MainTabPane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        MainTabPane.setDoubleBuffered(true);
+        MainTabPane.setName(""); // NOI18N
+        MainTabPane.setOpaque(true);
+
+        CourseSelection.setBackground(new java.awt.Color(30, 30, 32));
+        CourseSelection.setLayout(new javax.swing.BoxLayout(CourseSelection, javax.swing.BoxLayout.LINE_AXIS));
+
+        CSRightPanel.setBackground(new java.awt.Color(28, 29, 33));
+
+        javax.swing.GroupLayout CSRightPanelLayout = new javax.swing.GroupLayout(CSRightPanel);
+        CSRightPanel.setLayout(CSRightPanelLayout);
+        CSRightPanelLayout.setHorizontalGroup(
+            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 643, Short.MAX_VALUE)
+        );
+        CSRightPanelLayout.setVerticalGroup(
+            CSRightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 697, Short.MAX_VALUE)
+        );
+
+        CourseSelection.add(CSRightPanel);
+
+        MainTabPane.addTab("Course Selection", CourseSelection);
+
+        CourseData.setBackground(new java.awt.Color(30, 30, 32));
+        CourseData.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+
+        javax.swing.GroupLayout CourseDataLayout = new javax.swing.GroupLayout(CourseData);
+        CourseData.setLayout(CourseDataLayout);
+        CourseDataLayout.setHorizontalGroup(
+            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 643, Short.MAX_VALUE)
+        );
+        CourseDataLayout.setVerticalGroup(
+            CourseDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 697, Short.MAX_VALUE)
+        );
+
+        MainTabPane.addTab("CourseData", CourseData);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Course Analyzer");
+        setBackground(new java.awt.Color(30, 30, 32));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
-            }
-        });
+        MainPanel.setBackground(new java.awt.Color(28, 29, 31));
+        MainPanel.setLayout(new javax.swing.BoxLayout(MainPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel1.setForeground(new java.awt.Color(255, 0, 102));
-        jLabel1.setText("This course already exists!");
+        LeftPanel.setBackground(new java.awt.Color(49, 53, 61));
+        LeftPanel.setMaximumSize(new java.awt.Dimension(200, 32767));
+        LeftPanel.setPreferredSize(new java.awt.Dimension(200, 747));
+        LeftPanel.setRequestFocusEnabled(false);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+        jList2.setBackground(new java.awt.Color(28, 29, 33));
+        jList2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0)));
+        jList2.setForeground(new java.awt.Color(238, 239, 247));
+        CourseList.setViewportView(jList2);
+
+        CourseListTitleLabel.setBackground(new java.awt.Color(238, 239, 247));
+        CourseListTitleLabel.setFont(new java.awt.Font("Roboto Light", 0, 24)); // NOI18N
+        CourseListTitleLabel.setForeground(new java.awt.Color(238, 239, 247));
+        CourseListTitleLabel.setText("Course List");
+
+        Undo.setText("Undo");
+        Undo.setEnabled(false);
+
+        AddNew.setText("Add New");
+
+        Duplicate.setText("Duplicate Selected");
+        Duplicate.setEnabled(false);
+
+        Remove.setText("Remove Selected");
+        Remove.setEnabled(false);
+
+        javax.swing.GroupLayout LeftPanelLayout = new javax.swing.GroupLayout(LeftPanel);
+        LeftPanel.setLayout(LeftPanelLayout);
+        LeftPanelLayout.setHorizontalGroup(
+            LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LeftPanelLayout.createSequentialGroup()
+                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LeftPanelLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(CourseListTitleLabel))
+                    .addGroup(LeftPanelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(AddNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Remove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Duplicate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(CourseList, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+        LeftPanelLayout.setVerticalGroup(
+            LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LeftPanelLayout.createSequentialGroup()
+                .addComponent(CourseListTitleLabel)
+                .addGap(18, 18, 18)
+                .addComponent(CourseList, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(AddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(Duplicate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(198, Short.MAX_VALUE))
         );
+
+        MainPanel.add(LeftPanel);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 624, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 747, Short.MAX_VALUE)
+        );
+
+        MainPanel.add(jPanel1);
+
+        getContentPane().add(MainPanel);
+
+        MenuBar.setBackground(new java.awt.Color(238, 249, 247));
+        MenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        MenuBar.setFont(new java.awt.Font("Roboto Light", 0, 12)); // NOI18N
+        MenuBar.setPreferredSize(new java.awt.Dimension(185, 30));
+
+        FileMenu.setBackground(new java.awt.Color(0, 0, 0));
+        FileMenu.setText("File");
+        MenuBar.add(FileMenu);
+
+        EditMenu.setBackground(new java.awt.Color(0, 0, 0));
+        EditMenu.setText("Edit");
+        MenuBar.add(EditMenu);
+
+        ViewMenu.setBackground(new java.awt.Color(0, 0, 0));
+        ViewMenu.setText("View");
+        MenuBar.add(ViewMenu);
+
+        OptionsMenu.setBackground(new java.awt.Color(0, 0, 0));
+        OptionsMenu.setText("Options");
+        MenuBar.add(OptionsMenu);
+
+        AboutMenu.setBackground(new java.awt.Color(0, 0, 0));
+        AboutMenu.setText("About");
+        MenuBar.add(AboutMenu);
+
+        setJMenuBar(MenuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        // TODO add your handling code here:
-        if(courseManager.CheckIfExists(jTextField1.getText()))
-        {
-            System.out.println("okay");
-            if(!jLabel1.isVisible())
-            jLabel1.setVisible(true);
-        }
-        else{
-
-            if(jLabel1.isVisible())
-            jLabel1.setVisible(false);
-
-        }
-
-    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
@@ -119,7 +232,7 @@ public class UIManager extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -134,6 +247,8 @@ public class UIManager extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UIManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -147,9 +262,25 @@ public class UIManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JMenu AboutMenu;
+    private javax.swing.JButton AddNew;
+    private javax.swing.JPanel CSRightPanel;
+    private javax.swing.JPanel CourseData;
+    private javax.swing.JScrollPane CourseList;
+    private javax.swing.JLabel CourseListTitleLabel;
+    private javax.swing.JPanel CourseSelection;
+    private javax.swing.JButton Duplicate;
+    private javax.swing.JMenu EditMenu;
+    private javax.swing.JMenu FileMenu;
+    private javax.swing.JPanel LeftPanel;
+    private javax.swing.JPanel MainPanel;
+    private javax.swing.JTabbedPane MainTabPane;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenu OptionsMenu;
+    private javax.swing.JButton Remove;
+    private javax.swing.JButton Undo;
+    private javax.swing.JMenu ViewMenu;
+    private javax.swing.JList<String> jList2;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
