@@ -37,9 +37,9 @@ public class UIManager extends javax.swing.JFrame {
         
         course_label.setVisible(false);
         
-      //  Course c = new Course();
-      //  c.id = "SE360";
-       // courseManager.AddNewCourse(c);
+        Course c = new Course();
+        c.id = "SE360";
+        courseManager.AddNewCourse(c);
         
        
     }
@@ -58,6 +58,7 @@ public class UIManager extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
+        jFrame1 = new javax.swing.JFrame();
         jScrollPane3 = new javax.swing.JScrollPane();
         courses_list = new javax.swing.JList<>();
         course_label = new javax.swing.JLabel();
@@ -76,6 +77,17 @@ public class UIManager extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,7 +132,7 @@ public class UIManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addcourse_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addcourse_buttonActionPerformed
-        add_course addcourse =new add_course();
+        add_course addcourse =new add_course(courseManager);
         addcourse.setVisible(true);
         
     }//GEN-LAST:event_addcourse_buttonActionPerformed
@@ -169,6 +181,7 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JButton addcourse_button;
     private javax.swing.JLabel course_label;
     private javax.swing.JList<String> courses_list;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;

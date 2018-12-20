@@ -12,15 +12,23 @@ import java.util.*;
 public class CourseManager {
     
     public ArrayList<Course> _AllCourses;
+    private ArrayList<Course> course_list;
     
+     public ArrayList<Course> getCourse_list() {
+        return course_list;
+    }
+
+    /**
+     * Creates new form MainFrame
+     */
     public CourseManager()
     {
-        _AllCourses = new ArrayList<Course>();
+        course_list = new ArrayList<Course>();
     }
     
     public void AddNewCourse(Course c)
     {                           
-        _AllCourses.add(c);
+        course_list.add(c);
     }
     
     public void RemoveCourse(String ID)
@@ -32,9 +40,9 @@ public class CourseManager {
     public boolean CheckIfExists(String tt)
     {
                 
-       for(int i = 0; i < _AllCourses.size(); i++)
+       for(int i = 0; i < course_list.size(); i++)
        {
-           if(_AllCourses.get(i).id.equals(tt))
+           if(course_list.get(i).id.equals(tt))
                return true;
        }
        

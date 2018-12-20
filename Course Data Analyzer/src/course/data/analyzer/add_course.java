@@ -14,11 +14,13 @@ import java.util.ArrayList;
  */
 public class add_course extends javax.swing.JFrame {
 
+    private CourseManager courseManagerRef;
     /**
      * Creates new form add_course
      */
-    public add_course() {
+    public add_course(CourseManager cg) {
         initComponents();
+        courseManagerRef = cg;
     }
 
     /**
@@ -144,9 +146,10 @@ public class add_course extends javax.swing.JFrame {
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
         String id =course_id_input.getText();
         String describe =describe_input.getText();
-        ArrayList <Course> course_list =UIManager.getCourse_list();
+        courseManagerRef.AddNewCourse(new Course( id, describe));
+   
         
-        course_list.add(new Course( id, describe));
+       
            
     }//GEN-LAST:event_add_buttonActionPerformed
 
@@ -155,7 +158,7 @@ public class add_course extends javax.swing.JFrame {
     }//GEN-LAST:event_course_id_inputActionPerformed
 
     private void cancel_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_buttonActionPerformed
-      new add_course().setVisible(false);
+      setVisible(false);
     }//GEN-LAST:event_cancel_buttonActionPerformed
 
     /**

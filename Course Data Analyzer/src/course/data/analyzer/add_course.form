@@ -69,10 +69,7 @@
                               <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                               <Component id="cancel_button" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="Describe_label" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="Describe_label" min="-2" max="-2" attributes="0"/>
                           <Component id="describe_input" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
                           <Component id="course_id_input" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
                       </Group>
