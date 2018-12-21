@@ -5,6 +5,7 @@
  */
 package course.data.analyzer;
 
+import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -14,14 +15,15 @@ import javax.swing.JPanel;
  */
 public class MenuBarItem {
     
-    private JPanel m_SelectionImage;
-    private JLabel m_Label;
-    private JPanel m_Panel;
+    private JPanel m_SelectablePanel;
+    private JPanel m_MainPanel;
+    private UIManager uiManager;
     
-    public JPanel GetSelectionImage() { return m_SelectionImage; }
-    public JLabel GetLabel() { return m_Label;}
-    public JPanel GetPanel() { return m_Panel;}
     
-    public MenuBarItem(JPanel p, JLabel l) { m_SelectionImage = p; m_Label = l; }
+    public JPanel GetMainPanel() { return m_MainPanel;}
+    public JPanel GetSelectablePanel() { return m_SelectablePanel;}
+    
+    public MenuBarItem(JPanel sp, JPanel mp) {  m_SelectablePanel = sp; m_MainPanel = mp; }
+
     
 }
