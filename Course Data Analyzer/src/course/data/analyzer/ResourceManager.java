@@ -18,48 +18,51 @@ import java.io.ObjectOutputStream;
  *
  * @author InanEvin
  */
-public class ResourceManager {
+public class ResourceManager
+{
 
+    public void SaveCourseList(ArrayList<Course> list)
+    {
 
-    public void SaveCourseList(ArrayList<Course> list) {
-        
-        try {
-            FileOutputStream fos = new FileOutputStream("courseList.dat");
+        try
+        {
+            File f = new File(System.getProperty("user.dir"), "courseList.dat");
+            FileOutputStream fos = new FileOutputStream(f);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(list);
             oos.close();
             fos.close();
-        } catch (IOException ioe) {
+        } catch (IOException ioe)
+        {
             ioe.printStackTrace();
         }
-        
+
     }
-    
+
     public ArrayList<Course> LoadCourseList()
     {
         ArrayList<Course> list = new ArrayList<Course>();
-        
+
         try
         {
-            FileInputStream fis = new FileInputStream("courseList.dat");
+            File f = new File(System.getProperty("user.dir"), "courseList.dat");
+            FileInputStream fis = new FileInputStream(f);
             ObjectInputStream ois = new ObjectInputStream(fis);
- 
+
             list = (ArrayList) ois.readObject();
- 
+
             ois.close();
             fis.close();
-        }
-        catch (IOException ioe)
+        } catch (IOException ioe)
         {
             //ioe.printStackTrace();
-        }
-        catch (ClassNotFoundException c)
+        } catch (ClassNotFoundException c)
         {
             System.out.println("Class not found");
             //c.printStackTrace();
             return new ArrayList<Course>();
         }
-        
+
         return list;
     }
 }

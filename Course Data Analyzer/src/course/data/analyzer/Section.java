@@ -19,6 +19,7 @@ public class Section implements Serializable {
         return m_Name;
     }
     
+    public void SetName(String n) { m_Name = n;}
     public Section(String n) { m_Name = n;}
     
     

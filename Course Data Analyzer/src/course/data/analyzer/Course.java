@@ -5,6 +5,7 @@
  */
 package course.data.analyzer;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,6 +48,10 @@ public class Course implements Serializable
         return i_SelectedSection;
     }
 
+    public Section GetSelectedSection()
+    {
+        return _Sections.get(i_SelectedSection);
+    }
     public void SetSection(int i)
     {
         if (i == -1)
@@ -65,7 +70,8 @@ public class Course implements Serializable
         try
         {
             String fileName = (new StringBuilder().append(m_ID).append("-").append("sections.dat")).toString();
-            FileOutputStream fos = new FileOutputStream(fileName);
+            File f = new File(System.getProperty("user.dir"), fileName);
+            FileOutputStream fos = new FileOutputStream(f);
             ObjectOutputStream mOOS = new ObjectOutputStream(fos);
             mOOS.writeObject(_Sections);
             mOOS.close();
@@ -86,7 +92,8 @@ public class Course implements Serializable
         try
         {
             String fileName = (new StringBuilder().append(m_ID).append("-").append("sections.dat")).toString();
-            FileInputStream fis = new FileInputStream(fileName);
+            File f = new File(System.getProperty("user.dir"), fileName);
+            FileInputStream fis = new FileInputStream(f);
             ObjectInputStream mOis = new ObjectInputStream(fis);
 
             _Sections = (ArrayList) mOis.readObject();
@@ -106,6 +113,24 @@ public class Course implements Serializable
             _Sections = new ArrayList<Section>();
             _Sections.add(new Section("Section 1"));
             i_SelectedSection = 0;
+        }
+
+    }
+
+    public void DeleteSectionData()
+    {
+        try
+        {
+
+            String fileName = (new StringBuilder().append(m_ID).append("-").append("sections.dat")).toString();
+            File f = new File(System.getProperty("user.dir"), fileName);
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.close();
+            f.delete();
+
+        } catch (IOException ioe)
+        {
+            //ioe.printStackTrace();
         }
 
     }
@@ -160,7 +185,7 @@ public class Course implements Serializable
         m_Name = c.GetName();
         m_Description = c.GetDescription();
         _Sections = c.GetSections();
-        
+
         if (_Sections == null)
         {
             _Sections = new ArrayList<Section>();

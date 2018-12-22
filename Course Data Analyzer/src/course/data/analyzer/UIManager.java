@@ -56,6 +56,7 @@ public class UIManager extends javax.swing.JFrame
         AddCourseWarning.setVisible(false);
         EditCourseWarning.setVisible(false);
         AddSectionWarning.setVisible(false);
+        EditSectionWarning.setVisible(false);
     }
 
     public void UpdateCourseList(int toSelect)
@@ -399,6 +400,7 @@ public class UIManager extends javax.swing.JFrame
         AddCourseNameField.setText("");
         AddCourseDescField.setText("");
         AddCourseWarning.setVisible(false);
+        AddCourseAddButton.setEnabled(false);
         AddNewCourseDialog.dispose();
     }
 
@@ -415,8 +417,18 @@ public class UIManager extends javax.swing.JFrame
     {
         AddSectionNameField.setText("");
         AddSectionWarning.setVisible(false);
-        AddSectionAddButton.setEnabled(true);
+        AddSectionAddButton.setEnabled(false);
+
         AddSectionDialog.dispose();
+    }
+
+    private void DisposeEditSectionDialog()
+    {
+        EditSectionNameField.setText("");
+        EditSectionWarning.setVisible(false);
+        EditSectionSaveButton.setEnabled(false);
+
+        EditSectionDialog.dispose();
     }
 
     /**
@@ -461,6 +473,13 @@ public class UIManager extends javax.swing.JFrame
         AddSectionCancelButton = new javax.swing.JButton();
         AddSectionWarning = new javax.swing.JLabel();
         AddSectionAddButton = new javax.swing.JButton();
+        EditSectionDialog = new javax.swing.JDialog();
+        jPanel11 = new javax.swing.JPanel();
+        EditSectionName = new javax.swing.JLabel();
+        EditSectionNameField = new javax.swing.JTextField();
+        EditSectionCancel = new javax.swing.JButton();
+        EditSectionWarning = new javax.swing.JLabel();
+        EditSectionSaveButton = new javax.swing.JButton();
         Main = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
         MenuPanel = new javax.swing.JPanel();
@@ -1009,6 +1028,98 @@ public class UIManager extends javax.swing.JFrame
 
         AddSectionDialog.getContentPane().add(jPanel10);
 
+        EditSectionDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        EditSectionDialog.setTitle("Add New Course");
+        EditSectionDialog.setAlwaysOnTop(true);
+        EditSectionDialog.setBackground(new java.awt.Color(26, 24, 26));
+        EditSectionDialog.setBounds(new java.awt.Rectangle(0, 0, 800, 600));
+        EditSectionDialog.setModal(true);
+        EditSectionDialog.getContentPane().setLayout(new javax.swing.OverlayLayout(EditSectionDialog.getContentPane()));
+
+        jPanel11.setBackground(new java.awt.Color(26, 24, 26));
+
+        EditSectionName.setBackground(new java.awt.Color(26, 24, 26));
+        EditSectionName.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        EditSectionName.setForeground(new java.awt.Color(227, 227, 227));
+        EditSectionName.setText("Name:");
+        EditSectionName.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        EditSectionName.setPreferredSize(new java.awt.Dimension(100, 50));
+
+        EditSectionNameField.setBackground(new java.awt.Color(26, 24, 26));
+        EditSectionNameField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        EditSectionNameField.setForeground(new java.awt.Color(227, 227, 227));
+        EditSectionNameField.setCaretColor(new java.awt.Color(204, 204, 204));
+        EditSectionNameField.setPreferredSize(new java.awt.Dimension(200, 40));
+        EditSectionNameField.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                EditSectionNameFieldKeyReleased(evt);
+            }
+        });
+
+        EditSectionCancel.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
+        EditSectionCancel.setText("Cancel");
+        EditSectionCancel.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                EditSectionCancelActionPerformed(evt);
+            }
+        });
+
+        EditSectionWarning.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        EditSectionWarning.setForeground(new java.awt.Color(204, 0, 51));
+        EditSectionWarning.setText("This Section Already Exists!");
+        EditSectionWarning.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        EditSectionWarning.setPreferredSize(new java.awt.Dimension(121, 125));
+
+        EditSectionSaveButton.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
+        EditSectionSaveButton.setText("Save Section");
+        EditSectionSaveButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                EditSectionSaveButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(EditSectionSaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EditSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(EditSectionCancel)
+                        .addGap(34, 34, 34)
+                        .addComponent(EditSectionWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(EditSectionNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EditSectionName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EditSectionNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EditSectionSaveButton)
+                    .addComponent(EditSectionCancel)
+                    .addComponent(EditSectionWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        EditSectionDialog.getContentPane().add(jPanel11);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tina Analyzer");
         setBackground(new java.awt.Color(30, 30, 32));
@@ -1455,7 +1566,7 @@ public class UIManager extends javax.swing.JFrame
         TopCenter.setLayout(TopCenterLayout);
         TopCenterLayout.setHorizontalGroup(
             TopCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGap(0, 497, Short.MAX_VALUE)
         );
         TopCenterLayout.setVerticalGroup(
             TopCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1548,7 +1659,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CoursesMainTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(CoursesSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1650,7 +1761,7 @@ public class UIManager extends javax.swing.JFrame
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseIDTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1659,7 +1770,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGap(19, 19, 19))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseDescriptionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 5, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1793,6 +1904,13 @@ public class UIManager extends javax.swing.JFrame
         SectionsList.setForeground(new java.awt.Color(227, 227, 227));
         SectionsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         SectionsList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SectionsList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                SectionsListMouseClicked(evt);
+            }
+        });
         SectionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt)
@@ -1828,7 +1946,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AddSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
         kGradientPanel5Layout.setVerticalGroup(
             kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1842,7 +1960,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGap(18, 18, 18)
                         .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         CoursesCenterPanel.add(kGradientPanel5);
@@ -2080,7 +2198,7 @@ public class UIManager extends javax.swing.JFrame
         kGradientPanel2.setLayout(kGradientPanel2Layout);
         kGradientPanel2Layout.setHorizontalGroup(
             kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 564, Short.MAX_VALUE)
+            .addGap(0, 751, Short.MAX_VALUE)
         );
         kGradientPanel2Layout.setVerticalGroup(
             kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2700,17 +2818,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 48, Short.MAX_VALUE)
+                    .addGap(0, 95, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgSuccessTitle)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(29, 29, 29)
                             .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 48, Short.MAX_VALUE)))
+                    .addGap(0, 94, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2744,17 +2862,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 30, Short.MAX_VALUE)
+                    .addGap(0, 77, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgAttendanceTitle)
                         .addGroup(jPanel7Layout.createSequentialGroup()
                             .addGap(46, 46, 46)
                             .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgAttendance, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 31, Short.MAX_VALUE)))
+                    .addGap(0, 77, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2788,17 +2906,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 76, Short.MAX_VALUE)
+                    .addGap(0, 123, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle)
                         .addGroup(jPanel8Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DBImportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 76, Short.MAX_VALUE)))
+                    .addGap(0, 122, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2832,17 +2950,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 76, Short.MAX_VALUE)
+                    .addGap(0, 123, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle2)
                         .addGroup(jPanel9Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DbExportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 76, Short.MAX_VALUE)))
+                    .addGap(0, 122, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3089,9 +3207,12 @@ public class UIManager extends javax.swing.JFrame
             SelectSection(SectionsList.getSelectedIndex());
         }
 
-        if (courseManager.GetCourse(i_SelectedCourse).GetSections().size() < 2)
+        if (i_SelectedCourse != -1)
         {
-            RemoveSectionButton.setEnabled(false);
+            if (courseManager.GetCourse(i_SelectedCourse).GetSections().size() < 2)
+            {
+                RemoveSectionButton.setEnabled(false);
+            }
         }
 
 
@@ -3108,6 +3229,62 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
         courseManager.RemoveSectionFromCourse(i_SelectedCourse);
     }//GEN-LAST:event_RemoveSectionButtonActionPerformed
+
+    private void EditSectionNameFieldKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_EditSectionNameFieldKeyReleased
+    {//GEN-HEADEREND:event_EditSectionNameFieldKeyReleased
+        // TODO add your handling code here:
+
+        if (courseManager.GetCourse(i_SelectedCourse).CheckIfSectionExists(EditSectionNameField.getText()))
+        {
+            if (!courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().GetName().equals(EditSectionNameField.getText()))
+            {
+                EditSectionWarning.setText("This section already exists!");
+                EditSectionSaveButton.setEnabled(false);
+                EditSectionWarning.setVisible(true);
+            }
+
+        } else
+        {
+            if (EditSectionNameField.getText().equals(""))
+            {
+                EditSectionWarning.setText("Section name can not be empty!");
+                EditSectionSaveButton.setEnabled(false);
+                EditSectionWarning.setVisible(true);
+            } else
+            {
+                EditSectionSaveButton.setEnabled(true);
+                EditSectionWarning.setVisible(false);
+            }
+        }
+    }//GEN-LAST:event_EditSectionNameFieldKeyReleased
+
+    private void EditSectionCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EditSectionCancelActionPerformed
+    {//GEN-HEADEREND:event_EditSectionCancelActionPerformed
+        // TODO add your handling code here:
+        DisposeEditSectionDialog();
+    }//GEN-LAST:event_EditSectionCancelActionPerformed
+
+    private void EditSectionSaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EditSectionSaveButtonActionPerformed
+    {//GEN-HEADEREND:event_EditSectionSaveButtonActionPerformed
+        // TODO add your handling code here:
+        courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().SetName(EditSectionNameField.getText());
+        UpdateSectionList(courseManager.GetCourse(i_SelectedCourse).GetSelectedSectionIndex());
+        DisposeEditSectionDialog();
+    }//GEN-LAST:event_EditSectionSaveButtonActionPerformed
+
+    private void SectionsListMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SectionsListMouseClicked
+    {//GEN-HEADEREND:event_SectionsListMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2)
+        {
+            Course c = courseManager.GetCourse(i_SelectedCourse);
+
+            EditSectionNameField.setText(c.GetSelectedSection().GetName());
+
+            EditSectionDialog.show();
+
+        }
+    }//GEN-LAST:event_SectionsListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -3276,6 +3453,12 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JTextField EditCourseNameField;
     private javax.swing.JButton EditCourseSaveButton;
     private javax.swing.JLabel EditCourseWarning;
+    private javax.swing.JButton EditSectionCancel;
+    private javax.swing.JDialog EditSectionDialog;
+    private javax.swing.JLabel EditSectionName;
+    private javax.swing.JTextField EditSectionNameField;
+    private javax.swing.JButton EditSectionSaveButton;
+    private javax.swing.JLabel EditSectionWarning;
     private javax.swing.JLabel ExamsImage;
     private javax.swing.JLabel ExamsLabel;
     private javax.swing.JPanel ExamsMainPanel;
@@ -3354,6 +3537,7 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton ViewAvgSuccess5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
