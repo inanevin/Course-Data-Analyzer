@@ -43,6 +43,15 @@ public class CourseManager {
         uiManager.SetLastActionForCourses(c, 1);
     }
 
+    // Adds new course - UNDO OPERATION
+    public void AddNewCourse(Course c, int index)
+    {
+        _AllCourses.add(index, c);
+        
+        // Update UI list.
+        uiManager.UpdateCourseList(_AllCourses, index);
+    }
+    
     public void DuplicateCourse(int index) {
 
         // Increment the duplication count of the selected course.
@@ -61,6 +70,17 @@ public class CourseManager {
         uiManager.SetLastActionForCourses(c, 1);
     }
 
+    // Removes an added course. - UNDO OPERATION
+    public void RemoveCourse(Course c)
+    {
+        int toSelect = ((_AllCourses.indexOf(c) - 1) == -1 && _AllCourses.size() > 0) ? 0 : _AllCourses.indexOf(c) - 1;
+        
+         // Remove the course.
+        _AllCourses.remove(c);
+        
+        uiManager.UpdateCourseList(_AllCourses, toSelect);
+    }
+    
     public void RemoveCourse(int index) {
 
         // Record last action for undo operation.

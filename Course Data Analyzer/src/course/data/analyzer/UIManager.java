@@ -31,7 +31,6 @@ public class UIManager extends javax.swing.JFrame {
     private Color unselectedMenuItemColor = new Color(53, 55, 61);
     private Color unselectedInnerMenuItemColor = new Color(26, 24, 26);
 
-    
     private ArrayList<CourseAction> courseActions;
 
     /**
@@ -40,7 +39,8 @@ public class UIManager extends javax.swing.JFrame {
     public UIManager() {
 
         initComponents();
-
+        
+        courseActions = new ArrayList<CourseAction>();
         resourceManager = new ResourceManager();
         courseManager = new CourseManager(this, resourceManager);
 
@@ -72,10 +72,25 @@ public class UIManager extends javax.swing.JFrame {
 
     // 1 is for adding a new course, 2 is for removing.
     public void SetLastActionForCourses(Course subject, int actionIndex) {
-        lastCourseAction = actionIndex;
-        lastCourseActionSubject = subject;
 
+        try {
+            CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex()); 
+            courseActions.add(c);
+        }
+        catch(ActionIndexException e)
+        {
+            System.out.println(e.getMessage());
+            return;
+        }
+        
         UndoButton.setEnabled(true);
+
+
+    }
+    
+    private void SelectCourse(int index)
+    {
+        System.out.println("Selected Course: " + index);
     }
 
     private void InitializeMenuBarItems() {
@@ -104,7 +119,7 @@ public class UIManager extends javax.swing.JFrame {
         menuBarItems.add(reports);
 
         // Deselect all menus.
-        DeselectAll();
+        DeselectAllMenu();
 
         // Select dashboard as initial menu.
         SelectMenu(dashboard);
@@ -264,7 +279,7 @@ public class UIManager extends javax.swing.JFrame {
 
     }
 
-    private void DeselectAll() {
+    private void DeselectAllMenu() {
         for (int i = 0; i < menuBarItems.size(); i++) {
             DeselectMenu(menuBarItems.get(i));
         }
@@ -1780,6 +1795,11 @@ public class UIManager extends javax.swing.JFrame {
 
         UndoButton.setText("Undo");
         UndoButton.setEnabled(false);
+        UndoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UndoButtonActionPerformed(evt);
+            }
+        });
         kGradientPanel3.add(UndoButton);
 
         SelectCourseButton.setText("Select Course");
@@ -2024,12 +2044,15 @@ public class UIManager extends javax.swing.JFrame {
 
     private void CoursesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_CoursesListValueChanged
         // TODO add your handling code here:
-
-        if (CoursesList.getSelectedIndex() != -1) {
+        
+        if (CoursesList.getSelectedIndex() != -1 && evt.getValueIsAdjusting()) {
             DuplicateCourseButton.setEnabled(true);
             RemoveCourseButton.setEnabled(true);
             SelectCourseButton.setEnabled(true);
+            
+            SelectCourse(CoursesList.getSelectedIndex());
         }
+        
     }//GEN-LAST:event_CoursesListValueChanged
 
     private void RemoveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCourseButtonActionPerformed
@@ -2042,6 +2065,27 @@ public class UIManager extends javax.swing.JFrame {
         // TODO add your handling code here:
         courseManager.DuplicateCourse(CoursesList.getSelectedIndex());
     }//GEN-LAST:event_DuplicateCourseButtonActionPerformed
+
+    private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
+        // TODO add your handling code here:
+
+        CourseAction lastAction = courseActions.get(courseActions.size() - 1);
+
+        if (lastAction.GetIndex() == 1) {
+            
+            courseManager.RemoveCourse(lastAction.GetSubject());
+        }
+        else if(lastAction.GetIndex() == 2)
+        {
+            courseManager.AddNewCourse(lastAction.GetSubject(), lastAction.GetListIndex());
+        }
+        
+        courseActions.remove(lastAction);
+        
+        if(courseActions.size() < 1)
+            UndoButton.setEnabled(false);
+        
+    }//GEN-LAST:event_UndoButtonActionPerformed
 
     /**
      * @param args the command line arguments

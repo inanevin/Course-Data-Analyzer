@@ -9,9 +9,9 @@ package course.data.analyzer;
  *
  * @author InanEvin
  */
-public class CourseExistsException extends Exception {
+public class ActionIndexException extends Exception {
     
-    public CourseExistsException(String msg)
+    public ActionIndexException(String msg)
     {
         super(msg);
     }
