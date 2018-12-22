@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package course.data.analyzer;
+import java.io.Serializable;
 
 /**
  *
  * @author InanEvin
  */
-public class Course {
+public class Course implements Serializable {
     
     private String m_ID;
     private String m_Name;
@@ -39,5 +40,12 @@ public class Course {
         
         m_Name = c.GetName(); 
         m_Description = c.GetDescription();
+    }
+    
+    public void Edit(String id, String name, String Desc)
+    {
+        m_ID = id;
+        m_Name = name;
+        m_Description = Desc;
     }
 }

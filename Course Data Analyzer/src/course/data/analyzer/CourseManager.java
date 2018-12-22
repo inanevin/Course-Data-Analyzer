@@ -27,11 +27,21 @@ public class CourseManager {
     
     public void PopulateCourses()
     {
-        _AllCourses = resourceManager.GetCourseList();
+        _AllCourses = resourceManager.LoadCourseList();
         
         // Choose the initially selected course, -1 if list is empty.
         int selectionIndex = _AllCourses.size() == 0 ? -1 : 0;
-        uiManager.UpdateCourseList(_AllCourses, selectionIndex);
+        uiManager.UpdateCourseList(selectionIndex);
+    }
+    
+    public void SaveCourses()
+    {
+        resourceManager.SaveCourseList(_AllCourses);
+    }
+    
+    public ArrayList<Course> GetCourseList()
+    {
+        return _AllCourses;
     }
     public Course GetCourse(int index)
     {
@@ -52,7 +62,7 @@ public class CourseManager {
         uiManager.SetLastActionForCourses(c, 1);
         
         // Update UI list.
-        uiManager.UpdateCourseList(_AllCourses, _AllCourses.size()-1);
+        uiManager.UpdateCourseList(_AllCourses.size()-1);
     }
 
     // Adds new course - UNDO OPERATION
@@ -61,7 +71,7 @@ public class CourseManager {
         _AllCourses.add(index, c);
         
         // Update UI list.
-        uiManager.UpdateCourseList(_AllCourses, index);
+        uiManager.UpdateCourseList(index);
     }
     
     public void DuplicateCourse(int index) {
@@ -76,7 +86,7 @@ public class CourseManager {
         _AllCourses.add(index + 1, c);
 
         // Update UI list.
-        uiManager.UpdateCourseList(_AllCourses, index + 1);
+        uiManager.UpdateCourseList( index + 1);
 
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
@@ -90,7 +100,7 @@ public class CourseManager {
          // Remove the course.
         _AllCourses.remove(c);
         
-        uiManager.UpdateCourseList(_AllCourses, toSelect);
+        uiManager.UpdateCourseList(toSelect);
     }
     
     public void RemoveCourse(int index) {
@@ -102,7 +112,7 @@ public class CourseManager {
         _AllCourses.remove(index);
 
         int toSelect = ((index - 1) == -1 && _AllCourses.size() > 0) ? 0 : index-1;
-        uiManager.UpdateCourseList(_AllCourses, toSelect);
+        uiManager.UpdateCourseList(toSelect);
     }
 
     public void RemoveCourse(String ID) {
