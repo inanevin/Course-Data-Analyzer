@@ -13,6 +13,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Iterator;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -64,5 +69,38 @@ public class ResourceManager
         }
 
         return list;
+    }
+
+    public void LoadStudentXLSX() throws IOException
+    {
+        File myFile = new File(System.getProperty("user.dir"), "studentDataTest.xlsx");
+        FileInputStream fis = new FileInputStream(myFile);
+
+        XSSFWorkbook mw = new XSSFWorkbook(fis);
+
+          XSSFSheet mySheet = mw.getSheetAt(0);
+
+        Iterator<Row> rowIterator = mySheet.iterator();
+
+        while (rowIterator.hasNext())
+        {
+           
+ Row row = rowIterator.next();
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+
+                System.out.println(cell.toString() + "\t");
+            }
+            
+            System.out.println("\n");
+        }
+        
+        mw.close();
+        fis.close();
+
     }
 }

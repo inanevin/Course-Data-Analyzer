@@ -11,7 +11,10 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -48,7 +51,8 @@ public class UIManager extends javax.swing.JFrame
         resourceManager = new ResourceManager();
         courseManager = new CourseManager(this, resourceManager);
         courseManager.PopulateCourses();
-
+        
+      
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
