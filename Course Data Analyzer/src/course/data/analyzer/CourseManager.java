@@ -28,9 +28,6 @@ public class CourseManager {
     public void PopulateCourses()
     {
         _AllCourses = resourceManager.GetCourseList();
-
-        _AllCourses.add(new Course("sa", "ss", "voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage "));
-        _AllCourses.add(new Course("s12", "ss", "df"));
         
         // Choose the initially selected course, -1 if list is empty.
         int selectionIndex = _AllCourses.size() == 0 ? -1 : 0;
@@ -53,6 +50,9 @@ public class CourseManager {
         
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
+        
+        // Update UI list.
+        uiManager.UpdateCourseList(_AllCourses, _AllCourses.size()-1);
     }
 
     // Adds new course - UNDO OPERATION

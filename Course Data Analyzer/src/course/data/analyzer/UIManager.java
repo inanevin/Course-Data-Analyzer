@@ -49,6 +49,8 @@ public class UIManager extends javax.swing.JFrame {
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
+        
+        AddCourseWarning.setVisible(false);
 
     }
 
@@ -335,8 +337,18 @@ public class UIManager extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         AddNewCourseDialog = new javax.swing.JDialog();
-        jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        AddCourseID = new javax.swing.JLabel();
+        AddCourseIDField = new javax.swing.JTextField();
+        AddCourseName = new javax.swing.JLabel();
+        AddCourseNameField = new javax.swing.JTextField();
+        AddCourseDesc = new javax.swing.JLabel();
+        AddCourseDescPane = new javax.swing.JScrollPane();
+        AddCourseDescField = new javax.swing.JTextArea();
+        AddCourseCancelButton = new javax.swing.JButton();
+        AddCourseWarning = new javax.swing.JLabel();
+        AddCourseAddButton = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
         Main = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
         MenuPanel = new javax.swing.JPanel();
@@ -511,34 +523,142 @@ public class UIManager extends javax.swing.JFrame {
         AddNewCourseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         AddNewCourseDialog.setTitle("Add New Course");
         AddNewCourseDialog.setAlwaysOnTop(true);
+        AddNewCourseDialog.setBackground(new java.awt.Color(26, 24, 26));
         AddNewCourseDialog.setBounds(new java.awt.Rectangle(0, 0, 800, 600));
+        AddNewCourseDialog.setLocationByPlatform(true);
         AddNewCourseDialog.setModal(true);
+        AddNewCourseDialog.getContentPane().setLayout(new javax.swing.OverlayLayout(AddNewCourseDialog.getContentPane()));
 
-        jButton1.setText("jButton1");
+        jPanel1.setBackground(new java.awt.Color(26, 24, 26));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        AddCourseID.setBackground(new java.awt.Color(26, 24, 26));
+        AddCourseID.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        AddCourseID.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseID.setText("ID:");
+        AddCourseID.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        AddCourseID.setPreferredSize(new java.awt.Dimension(100, 50));
 
-        javax.swing.GroupLayout AddNewCourseDialogLayout = new javax.swing.GroupLayout(AddNewCourseDialog.getContentPane());
-        AddNewCourseDialog.getContentPane().setLayout(AddNewCourseDialogLayout);
-        AddNewCourseDialogLayout.setHorizontalGroup(
-            AddNewCourseDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddNewCourseDialogLayout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddNewCourseDialogLayout.createSequentialGroup()
-                .addContainerGap(410, Short.MAX_VALUE)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
+        AddCourseIDField.setBackground(new java.awt.Color(26, 24, 26));
+        AddCourseIDField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        AddCourseIDField.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseIDField.setCaretColor(new java.awt.Color(204, 204, 204));
+        AddCourseIDField.setPreferredSize(new java.awt.Dimension(200, 40));
+        AddCourseIDField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                AddCourseIDFieldKeyReleased(evt);
+            }
+        });
+
+        AddCourseName.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        AddCourseName.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseName.setText("Name:");
+        AddCourseName.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        AddCourseName.setPreferredSize(new java.awt.Dimension(100, 50));
+
+        AddCourseNameField.setBackground(new java.awt.Color(26, 24, 26));
+        AddCourseNameField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        AddCourseNameField.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseNameField.setCaretColor(new java.awt.Color(204, 204, 204));
+        AddCourseNameField.setPreferredSize(new java.awt.Dimension(200, 40));
+
+        AddCourseDesc.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        AddCourseDesc.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseDesc.setText("Description:");
+        AddCourseDesc.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        AddCourseDesc.setMaximumSize(new java.awt.Dimension(121, 225));
+        AddCourseDesc.setPreferredSize(new java.awt.Dimension(121, 225));
+
+        AddCourseDescField.setBackground(new java.awt.Color(26, 24, 26));
+        AddCourseDescField.setColumns(20);
+        AddCourseDescField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        AddCourseDescField.setForeground(new java.awt.Color(227, 227, 227));
+        AddCourseDescField.setLineWrap(true);
+        AddCourseDescField.setRows(5);
+        AddCourseDescField.setCaretColor(new java.awt.Color(204, 204, 204));
+        AddCourseDescPane.setViewportView(AddCourseDescField);
+
+        AddCourseCancelButton.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
+        AddCourseCancelButton.setText("Cancel");
+        AddCourseCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddCourseCancelButtonActionPerformed(evt);
+            }
+        });
+
+        AddCourseWarning.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        AddCourseWarning.setForeground(new java.awt.Color(204, 0, 51));
+        AddCourseWarning.setText("This Course Already Exists");
+        AddCourseWarning.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        AddCourseWarning.setPreferredSize(new java.awt.Dimension(121, 125));
+
+        AddCourseAddButton.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
+        AddCourseAddButton.setText("Add Course");
+        AddCourseAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddCourseAddButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(AddCourseAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddCourseDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddCourseName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddCourseID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(AddCourseCancelButton)
+                        .addGap(34, 34, 34)
+                        .addComponent(AddCourseWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 193, Short.MAX_VALUE))
+                    .addComponent(AddCourseDescPane)
+                    .addComponent(AddCourseIDField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddCourseNameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
-        AddNewCourseDialogLayout.setVerticalGroup(
-            AddNewCourseDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddNewCourseDialogLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jButton1)
-                .addGap(65, 65, 65)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(311, Short.MAX_VALUE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddCourseID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddCourseIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddCourseNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddCourseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(AddCourseDescPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(AddCourseDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddCourseAddButton)
+                    .addComponent(AddCourseCancelButton)
+                    .addComponent(AddCourseWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        AddNewCourseDialog.getContentPane().add(jPanel1);
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -968,7 +1088,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
 
         Main.add(Left, java.awt.BorderLayout.WEST);
@@ -987,7 +1107,7 @@ public class UIManager extends javax.swing.JFrame {
         TopCenter.setLayout(TopCenterLayout);
         TopCenterLayout.setHorizontalGroup(
             TopCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 578, Short.MAX_VALUE)
+            .addGap(0, 310, Short.MAX_VALUE)
         );
         TopCenterLayout.setVerticalGroup(
             TopCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1080,7 +1200,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CoursesMainTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 284, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(CoursesSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1173,7 +1293,7 @@ public class UIManager extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseIDTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1182,7 +1302,7 @@ public class UIManager extends javax.swing.JFrame {
                         .addGap(19, 19, 19))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseDescriptionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 5, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseNameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1302,7 +1422,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(DBTitlePanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(StudentsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1483,7 +1603,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(DBTitlePanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ExamsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1506,11 +1626,11 @@ public class UIManager extends javax.swing.JFrame {
         kGradientPanel2.setLayout(kGradientPanel2Layout);
         kGradientPanel2Layout.setHorizontalGroup(
             kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addGap(0, 564, Short.MAX_VALUE)
         );
         kGradientPanel2Layout.setVerticalGroup(
             kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 670, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
         );
 
         ExamsMainPanel.add(kGradientPanel2, java.awt.BorderLayout.CENTER);
@@ -1542,7 +1662,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(DBTitlePanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ReportsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1723,7 +1843,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(AttendanceTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(AttendanceMainTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(AttendanceSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1904,7 +2024,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SyllabusMainTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SyllabusSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2088,7 +2208,7 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(DashboardTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(DashboardSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2126,30 +2246,30 @@ public class UIManager extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 115, Short.MAX_VALUE)
+                    .addGap(0, 48, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgSuccessTitle)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(29, 29, 29)
                             .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 115, Short.MAX_VALUE)))
+                    .addGap(0, 48, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 12, Short.MAX_VALUE)
+                    .addGap(0, 8, Short.MAX_VALUE)
                     .addComponent(AvgSuccessTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(4, 4, 4)
                     .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(5, 5, 5)
                     .addComponent(ViewAvgSuccess)
-                    .addGap(0, 13, Short.MAX_VALUE)))
+                    .addGap(0, 8, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel2);
@@ -2170,21 +2290,21 @@ public class UIManager extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 97, Short.MAX_VALUE)
+                    .addGap(0, 30, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgAttendanceTitle)
                         .addGroup(jPanel7Layout.createSequentialGroup()
                             .addGap(46, 46, 46)
                             .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgAttendance, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 98, Short.MAX_VALUE)))
+                    .addGap(0, 31, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -2214,21 +2334,21 @@ public class UIManager extends javax.swing.JFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 143, Short.MAX_VALUE)
+                    .addGap(0, 76, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle)
                         .addGroup(jPanel8Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DBImportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 143, Short.MAX_VALUE)))
+                    .addGap(0, 76, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -2258,21 +2378,21 @@ public class UIManager extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 416, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 143, Short.MAX_VALUE)
+                    .addGap(0, 76, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle2)
                         .addGroup(jPanel9Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DbExportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 143, Short.MAX_VALUE)))
+                    .addGap(0, 76, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -2349,6 +2469,32 @@ public class UIManager extends javax.swing.JFrame {
         AddNewCourseDialog.show();
     }//GEN-LAST:event_AddNewCourseButtonActionPerformed
 
+    private void AddCourseCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCourseCancelButtonActionPerformed
+        // TODO add your handling code here:
+        AddNewCourseDialog.dispose();
+    }//GEN-LAST:event_AddCourseCancelButtonActionPerformed
+
+    private void AddCourseIDFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddCourseIDFieldKeyReleased
+        // TODO add your handling code here:
+         if(courseManager.CheckIfExists(AddCourseIDField.getText()))
+         {
+             AddCourseWarning.setVisible(true);
+             AddCourseAddButton.setEnabled(false);
+         }
+         else
+         {
+              AddCourseWarning.setVisible(false);
+             AddCourseAddButton.setEnabled(true);
+         }
+    }//GEN-LAST:event_AddCourseIDFieldKeyReleased
+
+    private void AddCourseAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCourseAddButtonActionPerformed
+        // TODO add your handling code here:
+        
+        courseManager.AddNewCourse(AddCourseIDField.getText(), AddCourseNameField.getText(), AddCourseDescField.getText());
+        AddNewCourseDialog.dispose();
+    }//GEN-LAST:event_AddCourseAddButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2392,6 +2538,16 @@ public class UIManager extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddCourseAddButton;
+    private javax.swing.JButton AddCourseCancelButton;
+    private javax.swing.JLabel AddCourseDesc;
+    private javax.swing.JTextArea AddCourseDescField;
+    private javax.swing.JScrollPane AddCourseDescPane;
+    private javax.swing.JLabel AddCourseID;
+    private javax.swing.JTextField AddCourseIDField;
+    private javax.swing.JLabel AddCourseName;
+    private javax.swing.JTextField AddCourseNameField;
+    private javax.swing.JLabel AddCourseWarning;
     private javax.swing.JButton AddNewCourseButton;
     private javax.swing.JDialog AddNewCourseDialog;
     private javax.swing.JPanel AttMainPanel;
@@ -2551,8 +2707,8 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JButton ViewAvgSuccess3;
     private javax.swing.JButton ViewAvgSuccess4;
     private javax.swing.JButton ViewAvgSuccess5;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
