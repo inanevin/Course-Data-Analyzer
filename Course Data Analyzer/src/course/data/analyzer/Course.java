@@ -4,44 +4,176 @@
  * and open the template in the editor.
  */
 package course.data.analyzer;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
  * @author InanEvin
  */
-public class Course implements Serializable {
-    
+public class Course implements Serializable
+{
+
     private String m_ID;
     private String m_Name;
     private String m_Description;
     public int i_DuplicationCount;
-    
-    public String GetID() {
+    private ArrayList<Section> _Sections;
+    private int i_SelectedSection = 0;
+
+    public String GetID()
+    {
         return m_ID;
     }
 
-    public String GetName() {
+    public String GetName()
+    {
         return m_Name;
     }
 
-    public String GetDescription() {
+    public String GetDescription()
+    {
         return m_Description;
     }
-    
-    
-    
-    public Course(String i, String n, String d) { m_ID = i; m_Name = n; m_Description = d;}
-    public Course(Course c, int duplicationCount) {
+
+    public int GetSelectedSectionIndex()
+    {
+        return i_SelectedSection;
+    }
+
+    public void SetSection(int i)
+    {
+        if (i == -1)
+        {
+            i = 0;
+        }
+        i_SelectedSection = i;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException
+    {
+
+        // default serialization 
+        oos.defaultWriteObject();
+
+        try
+        {
+            String fileName = (new StringBuilder().append(m_ID).append("-").append("sections.dat")).toString();
+            FileOutputStream fos = new FileOutputStream(fileName);
+            ObjectOutputStream mOOS = new ObjectOutputStream(fos);
+            mOOS.writeObject(_Sections);
+            mOOS.close();
+            fos.close();
+        } catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException
+    {
+
+        ois.defaultReadObject();
+
+        ArrayList<Section> list = new ArrayList<Section>();
+
+        try
+        {
+            String fileName = (new StringBuilder().append(m_ID).append("-").append("sections.dat")).toString();
+            FileInputStream fis = new FileInputStream(fileName);
+            ObjectInputStream mOis = new ObjectInputStream(fis);
+
+            _Sections = (ArrayList) mOis.readObject();
+
+            mOis.close();
+            fis.close();
+        } catch (IOException ioe)
+        {
+            //ioe.printStackTrace();
+            _Sections = new ArrayList<Section>();
+            _Sections.add(new Section("Section 1"));
+            i_SelectedSection = 0;
+        } catch (ClassNotFoundException c)
+        {
+            System.out.println("Class not found");
+            //c.printStackTrace();
+            _Sections = new ArrayList<Section>();
+            _Sections.add(new Section("Section 1"));
+            i_SelectedSection = 0;
+        }
+
+    }
+
+    public void AddSection(String name)
+    {
+        _Sections.add(new Section(name));
+        SetSection(++i_SelectedSection);
+    }
+
+    public void RemoveSelectedSection()
+    {
+        _Sections.remove(_Sections.get(i_SelectedSection));
+        SetSection(--i_SelectedSection);
+    }
+
+    public boolean CheckIfSectionExists(String name)
+    {
+        for (int i = 0; i < _Sections.size(); i++)
+        {
+            if (_Sections.get(i).GetName().equals(name))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Course(String i, String n, String d)
+    {
+        m_ID = i;
+        m_Name = n;
+        m_Description = d;
+
+        if (_Sections == null)
+        {
+            _Sections = new ArrayList<Section>();
+            _Sections.add(new Section("Section 1"));
+            i_SelectedSection = 0;
+        }
+
+    }
+
+    public Course(Course c, int duplicationCount)
+    {
         m_ID = (new StringBuilder().
                 append(c.GetID()).
                 append(duplicationCount)).
                 toString();
-        
-        m_Name = c.GetName(); 
+
+        m_Name = c.GetName();
         m_Description = c.GetDescription();
+        _Sections = c.GetSections();
+        
+        if (_Sections == null)
+        {
+            _Sections = new ArrayList<Section>();
+            _Sections.add(new Section("Section 1"));
+            i_SelectedSection = 0;
+        }
     }
-    
+
+    public ArrayList<Section> GetSections()
+    {
+        return _Sections;
+    }
+
     public void Edit(String id, String name, String Desc)
     {
         m_ID = id;

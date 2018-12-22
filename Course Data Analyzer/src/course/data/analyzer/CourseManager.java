@@ -25,6 +25,17 @@ public class CourseManager {
         resourceManager = rm;
     }
     
+    public void AddSectionToCourse(int course, String sc)
+    {
+        _AllCourses.get(course).AddSection(sc);
+        uiManager.UpdateSectionList(_AllCourses.get(course).GetSelectedSectionIndex());
+    }
+    
+    public void RemoveSectionFromCourse(int course)
+    {
+        _AllCourses.get(course).RemoveSelectedSection();
+        uiManager.UpdateSectionList(_AllCourses.get(course).GetSelectedSectionIndex());
+    }
     public void PopulateCourses()
     {
         _AllCourses = resourceManager.LoadCourseList();
