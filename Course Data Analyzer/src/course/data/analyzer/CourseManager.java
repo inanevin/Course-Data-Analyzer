@@ -23,14 +23,26 @@ public class CourseManager {
         
         uiManager = um;
         resourceManager = rm;
+    }
+    
+    public void PopulateCourses()
+    {
         _AllCourses = resourceManager.GetCourseList();
 
         _AllCourses.add(new Course("sa", "ss", "df"));
         _AllCourses.add(new Course("s12", "ss", "df"));
-
+        
         // Choose the initially selected course, -1 if list is empty.
         int selectionIndex = _AllCourses.size() == 0 ? -1 : 0;
         uiManager.UpdateCourseList(_AllCourses, selectionIndex);
+    }
+    public Course GetCourse(int index)
+    {
+        if(index < -1 || _AllCourses.size() <= index)
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        return _AllCourses.get(index);
     }
 
     public void AddNewCourse(String id, String name, String desc) {

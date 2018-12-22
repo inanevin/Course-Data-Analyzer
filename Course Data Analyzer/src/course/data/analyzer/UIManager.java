@@ -32,6 +32,7 @@ public class UIManager extends javax.swing.JFrame {
     private Color unselectedInnerMenuItemColor = new Color(26, 24, 26);
 
     private ArrayList<CourseAction> courseActions;
+    private int i_SelectedCourse = -1;
 
     /**
      * Creates new form MainFrame
@@ -39,11 +40,12 @@ public class UIManager extends javax.swing.JFrame {
     public UIManager() {
 
         initComponents();
-        
+
         courseActions = new ArrayList<CourseAction>();
         resourceManager = new ResourceManager();
         courseManager = new CourseManager(this, resourceManager);
-
+        courseManager.PopulateCourses();
+        
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
@@ -64,33 +66,50 @@ public class UIManager extends javax.swing.JFrame {
         if (CoursesList.getComponentCount() == 0 || CoursesList.getSelectedIndex() == -1) {
             DuplicateCourseButton.setEnabled(false);
             RemoveCourseButton.setEnabled(false);
-            SelectCourseButton.setEnabled(false);
         }
 
         CoursesList.setSelectedIndex(toSelect);
+        SelectCourse(toSelect);
     }
 
     // 1 is for adding a new course, 2 is for removing.
     public void SetLastActionForCourses(Course subject, int actionIndex) {
 
         try {
-            CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex()); 
+            CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex());
             courseActions.add(c);
-        }
-        catch(ActionIndexException e)
-        {
+        } catch (ActionIndexException e) {
             System.out.println(e.getMessage());
             return;
         }
-        
+
         UndoButton.setEnabled(true);
 
-
     }
-    
-    private void SelectCourse(int index)
-    {
-        System.out.println("Selected Course: " + index);
+
+    private void SelectCourse(int index) {
+
+        i_SelectedCourse = index;
+        System.out.println(courseManager);
+        String title = "";
+        
+        if(i_SelectedCourse != -1)
+        {
+             title = (new StringBuilder().append("Selected Course: ")
+                .append(courseManager.GetCourse(index).GetID())
+                .append(" - ")
+                .append(courseManager.GetCourse(index).GetName())).toString();
+
+        }
+       
+        DashboardSelectedCourse.setText(title);
+        CoursesSelectedCourse.setText(title);
+        StudentsSelectedCourse.setText(title);
+        SyllabusSelectedCourse.setText(title);
+        AttendanceSelectedCourse.setText(title);
+        ExamsSelectedCourse.setText(title);
+        ReportsSelectedCourse.setText(title);
+
     }
 
     private void InitializeMenuBarItems() {
@@ -305,90 +324,6 @@ public class UIManager extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        SyllabusMainPanel = new javax.swing.JPanel();
-        DBTitlePanel2 = new javax.swing.JPanel();
-        DashboardMainTitle2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        Grid9 = new javax.swing.JPanel();
-        ViewAvgSuccess2 = new javax.swing.JButton();
-        ChartImage5 = new javax.swing.JLabel();
-        AvgSuccessTitle2 = new javax.swing.JLabel();
-        Grid10 = new javax.swing.JPanel();
-        ViewAvgAttendance2 = new javax.swing.JButton();
-        ChartImage6 = new javax.swing.JLabel();
-        AvgAttendanceTitle2 = new javax.swing.JLabel();
-        Grid11 = new javax.swing.JPanel();
-        DBImportBut2 = new javax.swing.JButton();
-        ImportImage2 = new javax.swing.JLabel();
-        CourseDataTitle4 = new javax.swing.JLabel();
-        Grid12 = new javax.swing.JPanel();
-        DbExportBut2 = new javax.swing.JButton();
-        ExportImage2 = new javax.swing.JLabel();
-        CourseDataTitle5 = new javax.swing.JLabel();
-        AttendanceMainPanel = new javax.swing.JPanel();
-        DBTitlePanel3 = new javax.swing.JPanel();
-        DashboardMainTitle3 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        Grid13 = new javax.swing.JPanel();
-        ViewAvgSuccess3 = new javax.swing.JButton();
-        ChartImage7 = new javax.swing.JLabel();
-        AvgSuccessTitle3 = new javax.swing.JLabel();
-        Grid14 = new javax.swing.JPanel();
-        ViewAvgAttendance3 = new javax.swing.JButton();
-        ChartImage8 = new javax.swing.JLabel();
-        AvgAttendanceTitle3 = new javax.swing.JLabel();
-        Grid15 = new javax.swing.JPanel();
-        DBImportBut3 = new javax.swing.JButton();
-        ImportImage3 = new javax.swing.JLabel();
-        CourseDataTitle6 = new javax.swing.JLabel();
-        Grid16 = new javax.swing.JPanel();
-        DbExportBut3 = new javax.swing.JButton();
-        ExportImage3 = new javax.swing.JLabel();
-        CourseDataTitle7 = new javax.swing.JLabel();
-        ReportsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel5 = new javax.swing.JPanel();
-        DashboardMainTitle5 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        Grid21 = new javax.swing.JPanel();
-        ViewAvgSuccess5 = new javax.swing.JButton();
-        ChartImage11 = new javax.swing.JLabel();
-        AvgSuccessTitle5 = new javax.swing.JLabel();
-        Grid22 = new javax.swing.JPanel();
-        ViewAvgAttendance5 = new javax.swing.JButton();
-        ChartImage12 = new javax.swing.JLabel();
-        AvgAttendanceTitle5 = new javax.swing.JLabel();
-        Grid23 = new javax.swing.JPanel();
-        DBImportBut5 = new javax.swing.JButton();
-        ImportImage5 = new javax.swing.JLabel();
-        CourseDataTitle10 = new javax.swing.JLabel();
-        Grid24 = new javax.swing.JPanel();
-        DbExportBut5 = new javax.swing.JButton();
-        ExportImage5 = new javax.swing.JLabel();
-        CourseDataTitle11 = new javax.swing.JLabel();
-        ExamsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel4 = new javax.swing.JPanel();
-        DashboardMainTitle4 = new javax.swing.JLabel();
-        kGradientPanel2 = new keeptoo.KGradientPanel();
-        StudentsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel6 = new javax.swing.JPanel();
-        DashboardMainTitle6 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        Grid17 = new javax.swing.JPanel();
-        ViewAvgSuccess4 = new javax.swing.JButton();
-        ChartImage9 = new javax.swing.JLabel();
-        AvgSuccessTitle4 = new javax.swing.JLabel();
-        Grid18 = new javax.swing.JPanel();
-        ViewAvgAttendance4 = new javax.swing.JButton();
-        ChartImage10 = new javax.swing.JLabel();
-        AvgAttendanceTitle4 = new javax.swing.JLabel();
-        Grid19 = new javax.swing.JPanel();
-        DBImportBut4 = new javax.swing.JButton();
-        ImportImage4 = new javax.swing.JLabel();
-        CourseDataTitle8 = new javax.swing.JLabel();
-        Grid20 = new javax.swing.JPanel();
-        DbExportBut4 = new javax.swing.JButton();
-        ExportImage4 = new javax.swing.JLabel();
-        CourseDataTitle9 = new javax.swing.JLabel();
         Main = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
         MenuPanel = new javax.swing.JPanel();
@@ -430,6 +365,7 @@ public class UIManager extends javax.swing.JFrame {
         CoursesMainPanel = new javax.swing.JPanel();
         CoursesTitlePanel = new javax.swing.JPanel();
         CoursesMainTitle = new javax.swing.JLabel();
+        CoursesSelectedCourse = new javax.swing.JLabel();
         CoursesCenterPanel = new keeptoo.KGradientPanel();
         kGradientPanel4 = new keeptoo.KGradientPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -439,11 +375,100 @@ public class UIManager extends javax.swing.JFrame {
         AddNewCourseButton = new javax.swing.JButton();
         RemoveCourseButton = new javax.swing.JButton();
         UndoButton = new javax.swing.JButton();
-        SelectCourseButton = new javax.swing.JButton();
+        StudentsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel6 = new javax.swing.JPanel();
+        DashboardMainTitle6 = new javax.swing.JLabel();
+        StudentsSelectedCourse = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        Grid17 = new javax.swing.JPanel();
+        ViewAvgSuccess4 = new javax.swing.JButton();
+        ChartImage9 = new javax.swing.JLabel();
+        AvgSuccessTitle4 = new javax.swing.JLabel();
+        Grid18 = new javax.swing.JPanel();
+        ViewAvgAttendance4 = new javax.swing.JButton();
+        ChartImage10 = new javax.swing.JLabel();
+        AvgAttendanceTitle4 = new javax.swing.JLabel();
+        Grid19 = new javax.swing.JPanel();
+        DBImportBut4 = new javax.swing.JButton();
+        ImportImage4 = new javax.swing.JLabel();
+        CourseDataTitle8 = new javax.swing.JLabel();
+        Grid20 = new javax.swing.JPanel();
+        DbExportBut4 = new javax.swing.JButton();
+        ExportImage4 = new javax.swing.JLabel();
+        CourseDataTitle9 = new javax.swing.JLabel();
+        ExamsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel4 = new javax.swing.JPanel();
+        DashboardMainTitle4 = new javax.swing.JLabel();
+        ExamsSelectedCourse = new javax.swing.JLabel();
+        kGradientPanel2 = new keeptoo.KGradientPanel();
+        ReportsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel5 = new javax.swing.JPanel();
+        DashboardMainTitle5 = new javax.swing.JLabel();
+        ReportsSelectedCourse = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        Grid21 = new javax.swing.JPanel();
+        ViewAvgSuccess5 = new javax.swing.JButton();
+        ChartImage11 = new javax.swing.JLabel();
+        AvgSuccessTitle5 = new javax.swing.JLabel();
+        Grid22 = new javax.swing.JPanel();
+        ViewAvgAttendance5 = new javax.swing.JButton();
+        ChartImage12 = new javax.swing.JLabel();
+        AvgAttendanceTitle5 = new javax.swing.JLabel();
+        Grid23 = new javax.swing.JPanel();
+        DBImportBut5 = new javax.swing.JButton();
+        ImportImage5 = new javax.swing.JLabel();
+        CourseDataTitle10 = new javax.swing.JLabel();
+        Grid24 = new javax.swing.JPanel();
+        DbExportBut5 = new javax.swing.JButton();
+        ExportImage5 = new javax.swing.JLabel();
+        CourseDataTitle11 = new javax.swing.JLabel();
+        AttendanceMainPanel = new javax.swing.JPanel();
+        AttendanceTitlePanel = new javax.swing.JPanel();
+        AttendanceMainTitle = new javax.swing.JLabel();
+        AttendanceSelectedCourse = new javax.swing.JLabel();
+        AttMainPanel = new javax.swing.JPanel();
+        Grid13 = new javax.swing.JPanel();
+        ViewAvgSuccess3 = new javax.swing.JButton();
+        ChartImage7 = new javax.swing.JLabel();
+        AvgSuccessTitle3 = new javax.swing.JLabel();
+        Grid14 = new javax.swing.JPanel();
+        ViewAvgAttendance3 = new javax.swing.JButton();
+        ChartImage8 = new javax.swing.JLabel();
+        AvgAttendanceTitle3 = new javax.swing.JLabel();
+        Grid15 = new javax.swing.JPanel();
+        DBImportBut3 = new javax.swing.JButton();
+        ImportImage3 = new javax.swing.JLabel();
+        CourseDataTitle6 = new javax.swing.JLabel();
+        Grid16 = new javax.swing.JPanel();
+        DbExportBut3 = new javax.swing.JButton();
+        ExportImage3 = new javax.swing.JLabel();
+        CourseDataTitle7 = new javax.swing.JLabel();
+        SyllabusMainPanel = new javax.swing.JPanel();
+        SyllabusTitlePanel = new javax.swing.JPanel();
+        SyllabusMainTitle = new javax.swing.JLabel();
+        SyllabusSelectedCourse = new javax.swing.JLabel();
+        SylMainPanel = new javax.swing.JPanel();
+        Grid9 = new javax.swing.JPanel();
+        ViewAvgSuccess2 = new javax.swing.JButton();
+        ChartImage5 = new javax.swing.JLabel();
+        AvgSuccessTitle2 = new javax.swing.JLabel();
+        Grid10 = new javax.swing.JPanel();
+        ViewAvgAttendance2 = new javax.swing.JButton();
+        ChartImage6 = new javax.swing.JLabel();
+        AvgAttendanceTitle2 = new javax.swing.JLabel();
+        Grid11 = new javax.swing.JPanel();
+        DBImportBut2 = new javax.swing.JButton();
+        ImportImage2 = new javax.swing.JLabel();
+        CourseDataTitle4 = new javax.swing.JLabel();
+        Grid12 = new javax.swing.JPanel();
+        DbExportBut2 = new javax.swing.JButton();
+        ExportImage2 = new javax.swing.JLabel();
+        CourseDataTitle5 = new javax.swing.JLabel();
         DashboardMainPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        kGradientPanel1 = new keeptoo.KGradientPanel();
+        DBMain = new javax.swing.JPanel();
+        DashboardTitlePanel = new keeptoo.KGradientPanel();
         DashboardMainTitle = new javax.swing.JLabel();
+        DashboardSelectedCourse = new javax.swing.JLabel();
         DBCenterPanel = new keeptoo.KGradientPanel();
         jPanel2 = new javax.swing.JPanel();
         AvgSuccessTitle = new javax.swing.JLabel();
@@ -461,729 +486,6 @@ public class UIManager extends javax.swing.JFrame {
         DbExportBut = new javax.swing.JButton();
         ExportImage = new javax.swing.JLabel();
         CourseDataTitle2 = new javax.swing.JLabel();
-
-        SyllabusMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        SyllabusMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel2.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle2.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle2.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle2.setText("Dashboard");
-        DashboardMainTitle2.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel2Layout = new javax.swing.GroupLayout(DBTitlePanel2);
-        DBTitlePanel2.setLayout(DBTitlePanel2Layout);
-        DBTitlePanel2Layout.setHorizontalGroup(
-            DBTitlePanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle2)
-                .addContainerGap(499, Short.MAX_VALUE))
-        );
-        DBTitlePanel2Layout.setVerticalGroup(
-            DBTitlePanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        SyllabusMainPanel.add(DBTitlePanel2, java.awt.BorderLayout.NORTH);
-
-        jPanel3.setBackground(new java.awt.Color(26, 24, 26));
-        jPanel3.setPreferredSize(new java.awt.Dimension(100, 200));
-        jPanel3.setLayout(new java.awt.GridLayout(3, 2));
-
-        Grid9.setBackground(new java.awt.Color(26, 24, 26));
-        Grid9.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid9.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgSuccess2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgSuccess2.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid9.add(ViewAvgSuccess2, gridBagConstraints);
-
-        ChartImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage5.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid9.add(ChartImage5, gridBagConstraints);
-
-        AvgSuccessTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgSuccessTitle2.setForeground(new java.awt.Color(227, 227, 227));
-        AvgSuccessTitle2.setText("Average Success");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid9.add(AvgSuccessTitle2, gridBagConstraints);
-
-        jPanel3.add(Grid9);
-
-        Grid10.setBackground(new java.awt.Color(26, 24, 26));
-        Grid10.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid10.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgAttendance2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgAttendance2.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid10.add(ViewAvgAttendance2, gridBagConstraints);
-
-        ChartImage6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage6.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid10.add(ChartImage6, gridBagConstraints);
-
-        AvgAttendanceTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgAttendanceTitle2.setForeground(new java.awt.Color(227, 227, 227));
-        AvgAttendanceTitle2.setText("Average Attendance");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid10.add(AvgAttendanceTitle2, gridBagConstraints);
-
-        jPanel3.add(Grid10);
-
-        Grid11.setBackground(new java.awt.Color(26, 24, 26));
-        Grid11.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid11.setLayout(new java.awt.GridBagLayout());
-
-        DBImportBut2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DBImportBut2.setText("Import");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid11.add(DBImportBut2, gridBagConstraints);
-
-        ImportImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ImportImage2.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid11.add(ImportImage2, gridBagConstraints);
-
-        CourseDataTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle4.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle4.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid11.add(CourseDataTitle4, gridBagConstraints);
-
-        jPanel3.add(Grid11);
-
-        Grid12.setBackground(new java.awt.Color(26, 24, 26));
-        Grid12.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid12.setLayout(new java.awt.GridBagLayout());
-
-        DbExportBut2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DbExportBut2.setText("Export");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid12.add(DbExportBut2, gridBagConstraints);
-
-        ExportImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ExportImage2.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid12.add(ExportImage2, gridBagConstraints);
-
-        CourseDataTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle5.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle5.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid12.add(CourseDataTitle5, gridBagConstraints);
-
-        jPanel3.add(Grid12);
-
-        SyllabusMainPanel.add(jPanel3, java.awt.BorderLayout.CENTER);
-
-        AttendanceMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        AttendanceMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel3.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle3.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle3.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle3.setText("Dashboard");
-        DashboardMainTitle3.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel3Layout = new javax.swing.GroupLayout(DBTitlePanel3);
-        DBTitlePanel3.setLayout(DBTitlePanel3Layout);
-        DBTitlePanel3Layout.setHorizontalGroup(
-            DBTitlePanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle3)
-                .addContainerGap(499, Short.MAX_VALUE))
-        );
-        DBTitlePanel3Layout.setVerticalGroup(
-            DBTitlePanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        AttendanceMainPanel.add(DBTitlePanel3, java.awt.BorderLayout.NORTH);
-
-        jPanel4.setBackground(new java.awt.Color(26, 24, 26));
-        jPanel4.setPreferredSize(new java.awt.Dimension(100, 200));
-        jPanel4.setLayout(new java.awt.GridLayout(3, 2));
-
-        Grid13.setBackground(new java.awt.Color(26, 24, 26));
-        Grid13.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid13.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgSuccess3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgSuccess3.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid13.add(ViewAvgSuccess3, gridBagConstraints);
-
-        ChartImage7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage7.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid13.add(ChartImage7, gridBagConstraints);
-
-        AvgSuccessTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgSuccessTitle3.setForeground(new java.awt.Color(227, 227, 227));
-        AvgSuccessTitle3.setText("Average Success");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid13.add(AvgSuccessTitle3, gridBagConstraints);
-
-        jPanel4.add(Grid13);
-
-        Grid14.setBackground(new java.awt.Color(26, 24, 26));
-        Grid14.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid14.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgAttendance3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgAttendance3.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid14.add(ViewAvgAttendance3, gridBagConstraints);
-
-        ChartImage8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage8.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid14.add(ChartImage8, gridBagConstraints);
-
-        AvgAttendanceTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgAttendanceTitle3.setForeground(new java.awt.Color(227, 227, 227));
-        AvgAttendanceTitle3.setText("Average Attendance");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid14.add(AvgAttendanceTitle3, gridBagConstraints);
-
-        jPanel4.add(Grid14);
-
-        Grid15.setBackground(new java.awt.Color(26, 24, 26));
-        Grid15.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid15.setLayout(new java.awt.GridBagLayout());
-
-        DBImportBut3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DBImportBut3.setText("Import");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid15.add(DBImportBut3, gridBagConstraints);
-
-        ImportImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ImportImage3.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid15.add(ImportImage3, gridBagConstraints);
-
-        CourseDataTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle6.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle6.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid15.add(CourseDataTitle6, gridBagConstraints);
-
-        jPanel4.add(Grid15);
-
-        Grid16.setBackground(new java.awt.Color(26, 24, 26));
-        Grid16.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid16.setLayout(new java.awt.GridBagLayout());
-
-        DbExportBut3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DbExportBut3.setText("Export");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid16.add(DbExportBut3, gridBagConstraints);
-
-        ExportImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ExportImage3.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid16.add(ExportImage3, gridBagConstraints);
-
-        CourseDataTitle7.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle7.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle7.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid16.add(CourseDataTitle7, gridBagConstraints);
-
-        jPanel4.add(Grid16);
-
-        AttendanceMainPanel.add(jPanel4, java.awt.BorderLayout.CENTER);
-
-        ReportsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        ReportsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel5.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle5.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle5.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle5.setText("Dashboard");
-        DashboardMainTitle5.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel5Layout = new javax.swing.GroupLayout(DBTitlePanel5);
-        DBTitlePanel5.setLayout(DBTitlePanel5Layout);
-        DBTitlePanel5Layout.setHorizontalGroup(
-            DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle5)
-                .addContainerGap(499, Short.MAX_VALUE))
-        );
-        DBTitlePanel5Layout.setVerticalGroup(
-            DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ReportsMainPanel.add(DBTitlePanel5, java.awt.BorderLayout.NORTH);
-
-        jPanel6.setBackground(new java.awt.Color(26, 24, 26));
-        jPanel6.setPreferredSize(new java.awt.Dimension(100, 200));
-        jPanel6.setLayout(new java.awt.GridLayout(3, 2));
-
-        Grid21.setBackground(new java.awt.Color(26, 24, 26));
-        Grid21.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid21.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgSuccess5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgSuccess5.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid21.add(ViewAvgSuccess5, gridBagConstraints);
-
-        ChartImage11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage11.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid21.add(ChartImage11, gridBagConstraints);
-
-        AvgSuccessTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgSuccessTitle5.setForeground(new java.awt.Color(227, 227, 227));
-        AvgSuccessTitle5.setText("Average Success");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid21.add(AvgSuccessTitle5, gridBagConstraints);
-
-        jPanel6.add(Grid21);
-
-        Grid22.setBackground(new java.awt.Color(26, 24, 26));
-        Grid22.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid22.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgAttendance5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgAttendance5.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid22.add(ViewAvgAttendance5, gridBagConstraints);
-
-        ChartImage12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage12.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid22.add(ChartImage12, gridBagConstraints);
-
-        AvgAttendanceTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgAttendanceTitle5.setForeground(new java.awt.Color(227, 227, 227));
-        AvgAttendanceTitle5.setText("Average Attendance");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid22.add(AvgAttendanceTitle5, gridBagConstraints);
-
-        jPanel6.add(Grid22);
-
-        Grid23.setBackground(new java.awt.Color(26, 24, 26));
-        Grid23.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid23.setLayout(new java.awt.GridBagLayout());
-
-        DBImportBut5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DBImportBut5.setText("Import");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid23.add(DBImportBut5, gridBagConstraints);
-
-        ImportImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ImportImage5.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid23.add(ImportImage5, gridBagConstraints);
-
-        CourseDataTitle10.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle10.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle10.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid23.add(CourseDataTitle10, gridBagConstraints);
-
-        jPanel6.add(Grid23);
-
-        Grid24.setBackground(new java.awt.Color(26, 24, 26));
-        Grid24.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid24.setLayout(new java.awt.GridBagLayout());
-
-        DbExportBut5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DbExportBut5.setText("Export");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid24.add(DbExportBut5, gridBagConstraints);
-
-        ExportImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ExportImage5.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid24.add(ExportImage5, gridBagConstraints);
-
-        CourseDataTitle11.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle11.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle11.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid24.add(CourseDataTitle11, gridBagConstraints);
-
-        jPanel6.add(Grid24);
-
-        ReportsMainPanel.add(jPanel6, java.awt.BorderLayout.CENTER);
-
-        ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        ExamsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel4.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle4.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle4.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle4.setText("Dashboard");
-        DashboardMainTitle4.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel4Layout = new javax.swing.GroupLayout(DBTitlePanel4);
-        DBTitlePanel4.setLayout(DBTitlePanel4Layout);
-        DBTitlePanel4Layout.setHorizontalGroup(
-            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle4)
-                .addContainerGap(644, Short.MAX_VALUE))
-        );
-        DBTitlePanel4Layout.setVerticalGroup(
-            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ExamsMainPanel.add(DBTitlePanel4, java.awt.BorderLayout.NORTH);
-
-        kGradientPanel2.setkEndColor(new java.awt.Color(0, 0, 0));
-        kGradientPanel2.setkStartColor(new java.awt.Color(0, 51, 51));
-
-        javax.swing.GroupLayout kGradientPanel2Layout = new javax.swing.GroupLayout(kGradientPanel2);
-        kGradientPanel2.setLayout(kGradientPanel2Layout);
-        kGradientPanel2Layout.setHorizontalGroup(
-            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 771, Short.MAX_VALUE)
-        );
-        kGradientPanel2Layout.setVerticalGroup(
-            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 669, Short.MAX_VALUE)
-        );
-
-        ExamsMainPanel.add(kGradientPanel2, java.awt.BorderLayout.CENTER);
-
-        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle6.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle6.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle6.setText("Dashboard");
-        DashboardMainTitle6.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
-        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
-        DBTitlePanel6Layout.setHorizontalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle6)
-                .addContainerGap(499, Short.MAX_VALUE))
-        );
-        DBTitlePanel6Layout.setVerticalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
-
-        jPanel5.setBackground(new java.awt.Color(26, 24, 26));
-        jPanel5.setPreferredSize(new java.awt.Dimension(100, 200));
-        jPanel5.setLayout(new java.awt.GridLayout(3, 2));
-
-        Grid17.setBackground(new java.awt.Color(26, 24, 26));
-        Grid17.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid17.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgSuccess4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgSuccess4.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid17.add(ViewAvgSuccess4, gridBagConstraints);
-
-        ChartImage9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage9.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid17.add(ChartImage9, gridBagConstraints);
-
-        AvgSuccessTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgSuccessTitle4.setForeground(new java.awt.Color(227, 227, 227));
-        AvgSuccessTitle4.setText("Average Success");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid17.add(AvgSuccessTitle4, gridBagConstraints);
-
-        jPanel5.add(Grid17);
-
-        Grid18.setBackground(new java.awt.Color(26, 24, 26));
-        Grid18.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid18.setLayout(new java.awt.GridBagLayout());
-
-        ViewAvgAttendance4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        ViewAvgAttendance4.setText("View");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid18.add(ViewAvgAttendance4, gridBagConstraints);
-
-        ChartImage10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ChartImage10.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid18.add(ChartImage10, gridBagConstraints);
-
-        AvgAttendanceTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        AvgAttendanceTitle4.setForeground(new java.awt.Color(227, 227, 227));
-        AvgAttendanceTitle4.setText("Average Attendance");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid18.add(AvgAttendanceTitle4, gridBagConstraints);
-
-        jPanel5.add(Grid18);
-
-        Grid19.setBackground(new java.awt.Color(26, 24, 26));
-        Grid19.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid19.setLayout(new java.awt.GridBagLayout());
-
-        DBImportBut4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DBImportBut4.setText("Import");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid19.add(DBImportBut4, gridBagConstraints);
-
-        ImportImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ImportImage4.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid19.add(ImportImage4, gridBagConstraints);
-
-        CourseDataTitle8.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle8.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle8.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid19.add(CourseDataTitle8, gridBagConstraints);
-
-        jPanel5.add(Grid19);
-
-        Grid20.setBackground(new java.awt.Color(26, 24, 26));
-        Grid20.setPreferredSize(new java.awt.Dimension(50, 50));
-        Grid20.setLayout(new java.awt.GridBagLayout());
-
-        DbExportBut4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        DbExportBut4.setText("Export");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
-        gridBagConstraints.weighty = 0.1;
-        Grid20.add(DbExportBut4, gridBagConstraints);
-
-        ExportImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
-        ExportImage4.setPreferredSize(new java.awt.Dimension(128, 128));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.weighty = 0.1;
-        Grid20.add(ExportImage4, gridBagConstraints);
-
-        CourseDataTitle9.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        CourseDataTitle9.setForeground(new java.awt.Color(227, 227, 227));
-        CourseDataTitle9.setText("Course Data");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        Grid20.add(CourseDataTitle9, gridBagConstraints);
-
-        jPanel5.add(Grid20);
-
-        StudentsMainPanel.add(jPanel5, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tina Analyzer");
@@ -1711,6 +1013,12 @@ public class UIManager extends javax.swing.JFrame {
         CoursesMainTitle.setText("Courses");
         CoursesMainTitle.setToolTipText("");
 
+        CoursesSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        CoursesSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CoursesSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        CoursesSelectedCourse.setText("Selected Course:");
+        CoursesSelectedCourse.setToolTipText("");
+
         javax.swing.GroupLayout CoursesTitlePanelLayout = new javax.swing.GroupLayout(CoursesTitlePanel);
         CoursesTitlePanel.setLayout(CoursesTitlePanelLayout);
         CoursesTitlePanelLayout.setHorizontalGroup(
@@ -1718,13 +1026,17 @@ public class UIManager extends javax.swing.JFrame {
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CoursesMainTitle)
-                .addContainerGap(674, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 223, Short.MAX_VALUE)
+                .addComponent(CoursesSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         CoursesTitlePanelLayout.setVerticalGroup(
             CoursesTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CoursesMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(CoursesTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CoursesMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CoursesSelectedCourse))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1741,7 +1053,7 @@ public class UIManager extends javax.swing.JFrame {
         kGradientPanel4.setPreferredSize(new java.awt.Dimension(771, 250));
 
         CoursesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        CoursesList.setDropMode(javax.swing.DropMode.ON);
+        CoursesList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         CoursesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 CoursesListValueChanged(evt);
@@ -1802,23 +1114,803 @@ public class UIManager extends javax.swing.JFrame {
         });
         kGradientPanel3.add(UndoButton);
 
-        SelectCourseButton.setText("Select Course");
-        kGradientPanel3.add(SelectCourseButton);
-
         CoursesCenterPanel.add(kGradientPanel3, java.awt.BorderLayout.CENTER);
 
         CoursesMainPanel.add(CoursesCenterPanel, java.awt.BorderLayout.CENTER);
 
         Center.add(CoursesMainPanel);
 
+        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        DashboardMainTitle6.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle6.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle6.setText("Dashboard");
+        DashboardMainTitle6.setToolTipText("");
+
+        StudentsSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        StudentsSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        StudentsSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        StudentsSelectedCourse.setText("Selected Course:");
+        StudentsSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
+        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
+        DBTitlePanel6Layout.setHorizontalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DashboardMainTitle6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(StudentsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        DBTitlePanel6Layout.setVerticalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StudentsSelectedCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
+
+        jPanel5.setBackground(new java.awt.Color(26, 24, 26));
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 200));
+        jPanel5.setLayout(new java.awt.GridLayout(3, 2));
+
+        Grid17.setBackground(new java.awt.Color(26, 24, 26));
+        Grid17.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid17.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgSuccess4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgSuccess4.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid17.add(ViewAvgSuccess4, gridBagConstraints);
+
+        ChartImage9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage9.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid17.add(ChartImage9, gridBagConstraints);
+
+        AvgSuccessTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgSuccessTitle4.setForeground(new java.awt.Color(227, 227, 227));
+        AvgSuccessTitle4.setText("Average Success");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid17.add(AvgSuccessTitle4, gridBagConstraints);
+
+        jPanel5.add(Grid17);
+
+        Grid18.setBackground(new java.awt.Color(26, 24, 26));
+        Grid18.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid18.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgAttendance4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgAttendance4.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid18.add(ViewAvgAttendance4, gridBagConstraints);
+
+        ChartImage10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage10.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid18.add(ChartImage10, gridBagConstraints);
+
+        AvgAttendanceTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgAttendanceTitle4.setForeground(new java.awt.Color(227, 227, 227));
+        AvgAttendanceTitle4.setText("Average Attendance");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid18.add(AvgAttendanceTitle4, gridBagConstraints);
+
+        jPanel5.add(Grid18);
+
+        Grid19.setBackground(new java.awt.Color(26, 24, 26));
+        Grid19.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid19.setLayout(new java.awt.GridBagLayout());
+
+        DBImportBut4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DBImportBut4.setText("Import");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid19.add(DBImportBut4, gridBagConstraints);
+
+        ImportImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ImportImage4.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid19.add(ImportImage4, gridBagConstraints);
+
+        CourseDataTitle8.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle8.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle8.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid19.add(CourseDataTitle8, gridBagConstraints);
+
+        jPanel5.add(Grid19);
+
+        Grid20.setBackground(new java.awt.Color(26, 24, 26));
+        Grid20.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid20.setLayout(new java.awt.GridBagLayout());
+
+        DbExportBut4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DbExportBut4.setText("Export");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid20.add(DbExportBut4, gridBagConstraints);
+
+        ExportImage4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ExportImage4.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid20.add(ExportImage4, gridBagConstraints);
+
+        CourseDataTitle9.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle9.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle9.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid20.add(CourseDataTitle9, gridBagConstraints);
+
+        jPanel5.add(Grid20);
+
+        StudentsMainPanel.add(jPanel5, java.awt.BorderLayout.CENTER);
+
+        Center.add(StudentsMainPanel);
+
+        ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        ExamsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel4.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        DashboardMainTitle4.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle4.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle4.setText("Dashboard");
+        DashboardMainTitle4.setToolTipText("");
+
+        ExamsSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        ExamsSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        ExamsSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        ExamsSelectedCourse.setText("Selected Course:");
+        ExamsSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel4Layout = new javax.swing.GroupLayout(DBTitlePanel4);
+        DBTitlePanel4.setLayout(DBTitlePanel4Layout);
+        DBTitlePanel4Layout.setHorizontalGroup(
+            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DashboardMainTitle4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(ExamsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        DBTitlePanel4Layout.setVerticalGroup(
+            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DashboardMainTitle4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExamsSelectedCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ExamsMainPanel.add(DBTitlePanel4, java.awt.BorderLayout.NORTH);
+
+        kGradientPanel2.setkEndColor(new java.awt.Color(0, 0, 0));
+        kGradientPanel2.setkStartColor(new java.awt.Color(0, 51, 51));
+
+        javax.swing.GroupLayout kGradientPanel2Layout = new javax.swing.GroupLayout(kGradientPanel2);
+        kGradientPanel2.setLayout(kGradientPanel2Layout);
+        kGradientPanel2Layout.setHorizontalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 771, Short.MAX_VALUE)
+        );
+        kGradientPanel2Layout.setVerticalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 669, Short.MAX_VALUE)
+        );
+
+        ExamsMainPanel.add(kGradientPanel2, java.awt.BorderLayout.CENTER);
+
+        Center.add(ExamsMainPanel);
+
+        ReportsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        ReportsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel5.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        DashboardMainTitle5.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle5.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle5.setText("Dashboard");
+        DashboardMainTitle5.setToolTipText("");
+
+        ReportsSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        ReportsSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        ReportsSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        ReportsSelectedCourse.setText("Selected Course:");
+        ReportsSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel5Layout = new javax.swing.GroupLayout(DBTitlePanel5);
+        DBTitlePanel5.setLayout(DBTitlePanel5Layout);
+        DBTitlePanel5Layout.setHorizontalGroup(
+            DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DashboardMainTitle5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(ReportsSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        DBTitlePanel5Layout.setVerticalGroup(
+            DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DashboardMainTitle5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ReportsSelectedCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ReportsMainPanel.add(DBTitlePanel5, java.awt.BorderLayout.NORTH);
+
+        jPanel6.setBackground(new java.awt.Color(26, 24, 26));
+        jPanel6.setPreferredSize(new java.awt.Dimension(100, 200));
+        jPanel6.setLayout(new java.awt.GridLayout(3, 2));
+
+        Grid21.setBackground(new java.awt.Color(26, 24, 26));
+        Grid21.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid21.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgSuccess5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgSuccess5.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid21.add(ViewAvgSuccess5, gridBagConstraints);
+
+        ChartImage11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage11.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid21.add(ChartImage11, gridBagConstraints);
+
+        AvgSuccessTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgSuccessTitle5.setForeground(new java.awt.Color(227, 227, 227));
+        AvgSuccessTitle5.setText("Average Success");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid21.add(AvgSuccessTitle5, gridBagConstraints);
+
+        jPanel6.add(Grid21);
+
+        Grid22.setBackground(new java.awt.Color(26, 24, 26));
+        Grid22.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid22.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgAttendance5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgAttendance5.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid22.add(ViewAvgAttendance5, gridBagConstraints);
+
+        ChartImage12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage12.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid22.add(ChartImage12, gridBagConstraints);
+
+        AvgAttendanceTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgAttendanceTitle5.setForeground(new java.awt.Color(227, 227, 227));
+        AvgAttendanceTitle5.setText("Average Attendance");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid22.add(AvgAttendanceTitle5, gridBagConstraints);
+
+        jPanel6.add(Grid22);
+
+        Grid23.setBackground(new java.awt.Color(26, 24, 26));
+        Grid23.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid23.setLayout(new java.awt.GridBagLayout());
+
+        DBImportBut5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DBImportBut5.setText("Import");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid23.add(DBImportBut5, gridBagConstraints);
+
+        ImportImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ImportImage5.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid23.add(ImportImage5, gridBagConstraints);
+
+        CourseDataTitle10.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle10.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle10.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid23.add(CourseDataTitle10, gridBagConstraints);
+
+        jPanel6.add(Grid23);
+
+        Grid24.setBackground(new java.awt.Color(26, 24, 26));
+        Grid24.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid24.setLayout(new java.awt.GridBagLayout());
+
+        DbExportBut5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DbExportBut5.setText("Export");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid24.add(DbExportBut5, gridBagConstraints);
+
+        ExportImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ExportImage5.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid24.add(ExportImage5, gridBagConstraints);
+
+        CourseDataTitle11.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle11.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle11.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid24.add(CourseDataTitle11, gridBagConstraints);
+
+        jPanel6.add(Grid24);
+
+        ReportsMainPanel.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        Center.add(ReportsMainPanel);
+
+        AttendanceMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        AttendanceMainPanel.setLayout(new java.awt.BorderLayout());
+
+        AttendanceTitlePanel.setBackground(new java.awt.Color(26, 24, 26));
+        AttendanceTitlePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        AttendanceMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        AttendanceMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AttendanceMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        AttendanceMainTitle.setText("Dashboard");
+        AttendanceMainTitle.setToolTipText("");
+
+        AttendanceSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        AttendanceSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AttendanceSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        AttendanceSelectedCourse.setText("Selected Course:");
+        AttendanceSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout AttendanceTitlePanelLayout = new javax.swing.GroupLayout(AttendanceTitlePanel);
+        AttendanceTitlePanel.setLayout(AttendanceTitlePanelLayout);
+        AttendanceTitlePanelLayout.setHorizontalGroup(
+            AttendanceTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AttendanceTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AttendanceMainTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(AttendanceSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        AttendanceTitlePanelLayout.setVerticalGroup(
+            AttendanceTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AttendanceTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AttendanceTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AttendanceMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AttendanceSelectedCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        AttendanceMainPanel.add(AttendanceTitlePanel, java.awt.BorderLayout.NORTH);
+
+        AttMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        AttMainPanel.setPreferredSize(new java.awt.Dimension(100, 200));
+        AttMainPanel.setLayout(new java.awt.GridLayout(3, 2));
+
+        Grid13.setBackground(new java.awt.Color(26, 24, 26));
+        Grid13.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid13.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgSuccess3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgSuccess3.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid13.add(ViewAvgSuccess3, gridBagConstraints);
+
+        ChartImage7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage7.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid13.add(ChartImage7, gridBagConstraints);
+
+        AvgSuccessTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgSuccessTitle3.setForeground(new java.awt.Color(227, 227, 227));
+        AvgSuccessTitle3.setText("Average Success");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid13.add(AvgSuccessTitle3, gridBagConstraints);
+
+        AttMainPanel.add(Grid13);
+
+        Grid14.setBackground(new java.awt.Color(26, 24, 26));
+        Grid14.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid14.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgAttendance3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgAttendance3.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid14.add(ViewAvgAttendance3, gridBagConstraints);
+
+        ChartImage8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage8.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid14.add(ChartImage8, gridBagConstraints);
+
+        AvgAttendanceTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgAttendanceTitle3.setForeground(new java.awt.Color(227, 227, 227));
+        AvgAttendanceTitle3.setText("Average Attendance");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid14.add(AvgAttendanceTitle3, gridBagConstraints);
+
+        AttMainPanel.add(Grid14);
+
+        Grid15.setBackground(new java.awt.Color(26, 24, 26));
+        Grid15.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid15.setLayout(new java.awt.GridBagLayout());
+
+        DBImportBut3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DBImportBut3.setText("Import");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid15.add(DBImportBut3, gridBagConstraints);
+
+        ImportImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ImportImage3.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid15.add(ImportImage3, gridBagConstraints);
+
+        CourseDataTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle6.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle6.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid15.add(CourseDataTitle6, gridBagConstraints);
+
+        AttMainPanel.add(Grid15);
+
+        Grid16.setBackground(new java.awt.Color(26, 24, 26));
+        Grid16.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid16.setLayout(new java.awt.GridBagLayout());
+
+        DbExportBut3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DbExportBut3.setText("Export");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid16.add(DbExportBut3, gridBagConstraints);
+
+        ExportImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ExportImage3.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid16.add(ExportImage3, gridBagConstraints);
+
+        CourseDataTitle7.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle7.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle7.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid16.add(CourseDataTitle7, gridBagConstraints);
+
+        AttMainPanel.add(Grid16);
+
+        AttendanceMainPanel.add(AttMainPanel, java.awt.BorderLayout.CENTER);
+
+        Center.add(AttendanceMainPanel);
+
+        SyllabusMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        SyllabusMainPanel.setLayout(new java.awt.BorderLayout());
+
+        SyllabusTitlePanel.setBackground(new java.awt.Color(26, 24, 26));
+        SyllabusTitlePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        SyllabusMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusMainTitle.setText("Dashboard");
+        SyllabusMainTitle.setToolTipText("");
+
+        SyllabusSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusSelectedCourse.setText("Selected Course:");
+        SyllabusSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout SyllabusTitlePanelLayout = new javax.swing.GroupLayout(SyllabusTitlePanel);
+        SyllabusTitlePanel.setLayout(SyllabusTitlePanelLayout);
+        SyllabusTitlePanelLayout.setHorizontalGroup(
+            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SyllabusMainTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addComponent(SyllabusSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        SyllabusTitlePanelLayout.setVerticalGroup(
+            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SyllabusMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SyllabusSelectedCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        SyllabusMainPanel.add(SyllabusTitlePanel, java.awt.BorderLayout.NORTH);
+
+        SylMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        SylMainPanel.setPreferredSize(new java.awt.Dimension(100, 200));
+        SylMainPanel.setLayout(new java.awt.GridLayout(3, 2));
+
+        Grid9.setBackground(new java.awt.Color(26, 24, 26));
+        Grid9.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid9.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgSuccess2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgSuccess2.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid9.add(ViewAvgSuccess2, gridBagConstraints);
+
+        ChartImage5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage5.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid9.add(ChartImage5, gridBagConstraints);
+
+        AvgSuccessTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgSuccessTitle2.setForeground(new java.awt.Color(227, 227, 227));
+        AvgSuccessTitle2.setText("Average Success");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid9.add(AvgSuccessTitle2, gridBagConstraints);
+
+        SylMainPanel.add(Grid9);
+
+        Grid10.setBackground(new java.awt.Color(26, 24, 26));
+        Grid10.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid10.setLayout(new java.awt.GridBagLayout());
+
+        ViewAvgAttendance2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        ViewAvgAttendance2.setText("View");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid10.add(ViewAvgAttendance2, gridBagConstraints);
+
+        ChartImage6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ChartImage6.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid10.add(ChartImage6, gridBagConstraints);
+
+        AvgAttendanceTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        AvgAttendanceTitle2.setForeground(new java.awt.Color(227, 227, 227));
+        AvgAttendanceTitle2.setText("Average Attendance");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid10.add(AvgAttendanceTitle2, gridBagConstraints);
+
+        SylMainPanel.add(Grid10);
+
+        Grid11.setBackground(new java.awt.Color(26, 24, 26));
+        Grid11.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid11.setLayout(new java.awt.GridBagLayout());
+
+        DBImportBut2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DBImportBut2.setText("Import");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid11.add(DBImportBut2, gridBagConstraints);
+
+        ImportImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ImportImage2.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid11.add(ImportImage2, gridBagConstraints);
+
+        CourseDataTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle4.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle4.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid11.add(CourseDataTitle4, gridBagConstraints);
+
+        SylMainPanel.add(Grid11);
+
+        Grid12.setBackground(new java.awt.Color(26, 24, 26));
+        Grid12.setPreferredSize(new java.awt.Dimension(50, 50));
+        Grid12.setLayout(new java.awt.GridBagLayout());
+
+        DbExportBut2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        DbExportBut2.setText("Export");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        Grid12.add(DbExportBut2, gridBagConstraints);
+
+        ExportImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/appicon.png"))); // NOI18N
+        ExportImage2.setPreferredSize(new java.awt.Dimension(128, 128));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.weighty = 0.1;
+        Grid12.add(ExportImage2, gridBagConstraints);
+
+        CourseDataTitle5.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        CourseDataTitle5.setForeground(new java.awt.Color(227, 227, 227));
+        CourseDataTitle5.setText("Course Data");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 0.1;
+        Grid12.add(CourseDataTitle5, gridBagConstraints);
+
+        SylMainPanel.add(Grid12);
+
+        SyllabusMainPanel.add(SylMainPanel, java.awt.BorderLayout.CENTER);
+
+        Center.add(SyllabusMainPanel);
+
         DashboardMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         DashboardMainPanel.setLayout(new javax.swing.OverlayLayout(DashboardMainPanel));
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
+        DBMain.setLayout(new javax.swing.BoxLayout(DBMain, javax.swing.BoxLayout.Y_AXIS));
 
-        kGradientPanel1.setkEndColor(new java.awt.Color(22, 25, 33));
-        kGradientPanel1.setkStartColor(new java.awt.Color(51, 51, 51));
-        kGradientPanel1.setMaximumSize(new java.awt.Dimension(32767, 60));
+        DashboardTitlePanel.setkEndColor(new java.awt.Color(22, 25, 33));
+        DashboardTitlePanel.setkStartColor(new java.awt.Color(51, 51, 51));
+        DashboardTitlePanel.setMaximumSize(new java.awt.Dimension(32767, 60));
 
         DashboardMainTitle.setBackground(new java.awt.Color(199, 50, 38));
         DashboardMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
@@ -1826,24 +1918,34 @@ public class UIManager extends javax.swing.JFrame {
         DashboardMainTitle.setText("Dashboard");
         DashboardMainTitle.setToolTipText("");
 
-        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
-        kGradientPanel1.setLayout(kGradientPanel1Layout);
-        kGradientPanel1Layout.setHorizontalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+        DashboardSelectedCourse.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardSelectedCourse.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardSelectedCourse.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardSelectedCourse.setText("Selected Course:");
+        DashboardSelectedCourse.setToolTipText("");
+
+        javax.swing.GroupLayout DashboardTitlePanelLayout = new javax.swing.GroupLayout(DashboardTitlePanel);
+        DashboardTitlePanel.setLayout(DashboardTitlePanelLayout);
+        DashboardTitlePanelLayout.setHorizontalGroup(
+            DashboardTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DashboardTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle)
-                .addContainerGap(646, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
+                .addComponent(DashboardSelectedCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        kGradientPanel1Layout.setVerticalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+        DashboardTitlePanelLayout.setVerticalGroup(
+            DashboardTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DashboardTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(DashboardMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(DashboardTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DashboardMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DashboardSelectedCourse))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(kGradientPanel1);
+        DBMain.add(DashboardTitlePanel);
 
         DBCenterPanel.setkEndColor(new java.awt.Color(35, 29, 45));
         DBCenterPanel.setkGradientFocus(200);
@@ -2027,9 +2129,9 @@ public class UIManager extends javax.swing.JFrame {
 
         DBCenterPanel.add(jPanel9);
 
-        jPanel1.add(DBCenterPanel);
+        DBMain.add(DBCenterPanel);
 
-        DashboardMainPanel.add(jPanel1);
+        DashboardMainPanel.add(DBMain);
 
         Center.add(DashboardMainPanel);
 
@@ -2044,15 +2146,14 @@ public class UIManager extends javax.swing.JFrame {
 
     private void CoursesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_CoursesListValueChanged
         // TODO add your handling code here:
+
         
-        if (CoursesList.getSelectedIndex() != -1 && evt.getValueIsAdjusting()) {
+        if (CoursesList.getSelectedIndex() != -1 && !evt.getValueIsAdjusting()) {
             DuplicateCourseButton.setEnabled(true);
             RemoveCourseButton.setEnabled(true);
-            SelectCourseButton.setEnabled(true);
-            
-            SelectCourse(CoursesList.getSelectedIndex());
+           //SelectCourse(CoursesList.getSelectedIndex());
         }
-        
+
     }//GEN-LAST:event_CoursesListValueChanged
 
     private void RemoveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCourseButtonActionPerformed
@@ -2072,19 +2173,18 @@ public class UIManager extends javax.swing.JFrame {
         CourseAction lastAction = courseActions.get(courseActions.size() - 1);
 
         if (lastAction.GetIndex() == 1) {
-            
+
             courseManager.RemoveCourse(lastAction.GetSubject());
-        }
-        else if(lastAction.GetIndex() == 2)
-        {
+        } else if (lastAction.GetIndex() == 2) {
             courseManager.AddNewCourse(lastAction.GetSubject(), lastAction.GetListIndex());
         }
-        
+
         courseActions.remove(lastAction);
-        
-        if(courseActions.size() < 1)
+
+        if (courseActions.size() < 1) {
             UndoButton.setEnabled(false);
-        
+        }
+
     }//GEN-LAST:event_UndoButtonActionPerformed
 
     /**
@@ -2131,10 +2231,14 @@ public class UIManager extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddNewCourseButton;
+    private javax.swing.JPanel AttMainPanel;
     private javax.swing.JLabel AttendanceImage;
     private javax.swing.JLabel AttendanceLabel;
     private javax.swing.JPanel AttendanceMainPanel;
+    private javax.swing.JLabel AttendanceMainTitle;
     private javax.swing.JPanel AttendancePanel;
+    private javax.swing.JLabel AttendanceSelectedCourse;
+    private javax.swing.JPanel AttendanceTitlePanel;
     private javax.swing.JPanel AttendanceWrapper;
     private javax.swing.JLabel AvgAttendanceTitle;
     private javax.swing.JLabel AvgAttendanceTitle2;
@@ -2174,6 +2278,7 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JPanel CoursesMainPanel;
     private javax.swing.JLabel CoursesMainTitle;
     private javax.swing.JPanel CoursesPanel;
+    private javax.swing.JLabel CoursesSelectedCourse;
     private javax.swing.JPanel CoursesTitlePanel;
     private javax.swing.JPanel CoursesWrapper;
     private keeptoo.KGradientPanel DBCenterPanel;
@@ -2182,8 +2287,7 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JButton DBImportBut3;
     private javax.swing.JButton DBImportBut4;
     private javax.swing.JButton DBImportBut5;
-    private javax.swing.JPanel DBTitlePanel2;
-    private javax.swing.JPanel DBTitlePanel3;
+    private javax.swing.JPanel DBMain;
     private javax.swing.JPanel DBTitlePanel4;
     private javax.swing.JPanel DBTitlePanel5;
     private javax.swing.JPanel DBTitlePanel6;
@@ -2191,12 +2295,12 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JLabel DashboardLabel;
     private javax.swing.JPanel DashboardMainPanel;
     private javax.swing.JLabel DashboardMainTitle;
-    private javax.swing.JLabel DashboardMainTitle2;
-    private javax.swing.JLabel DashboardMainTitle3;
     private javax.swing.JLabel DashboardMainTitle4;
     private javax.swing.JLabel DashboardMainTitle5;
     private javax.swing.JLabel DashboardMainTitle6;
     private javax.swing.JPanel DashboardPanel;
+    private javax.swing.JLabel DashboardSelectedCourse;
+    private keeptoo.KGradientPanel DashboardTitlePanel;
     private javax.swing.JPanel DashboardWrapper;
     private javax.swing.JButton DbExportBut;
     private javax.swing.JButton DbExportBut2;
@@ -2208,6 +2312,7 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JLabel ExamsLabel;
     private javax.swing.JPanel ExamsMainPanel;
     private javax.swing.JPanel ExamsPanel;
+    private javax.swing.JLabel ExamsSelectedCourse;
     private javax.swing.JPanel ExamsWrapper;
     private javax.swing.JLabel ExportImage;
     private javax.swing.JLabel ExportImage2;
@@ -2243,18 +2348,23 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JLabel ReportsLabel;
     private javax.swing.JPanel ReportsMainPanel;
     private javax.swing.JPanel ReportsPanel;
+    private javax.swing.JLabel ReportsSelectedCourse;
     private javax.swing.JPanel ReportsWrapper;
-    private javax.swing.JButton SelectCourseButton;
     private javax.swing.JLabel SettingsImage;
     private javax.swing.JLabel StudentsImage;
     private javax.swing.JLabel StudentsLabel;
     private javax.swing.JPanel StudentsMainPanel;
     private javax.swing.JPanel StudentsPanel;
+    private javax.swing.JLabel StudentsSelectedCourse;
     private javax.swing.JPanel StudentsWrapper;
+    private javax.swing.JPanel SylMainPanel;
     private javax.swing.JLabel SyllabusImage;
     private javax.swing.JLabel SyllabusLabel;
     private javax.swing.JPanel SyllabusMainPanel;
+    private javax.swing.JLabel SyllabusMainTitle;
     private javax.swing.JPanel SyllabusPanel;
+    private javax.swing.JLabel SyllabusSelectedCourse;
+    private javax.swing.JPanel SyllabusTitlePanel;
     private javax.swing.JPanel SyllabusWrapper;
     private javax.swing.JLabel Title;
     private javax.swing.JPanel Top;
@@ -2272,17 +2382,13 @@ public class UIManager extends javax.swing.JFrame {
     private javax.swing.JButton ViewAvgSuccess3;
     private javax.swing.JButton ViewAvgSuccess4;
     private javax.swing.JButton ViewAvgSuccess5;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private keeptoo.KGradientPanel kGradientPanel1;
     private keeptoo.KGradientPanel kGradientPanel2;
     private keeptoo.KGradientPanel kGradientPanel3;
     private keeptoo.KGradientPanel kGradientPanel4;
