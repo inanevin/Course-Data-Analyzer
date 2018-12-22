@@ -9,17 +9,10 @@ package course.data.analyzer;
  *
  * @author InanEvin
  */
-public class Core {
+public class CourseAction {
     
-    private CourseManager m_CourseManager;
+    private Course actionSubject;
+    private int actionIndex;
     
-    public CourseManager GetCourseManager() {return m_CourseManager;}
-    
-    
-    public Core()
-    {
-        m_CourseManager = new CourseManager(); 
-    }
-    
-
+    public CourseAction(Course s, int i) { actionSubject = s; actionIndex = i;}
 }

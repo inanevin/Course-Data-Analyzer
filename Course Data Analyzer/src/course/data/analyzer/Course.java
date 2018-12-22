@@ -11,6 +11,33 @@ package course.data.analyzer;
  */
 public class Course {
     
-    public String id;
+    private String m_ID;
+    private String m_Name;
+    private String m_Description;
+    public int i_DuplicationCount;
     
+    public String GetID() {
+        return m_ID;
+    }
+
+    public String GetName() {
+        return m_Name;
+    }
+
+    public String GetDescription() {
+        return m_Description;
+    }
+    
+    
+    
+    public Course(String i, String n, String d) { m_ID = i; m_Name = n; m_Description = n;}
+    public Course(Course c, int duplicationCount) {
+        m_ID = (new StringBuilder().
+                append(c.GetID()).
+                append(duplicationCount)).
+                toString();
+        
+        m_Name = c.GetName(); 
+        m_Description = c.GetDescription();
+    }
 }
