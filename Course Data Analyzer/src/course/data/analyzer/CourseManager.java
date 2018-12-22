@@ -29,7 +29,7 @@ public class CourseManager {
     {
         _AllCourses = resourceManager.GetCourseList();
 
-        _AllCourses.add(new Course("sa", "ss", "df"));
+        _AllCourses.add(new Course("sa", "ss", "voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage voyage "));
         _AllCourses.add(new Course("s12", "ss", "df"));
         
         // Choose the initially selected course, -1 if list is empty.

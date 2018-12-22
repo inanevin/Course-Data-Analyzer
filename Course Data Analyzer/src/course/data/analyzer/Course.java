@@ -30,7 +30,7 @@ public class Course {
     
     
     
-    public Course(String i, String n, String d) { m_ID = i; m_Name = n; m_Description = n;}
+    public Course(String i, String n, String d) { m_ID = i; m_Name = n; m_Description = d;}
     public Course(Course c, int duplicationCount) {
         m_ID = (new StringBuilder().
                 append(c.GetID()).
