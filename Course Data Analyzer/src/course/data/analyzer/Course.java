@@ -103,10 +103,10 @@ public class Course implements Serializable
             File f = new File(System.getProperty("user.dir"), fileName);
             FileInputStream fis = new FileInputStream(f);
             ObjectInputStream mOis = new ObjectInputStream(fis);
-
+            
             _Sections = (ArrayList) mOis.readObject();
             
-            m_Syllabus = new Syllabus();
+            
             
             mOis.close();
             fis.close();
