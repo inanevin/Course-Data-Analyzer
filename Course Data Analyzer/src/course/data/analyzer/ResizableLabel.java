@@ -20,8 +20,8 @@ import javax.swing.JLabel;
  */
 public class ResizableLabel extends JLabel 
 {
-    public static final int MIN_FONT_SIZE=3;
-    public static final int MAX_FONT_SIZE=240;
+    public static final int MIN_FONT_SIZE=7;
+    public static final int MAX_FONT_SIZE=45;
     Graphics g;
  
     public ResizableLabel() {}
@@ -38,7 +38,7 @@ public class ResizableLabel extends JLabel
         });
     }
  
-    protected void adaptLabelFont(JLabel l) {
+    public void adaptLabelFont(JLabel l) {
         if (g==null) {
             return;
         }
