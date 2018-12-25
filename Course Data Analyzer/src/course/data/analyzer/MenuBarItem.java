@@ -13,17 +13,41 @@ import javax.swing.JPanel;
  *
  * @author InanEvin
  */
-public class MenuBarItem {
-    
+public class MenuBarItem
+{
+
     private JPanel m_SelectablePanel;
     private JPanel m_MainPanel;
     private UIManager uiManager;
-    
-    
-    public JPanel GetMainPanel() { return m_MainPanel;}
-    public JPanel GetSelectablePanel() { return m_SelectablePanel;}
-    
-    public MenuBarItem(JPanel sp, JPanel mp) {  m_SelectablePanel = sp; m_MainPanel = mp; }
+    private JPanel m_NoCoursePanel;
+    private JPanel m_InnerPanel;
 
-    
+    public JPanel GetMainPanel()
+    {
+        return m_MainPanel;
+    }
+
+    public JPanel GetSelectablePanel()
+    {
+        return m_SelectablePanel;
+    }
+
+    public JPanel GetNoCoursePanel()
+    {
+        return m_NoCoursePanel;
+    }
+
+    public JPanel GetInnerPanel()
+    {
+        return m_InnerPanel;
+    }
+
+    public MenuBarItem(JPanel sp, JPanel mp, JPanel innp, JPanel ncp)
+    {
+        m_SelectablePanel = sp;
+        m_MainPanel = mp;
+        m_InnerPanel = innp;
+        m_NoCoursePanel = ncp;
+    }
+
 }

@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author InanEvin
@@ -27,7 +28,14 @@ public class Course implements Serializable
     public int i_DuplicationCount;
     private ArrayList<Section> _Sections;
     private int i_SelectedSection = 0;
+    private Syllabus m_Syllabus;
 
+    public Syllabus GetSyllabus()
+    {
+        return m_Syllabus;
+    }
+    
+    
     public String GetID()
     {
         return m_ID;
@@ -97,7 +105,9 @@ public class Course implements Serializable
             ObjectInputStream mOis = new ObjectInputStream(fis);
 
             _Sections = (ArrayList) mOis.readObject();
-
+            
+            m_Syllabus = new Syllabus();
+            
             mOis.close();
             fis.close();
         } catch (IOException ioe)
@@ -173,6 +183,7 @@ public class Course implements Serializable
             i_SelectedSection = 0;
         }
 
+        m_Syllabus = new Syllabus();
     }
 
     public Course(Course c, int duplicationCount)
@@ -192,6 +203,8 @@ public class Course implements Serializable
             _Sections.add(new Section("Section 1"));
             i_SelectedSection = 0;
         }
+        
+        m_Syllabus = new Syllabus();
     }
 
     public ArrayList<Section> GetSections()
