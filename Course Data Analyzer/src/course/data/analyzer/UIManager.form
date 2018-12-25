@@ -949,35 +949,37 @@
                           <Component id="AddLOAddButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="AddLOLabel" alignment="0" pref="112" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="AddLOCancel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                               <Component id="AddLOWarning" min="-2" pref="438" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace pref="39" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="AddLOTextField" alignment="0" pref="784" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jScrollPane9" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="AddLOLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="83" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane9" pref="191" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
-                              <Component id="AddLOTextField" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="AddLOLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="AddLOCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="AddLOAddButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1006,28 +1008,6 @@
                   <Dimension value="[100, 50]"/>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="AddLOTextField">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1a" green="18" red="1a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="18" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="e3" green="e3" red="e3" type="rgb"/>
-                </Property>
-                <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 40]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="AddLOTextFieldKeyReleased"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="AddLOCancel">
               <Properties>
@@ -1067,6 +1047,34 @@
                 </Property>
               </Properties>
             </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane9">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="AddLOTextField">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                    </Property>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Monospaced" size="16" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                    </Property>
+                    <Property name="lineWrap" type="boolean" value="true"/>
+                    <Property name="rows" type="int" value="5"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="AddLOTextFieldCaretUpdate"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -1135,35 +1143,32 @@
                           <Component id="SaveLOSaveButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="SaveLOLabel" alignment="0" pref="112" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="SaveLOCancel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                               <Component id="SaveLOWarning" min="-2" pref="438" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="SaveLOTextField" alignment="0" pref="784" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="SaveLOLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="83" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
-                              <Component id="SaveLOTextField" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" pref="191" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="SaveLOLabel" min="-2" pref="30" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="SaveLOCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="SaveLOSaveButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1193,28 +1198,6 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="SaveLOTextField">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1a" green="18" red="1a" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="18" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="e3" green="e3" red="e3" type="rgb"/>
-                </Property>
-                <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[200, 40]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="SaveLOTextFieldKeyReleased"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="SaveLOCancel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1231,7 +1214,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Monospaced" size="24" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Add"/>
+                <Property name="text" type="java.lang.String" value="Save"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -1246,13 +1229,41 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="0" red="cc" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Can not add empty field."/>
+                <Property name="text" type="java.lang.String" value="Can not save empty field."/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[121, 125]"/>
                 </Property>
               </Properties>
             </Component>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="SaveLOTextField">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                    </Property>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Monospaced" size="16" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                    </Property>
+                    <Property name="lineWrap" type="boolean" value="true"/>
+                    <Property name="rows" type="int" value="5"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="SaveLOTextFieldCaretUpdate"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -1376,7 +1387,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="MenuPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="425" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2427,7 +2438,7 @@
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jScrollPane4" min="-2" pref="78" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="51" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2533,12 +2544,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="SyllabusMainTitle1" min="-2" pref="29" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jScrollPane6" max="32767" attributes="0"/>
                                           <Component id="jScrollPane8" pref="172" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="112" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2811,7 +2822,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="828" max="32767" attributes="0"/>
+                                  <EmptySpace pref="827" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2948,10 +2959,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="405" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="110" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="105" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgSuccessTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -2960,7 +2971,7 @@
                                               </Group>
                                               <Component id="ViewAvgSuccess" min="-2" pref="186" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="109" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="104" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3022,10 +3033,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="405" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="92" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgAttendanceTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -3034,7 +3045,7 @@
                                               </Group>
                                               <Component id="ViewAvgAttendance" min="-2" pref="221" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="92" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3044,13 +3055,13 @@
                                   <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                           <Component id="AvgAttendanceTitle" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ChartImage2" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="ViewAvgAttendance" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3096,10 +3107,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="405" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="133" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -3108,7 +3119,7 @@
                                               </Group>
                                               <Component id="DBImportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="132" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3118,13 +3129,13 @@
                                   <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                           <Component id="CourseDataTitle" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ImportImage" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="DBImportBut" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3170,10 +3181,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="405" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="133" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle2" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -3182,7 +3193,7 @@
                                               </Group>
                                               <Component id="DbExportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="132" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3192,13 +3203,13 @@
                                   <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                           <Component id="CourseDataTitle2" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ExportImage" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="DbExportBut" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3429,7 +3440,7 @@
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jScrollPane2" pref="396" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane2" pref="376" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
@@ -3828,7 +3839,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="317" max="32767" attributes="0"/>
+                                  <EmptySpace pref="297" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3846,7 +3857,7 @@
                                       </Group>
                                       <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="313" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4337,7 +4348,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="828" max="32767" attributes="0"/>
+                                  <EmptySpace pref="827" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4748,7 +4759,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="828" max="32767" attributes="0"/>
+                                  <EmptySpace pref="827" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5159,7 +5170,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="828" max="32767" attributes="0"/>
+                                  <EmptySpace pref="827" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5570,7 +5581,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="828" max="32767" attributes="0"/>
+                                  <EmptySpace pref="827" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

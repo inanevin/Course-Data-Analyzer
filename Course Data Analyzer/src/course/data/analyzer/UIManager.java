@@ -152,7 +152,7 @@ public class UIManager extends javax.swing.JFrame
         int toSelect = i_SelectedCourse == -1 ? -1 : courseManager.GetCourse(i_SelectedCourse).GetSelectedSectionIndex();
 
         UpdateSectionList(toSelect);
-
+        UpdateLearningOutcomeList(0);
     }
 
     public void UpdateSectionList(int toSelect)
@@ -476,7 +476,7 @@ public class UIManager extends javax.swing.JFrame
 
     }
 
-    private void UpdateLearningOutcomeList()
+    private void UpdateLearningOutcomeList(int toSelect)
     {
         ArrayList<String> lo = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getLearningOutcomes();
 
@@ -495,6 +495,7 @@ public class UIManager extends javax.swing.JFrame
         }
 
         LearningOutcomeList.setModel(m);
+        LearningOutcomeList.setSelectedIndex(toSelect);
 
     }
 
@@ -550,17 +551,19 @@ public class UIManager extends javax.swing.JFrame
         AddLearningOutcomeDialog = new javax.swing.JDialog();
         jPanel13 = new javax.swing.JPanel();
         AddLOLabel = new javax.swing.JLabel();
-        AddLOTextField = new javax.swing.JTextField();
         AddLOCancel = new javax.swing.JButton();
         AddLOAddButton = new javax.swing.JButton();
         AddLOWarning = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        AddLOTextField = new javax.swing.JTextArea();
         EditLearningOutcomeDialog = new javax.swing.JDialog();
         jPanel15 = new javax.swing.JPanel();
         SaveLOLabel = new javax.swing.JLabel();
-        SaveLOTextField = new javax.swing.JTextField();
         SaveLOCancel = new javax.swing.JButton();
         SaveLOSaveButton = new javax.swing.JButton();
         SaveLOWarning = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        SaveLOTextField = new javax.swing.JTextArea();
         Main = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
         MenuPanel = new javax.swing.JPanel();
@@ -1252,19 +1255,6 @@ public class UIManager extends javax.swing.JFrame
         AddLOLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         AddLOLabel.setPreferredSize(new java.awt.Dimension(100, 50));
 
-        AddLOTextField.setBackground(new java.awt.Color(26, 24, 26));
-        AddLOTextField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        AddLOTextField.setForeground(new java.awt.Color(227, 227, 227));
-        AddLOTextField.setCaretColor(new java.awt.Color(204, 204, 204));
-        AddLOTextField.setPreferredSize(new java.awt.Dimension(200, 40));
-        AddLOTextField.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                AddLOTextFieldKeyReleased(evt);
-            }
-        });
-
         AddLOCancel.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
         AddLOCancel.setText("Cancel");
         AddLOCancel.addActionListener(new java.awt.event.ActionListener()
@@ -1292,6 +1282,21 @@ public class UIManager extends javax.swing.JFrame
         AddLOWarning.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         AddLOWarning.setPreferredSize(new java.awt.Dimension(121, 125));
 
+        AddLOTextField.setBackground(new java.awt.Color(26, 24, 26));
+        AddLOTextField.setColumns(20);
+        AddLOTextField.setFont(new java.awt.Font("Monospaced", 1, 16)); // NOI18N
+        AddLOTextField.setForeground(new java.awt.Color(227, 227, 227));
+        AddLOTextField.setLineWrap(true);
+        AddLOTextField.setRows(5);
+        AddLOTextField.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                AddLOTextFieldCaretUpdate(evt);
+            }
+        });
+        jScrollPane9.setViewportView(AddLOTextField);
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -1301,28 +1306,29 @@ public class UIManager extends javax.swing.JFrame
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(AddLOAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(AddLOLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addComponent(AddLOCancel)
                         .addGap(44, 44, 44)
                         .addComponent(AddLOWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(AddLOTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE))
-                .addGap(33, 33, 33))
+                        .addContainerGap(39, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane9)
+                        .addContainerGap())))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addComponent(AddLOLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 83, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                        .addGap(25, 25, 25))
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(AddLOTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(AddLOLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddLOCancel)
                     .addComponent(AddLOAddButton)
@@ -1349,19 +1355,6 @@ public class UIManager extends javax.swing.JFrame
         SaveLOLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         SaveLOLabel.setPreferredSize(new java.awt.Dimension(100, 50));
 
-        SaveLOTextField.setBackground(new java.awt.Color(26, 24, 26));
-        SaveLOTextField.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        SaveLOTextField.setForeground(new java.awt.Color(227, 227, 227));
-        SaveLOTextField.setCaretColor(new java.awt.Color(204, 204, 204));
-        SaveLOTextField.setPreferredSize(new java.awt.Dimension(200, 40));
-        SaveLOTextField.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                SaveLOTextFieldKeyReleased(evt);
-            }
-        });
-
         SaveLOCancel.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
         SaveLOCancel.setText("Cancel");
         SaveLOCancel.addActionListener(new java.awt.event.ActionListener()
@@ -1373,7 +1366,7 @@ public class UIManager extends javax.swing.JFrame
         });
 
         SaveLOSaveButton.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
-        SaveLOSaveButton.setText("Add");
+        SaveLOSaveButton.setText("Save");
         SaveLOSaveButton.setEnabled(false);
         SaveLOSaveButton.addActionListener(new java.awt.event.ActionListener()
         {
@@ -1385,9 +1378,24 @@ public class UIManager extends javax.swing.JFrame
 
         SaveLOWarning.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
         SaveLOWarning.setForeground(new java.awt.Color(204, 0, 51));
-        SaveLOWarning.setText("Can not add empty field.");
+        SaveLOWarning.setText("Can not save empty field.");
         SaveLOWarning.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         SaveLOWarning.setPreferredSize(new java.awt.Dimension(121, 125));
+
+        SaveLOTextField.setBackground(new java.awt.Color(26, 24, 26));
+        SaveLOTextField.setColumns(20);
+        SaveLOTextField.setFont(new java.awt.Font("Monospaced", 1, 16)); // NOI18N
+        SaveLOTextField.setForeground(new java.awt.Color(227, 227, 227));
+        SaveLOTextField.setLineWrap(true);
+        SaveLOTextField.setRows(5);
+        SaveLOTextField.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                SaveLOTextFieldCaretUpdate(evt);
+            }
+        });
+        jScrollPane5.setViewportView(SaveLOTextField);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -1398,28 +1406,26 @@ public class UIManager extends javax.swing.JFrame
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(SaveLOSaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SaveLOLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(SaveLOCancel)
                         .addGap(44, 44, 44)
                         .addComponent(SaveLOWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(SaveLOTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE))
-                .addGap(33, 33, 33))
+                    .addComponent(jScrollPane5))
+                .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(SaveLOLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 83, Short.MAX_VALUE))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(SaveLOTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(SaveLOLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SaveLOCancel)
                     .addComponent(SaveLOSaveButton)
@@ -1857,7 +1863,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(425, Short.MAX_VALUE))
         );
 
         Main.add(Left, java.awt.BorderLayout.WEST);
@@ -2064,7 +2070,7 @@ public class UIManager extends javax.swing.JFrame
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         SyllabusInnerPanel.add(jPanel5);
@@ -2131,11 +2137,11 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SyllabusMainTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane6)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 112, Short.MAX_VALUE))
         );
 
         SyllabusInnerPanel.add(jPanel6);
@@ -2387,13 +2393,13 @@ public class UIManager extends javax.swing.JFrame
             .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 43, Short.MAX_VALUE)
                     .addComponent(AvgAttendanceTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(ViewAvgAttendance)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 43, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel7);
@@ -2431,13 +2437,13 @@ public class UIManager extends javax.swing.JFrame
             .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 43, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DBImportBut)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 43, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel8);
@@ -2475,13 +2481,13 @@ public class UIManager extends javax.swing.JFrame
             .addGap(0, 300, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 43, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DbExportBut)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 43, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel9);
@@ -2818,7 +2824,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGap(18, 18, 18)
                         .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(313, Short.MAX_VALUE))
         );
 
         CoursesCenterPanel.add(kGradientPanel5);
@@ -4014,10 +4020,10 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
 
         Syllabus syllabus = courseManager.GetCourse(i_SelectedCourse).GetSyllabus();
-
-        if (LearningOutcomeList.getSelectedIndex() != -1 && syllabus != null)
+        int selected = LearningOutcomeList.getSelectedIndex();
+        if (selected != -1 && syllabus != null)
         {
-            syllabus.RemoveLearningOutcome(LearningOutcomeList.getSelectedIndex());
+            syllabus.RemoveLearningOutcome(selected);
 
             if (syllabus.getLearningOutcomes().size() < 1)
             {
@@ -4026,13 +4032,21 @@ public class UIManager extends javax.swing.JFrame
 
         }
 
-        UpdateLearningOutcomeList();
+        int toSelect = selected - 1;
+
+        if (toSelect < 0)
+        {
+            toSelect = selected + 1;
+        }
+
+        UpdateLearningOutcomeList(toSelect);
     }//GEN-LAST:event_RemoveLearningOutcomeButtonActionPerformed
 
     private void AddNewLearningOutcomeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddNewLearningOutcomeButtonActionPerformed
     {//GEN-HEADEREND:event_AddNewLearningOutcomeButtonActionPerformed
         // TODO add your handling code here:
         AddLearningOutcomeDialog.show();
+        RemoveLearningOutcomeButton.setEnabled(true);
     }//GEN-LAST:event_AddNewLearningOutcomeButtonActionPerformed
 
     private void SyllabusStartDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_SyllabusStartDateChooserPropertyChange
@@ -4118,23 +4132,9 @@ public class UIManager extends javax.swing.JFrame
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks().get(selected).setTopic(text);
 
         }
+
+
     }//GEN-LAST:event_SyllabusWeekTopicsAreaKeyReleased
-
-    private void AddLOTextFieldKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_AddLOTextFieldKeyReleased
-    {//GEN-HEADEREND:event_AddLOTextFieldKeyReleased
-        // TODO add your handling code here:
-
-        if (AddLOTextField.getText().equals(""))
-        {
-            AddLOWarning.setVisible(true);
-            AddLOAddButton.setEnabled(false);
-        } else
-        {
-            AddLOWarning.setVisible(false);
-            AddLOAddButton.setEnabled(true);
-        }
-
-    }//GEN-LAST:event_AddLOTextFieldKeyReleased
 
     private void AddLOCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddLOCancelActionPerformed
     {//GEN-HEADEREND:event_AddLOCancelActionPerformed
@@ -4151,25 +4151,11 @@ public class UIManager extends javax.swing.JFrame
         AddLOWarning.setVisible(false);
         AddLOAddButton.setEnabled(false);
 
-        UpdateLearningOutcomeList();
+        UpdateLearningOutcomeList(LearningOutcomeList.getLastVisibleIndex() + 1);
 
         AddLearningOutcomeDialog.dispose();
 
     }//GEN-LAST:event_AddLOAddButtonActionPerformed
-
-    private void SaveLOTextFieldKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_SaveLOTextFieldKeyReleased
-    {//GEN-HEADEREND:event_SaveLOTextFieldKeyReleased
-        // TODO add your handling code here:
-        if (SaveLOTextField.getText().equals(""))
-        {
-            SaveLOWarning.setVisible(true);
-            SaveLOSaveButton.setEnabled(false);
-        } else
-        {
-            SaveLOWarning.setVisible(false);
-            SaveLOSaveButton.setEnabled(true);
-        }
-    }//GEN-LAST:event_SaveLOTextFieldKeyReleased
 
     private void SaveLOCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SaveLOCancelActionPerformed
     {//GEN-HEADEREND:event_SaveLOCancelActionPerformed
@@ -4185,9 +4171,35 @@ public class UIManager extends javax.swing.JFrame
         SaveLOTextField.setText("");
         SaveLOWarning.setVisible(false);
         SaveLOSaveButton.setEnabled(false);
-        AddLearningOutcomeDialog.dispose();
-        UpdateLearningOutcomeList();
+        UpdateLearningOutcomeList(LearningOutcomeList.getSelectedIndex());
+        EditLearningOutcomeDialog.dispose();
     }//GEN-LAST:event_SaveLOSaveButtonActionPerformed
+
+    private void AddLOTextFieldCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_AddLOTextFieldCaretUpdate
+    {//GEN-HEADEREND:event_AddLOTextFieldCaretUpdate
+        if (AddLOTextField.getText().equals(""))
+        {
+            AddLOWarning.setVisible(true);
+            AddLOAddButton.setEnabled(false);
+        } else
+        {
+            AddLOWarning.setVisible(false);
+            AddLOAddButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_AddLOTextFieldCaretUpdate
+
+    private void SaveLOTextFieldCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_SaveLOTextFieldCaretUpdate
+    {//GEN-HEADEREND:event_SaveLOTextFieldCaretUpdate
+         if (SaveLOTextField.getText().equals(""))
+        {
+            SaveLOWarning.setVisible(true);
+            SaveLOSaveButton.setEnabled(false);
+        } else
+        {
+            SaveLOWarning.setVisible(false);
+            SaveLOSaveButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_SaveLOTextFieldCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -4255,7 +4267,7 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton AddLOAddButton;
     private javax.swing.JButton AddLOCancel;
     private javax.swing.JLabel AddLOLabel;
-    private javax.swing.JTextField AddLOTextField;
+    private javax.swing.JTextArea AddLOTextField;
     private javax.swing.JLabel AddLOWarning;
     private javax.swing.JDialog AddLearningOutcomeDialog;
     private javax.swing.JButton AddNewCourseButton;
@@ -4430,7 +4442,7 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton SaveLOCancel;
     private javax.swing.JLabel SaveLOLabel;
     private javax.swing.JButton SaveLOSaveButton;
-    private javax.swing.JTextField SaveLOTextField;
+    private javax.swing.JTextArea SaveLOTextField;
     private javax.swing.JLabel SaveLOWarning;
     private javax.swing.JList<String> SectionsList;
     private javax.swing.JLabel SettingsImage;
@@ -4497,9 +4509,11 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextArea jTextArea1;
     private keeptoo.KGradientPanel kGradientPanel3;
     private keeptoo.KGradientPanel kGradientPanel4;
