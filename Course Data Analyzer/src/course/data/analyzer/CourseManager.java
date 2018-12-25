@@ -119,7 +119,7 @@ public class CourseManager
         int toSelect = ((_AllCourses.indexOf(c) - 1) == -1 && _AllCourses.size() > 0) ? 0 : _AllCourses.indexOf(c) - 1;
 
         // Delete the section data of the course.
-        c.DeleteSectionData();
+       // c.DeleteSectionData();
 
         // Remove the course.
         _AllCourses.remove(c);
@@ -134,7 +134,7 @@ public class CourseManager
         uiManager.SetLastActionForCourses(_AllCourses.get(index), 2);
 
         // Delete the section data of the course.
-        _AllCourses.get(index).DeleteSectionData();
+        //_AllCourses.get(index).DeleteSectionData();
 
         // Remove the target course and update the UI list.
         _AllCourses.remove(index);

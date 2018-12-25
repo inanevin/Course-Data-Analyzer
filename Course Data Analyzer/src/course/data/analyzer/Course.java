@@ -69,7 +69,7 @@ public class Course implements Serializable
         i_SelectedSection = i;
     }
 
-    private void writeObject(ObjectOutputStream oos) throws IOException
+   /* private void writeObject(ObjectOutputStream oos) throws IOException
     {
 
         // default serialization 
@@ -103,11 +103,7 @@ public class Course implements Serializable
             File f = new File(System.getProperty("user.dir"), fileName);
             FileInputStream fis = new FileInputStream(f);
             ObjectInputStream mOis = new ObjectInputStream(fis);
-            
             _Sections = (ArrayList) mOis.readObject();
-            
-            
-            
             mOis.close();
             fis.close();
         } catch (IOException ioe)
@@ -125,9 +121,9 @@ public class Course implements Serializable
             i_SelectedSection = 0;
         }
 
-    }
+    }*/
 
-    public void DeleteSectionData()
+   /* public void DeleteSectionData()
     {
         try
         {
@@ -143,7 +139,7 @@ public class Course implements Serializable
             //ioe.printStackTrace();
         }
 
-    }
+    }*/
 
     public void AddSection(String name)
     {
