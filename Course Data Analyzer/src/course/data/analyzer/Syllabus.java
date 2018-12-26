@@ -29,8 +29,8 @@ public class Syllabus implements Serializable
     private Date endDate;
     private ArrayList<Week> _Weeks;
     private ArrayList<String> _LearningOutcomes;
-    
-    
+    private int i_SelectedWeek;
+    private int i_SelectedLO = -1;
     
     public Syllabus()
     {
@@ -39,6 +39,12 @@ public class Syllabus implements Serializable
         
     }
 
+    public int GetSelectedWeek() { return i_SelectedWeek; }
+    public void SetSelectedWeek(int i) { i_SelectedWeek = i; }
+    
+    public int GetSelectedLO() { return i_SelectedLO; }
+    public void SetSelectedLO(int i) { i_SelectedLO = i; }
+    
     public ArrayList<String> getLearningOutcomes()
     {
         return _LearningOutcomes;
@@ -52,6 +58,7 @@ public class Syllabus implements Serializable
     public void AddLearningOutcome(String outcome)
     {
         _LearningOutcomes.add(outcome);
+        i_SelectedLO = _LearningOutcomes.size()-1;
     }
     
     public void EditLearningOutcome(int index, String outcome)
@@ -66,6 +73,9 @@ public class Syllabus implements Serializable
         if(index < 0 || index >= _LearningOutcomes.size()) return;
         
         _LearningOutcomes.remove(index);
+        i_SelectedLO--;
+        
+        if(_LearningOutcomes.size() > 0 && i_SelectedLO == -1) i_SelectedLO = 0;
     }
     
     public Date getStartDate()

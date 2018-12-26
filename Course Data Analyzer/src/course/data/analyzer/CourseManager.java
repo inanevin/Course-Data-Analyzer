@@ -30,7 +30,7 @@ public class CourseManager
     public void AddSectionToCourse(int course, String sc)
     {
         _AllCourses.get(course).AddSection(sc);
-        uiManager.UpdateSectionList(_AllCourses.get(course).GetSelectedSectionIndex());
+        uiManager.SelectSection(_AllCourses.get(course).GetSections().size()-1);
     }
 
     public void RemoveSectionFromCourse(int course)
@@ -40,7 +40,7 @@ public class CourseManager
             return;
         }
         _AllCourses.get(course).RemoveSelectedSection();
-        uiManager.UpdateSectionList(_AllCourses.get(course).GetSelectedSectionIndex());
+        uiManager.SelectSection(_AllCourses.get(course).GetSelectedSectionIndex());
     }
 
     public void PopulateCourses()
@@ -49,7 +49,7 @@ public class CourseManager
 
         // Choose the initially selected course, -1 if list is empty.
         int selectionIndex = _AllCourses.size() == 0 ? -1 : 0;
-        uiManager.UpdateCourseList(selectionIndex);
+        uiManager.SelectCourse(selectionIndex);
     }
 
     public void SaveCourses()
@@ -81,8 +81,6 @@ public class CourseManager
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
 
-        // Update UI list.
-        uiManager.UpdateCourseList(_AllCourses.size() - 1);
     }
 
     // Adds new course - UNDO OPERATION
@@ -91,7 +89,7 @@ public class CourseManager
         _AllCourses.add(index, c);
 
         // Update UI list.
-        uiManager.UpdateCourseList(index);
+        uiManager.SelectCourse(index);
     }
 
     public void DuplicateCourse(int index)
@@ -107,7 +105,7 @@ public class CourseManager
         _AllCourses.add(index + 1, c);
 
         // Update UI list.
-        uiManager.UpdateCourseList(index + 1);
+        uiManager.SelectCourse(index + 1);
 
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
@@ -116,15 +114,12 @@ public class CourseManager
     // Removes an added course. - UNDO OPERATION
     public void RemoveCourse(Course c)
     {
-        int toSelect = ((_AllCourses.indexOf(c) - 1) == -1 && _AllCourses.size() > 0) ? 0 : _AllCourses.indexOf(c) - 1;
-
-        // Delete the section data of the course.
-       // c.DeleteSectionData();
+        int toSelect = _AllCourses.indexOf(c) == 0 ? -1 : _AllCourses.indexOf(c) - 1;
 
         // Remove the course.
         _AllCourses.remove(c);
 
-        uiManager.UpdateCourseList(toSelect);
+        uiManager.SelectCourse(toSelect);
     }
 
     public void RemoveCourse(int index)
@@ -140,7 +135,7 @@ public class CourseManager
         _AllCourses.remove(index);
 
         int toSelect = ((index - 1) == -1 && _AllCourses.size() > 0) ? 0 : index - 1;
-        uiManager.UpdateCourseList(toSelect);
+        uiManager.SelectCourse(toSelect);
     }
 
     public void RemoveCourse(String ID)

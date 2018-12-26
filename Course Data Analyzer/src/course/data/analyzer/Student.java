@@ -15,6 +15,12 @@ public class Student
     private String m_FullName;
     private int m_Year;
 
+    public Student(int id, String name, int year) 
+    {
+        m_ID = id;
+        m_FullName = name;
+        m_Year = year;
+    }
     public int getID()
     {
         return m_ID;
