@@ -120,7 +120,12 @@ public class UIManager extends javax.swing.JFrame
         courseManager.GetCourse(i_SelectedCourse).SetSelectedExam(exam);
         UpdateExams();
     }
-
+    
+    public void SelectQuestion(int question)
+    {
+        courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().SetSelectedQuestion(question);
+        UpdateExams();
+    }
     public void SelectSection(int section)
     {
         if (i_SelectedCourse != -1)
@@ -277,6 +282,9 @@ public class UIManager extends javax.swing.JFrame
             examsModel.addElement(elementDisplay);
         }
 
+        ExamList.setModel(examsModel);
+        ExamList.setSelectedIndex(selectedExam);
+
         if (selectedExam == -1)
         {
             RemoveExamButton.setEnabled(false);
@@ -292,10 +300,33 @@ public class UIManager extends javax.swing.JFrame
 
             ExamPercentageField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getPercentage()));
 
+            ArrayList<Question> questions = courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getQuestions();
+            DefaultListModel questionsModel = new DefaultListModel();
+
+            for (int i = 0; i < questions.size(); i++)
+            {
+                String elementDisplay = new StringBuilder().append("Question ").append(i).toString();
+                questionsModel.addElement(elementDisplay);
+            }
+
+            QuestionList.setModel(questionsModel);
+            QuestionList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestionIndex());
+
+            if (QuestionList.getSelectedIndex() != -1)
+            {
+                RemoveQuestionButton.setEnabled(true);
+                QuestionPointField.setEnabled(true);
+                QuestionPointField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().getPoints()));
+
+            } else
+            {
+                RemoveQuestionButton.setEnabled(false);
+                QuestionPointField.setEnabled(false);
+                QuestionPointField.setText("");
+            }
+
         }
 
-        ExamList.setModel(examsModel);
-        ExamList.setSelectedIndex(selectedExam);
         courseManager.SaveCourses();
     }
 
@@ -751,11 +782,10 @@ public class UIManager extends javax.swing.JFrame
         ExamDateChooser = new com.toedter.calendar.JDateChooser();
         DashboardMainTitle10 = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        QuestionList = new javax.swing.JList<>();
         DashboardMainTitle7 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        ImportAttendanceData3 = new javax.swing.JButton();
-        ImportAttendanceData4 = new javax.swing.JButton();
+        AddQuestionButton = new javax.swing.JButton();
+        RemoveQuestionButton = new javax.swing.JButton();
         DashboardMainTitle11 = new javax.swing.JLabel();
         DashboardMainTitle12 = new javax.swing.JLabel();
         DashboardMainTitle13 = new javax.swing.JLabel();
@@ -764,6 +794,7 @@ public class UIManager extends javax.swing.JFrame
         jScrollPane15 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         ExamPercentageField = new javax.swing.JTextField();
+        QuestionPointField = new javax.swing.JTextField();
         ReportsMainPanel = new javax.swing.JPanel();
         DBTitlePanel5 = new javax.swing.JPanel();
         DashboardMainTitle5 = new javax.swing.JLabel();
@@ -2059,7 +2090,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DBTitlePanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle4)
-                .addContainerGap(784, Short.MAX_VALUE))
+                .addContainerGap(915, Short.MAX_VALUE))
         );
         DBTitlePanel4Layout.setVerticalGroup(
             DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2090,7 +2121,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         ExamsNoCoursePanelLayout.setVerticalGroup(
             ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2135,7 +2166,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 829, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -2192,7 +2223,7 @@ public class UIManager extends javax.swing.JFrame
                 .addComponent(AddExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(RemoveExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(502, Short.MAX_VALUE))
+                .addContainerGap(633, Short.MAX_VALUE))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2243,10 +2274,17 @@ public class UIManager extends javax.swing.JFrame
         DashboardMainTitle10.setText("Percentage:");
         DashboardMainTitle10.setToolTipText("");
 
-        jList2.setBackground(new java.awt.Color(26, 24, 26));
-        jList2.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        jList2.setForeground(new java.awt.Color(227, 227, 227));
-        jScrollPane12.setViewportView(jList2);
+        QuestionList.setBackground(new java.awt.Color(26, 24, 26));
+        QuestionList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        QuestionList.setForeground(new java.awt.Color(227, 227, 227));
+        QuestionList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
+                QuestionListMouseReleased(evt);
+            }
+        });
+        jScrollPane12.setViewportView(QuestionList);
 
         DashboardMainTitle7.setBackground(new java.awt.Color(199, 50, 38));
         DashboardMainTitle7.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
@@ -2254,29 +2292,28 @@ public class UIManager extends javax.swing.JFrame
         DashboardMainTitle7.setText("Questions");
         DashboardMainTitle7.setToolTipText("");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel());
-
-        ImportAttendanceData3.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        ImportAttendanceData3.setForeground(new java.awt.Color(51, 51, 51));
-        ImportAttendanceData3.setText("Add Question");
-        ImportAttendanceData3.setPreferredSize(new java.awt.Dimension(135, 50));
-        ImportAttendanceData3.addActionListener(new java.awt.event.ActionListener()
+        AddQuestionButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        AddQuestionButton.setForeground(new java.awt.Color(51, 51, 51));
+        AddQuestionButton.setText("Add Question");
+        AddQuestionButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        AddQuestionButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                ImportAttendanceData3ActionPerformed(evt);
+                AddQuestionButtonActionPerformed(evt);
             }
         });
 
-        ImportAttendanceData4.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        ImportAttendanceData4.setForeground(new java.awt.Color(51, 51, 51));
-        ImportAttendanceData4.setText("Remove Question");
-        ImportAttendanceData4.setPreferredSize(new java.awt.Dimension(135, 50));
-        ImportAttendanceData4.addActionListener(new java.awt.event.ActionListener()
+        RemoveQuestionButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        RemoveQuestionButton.setForeground(new java.awt.Color(51, 51, 51));
+        RemoveQuestionButton.setText("Remove Question");
+        RemoveQuestionButton.setEnabled(false);
+        RemoveQuestionButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        RemoveQuestionButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                ImportAttendanceData4ActionPerformed(evt);
+                RemoveQuestionButtonActionPerformed(evt);
             }
         });
 
@@ -2333,6 +2370,17 @@ public class UIManager extends javax.swing.JFrame
             }
         });
 
+        QuestionPointField.setBackground(new java.awt.Color(26, 24, 26));
+        QuestionPointField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        QuestionPointField.setForeground(new java.awt.Color(227, 227, 227));
+        QuestionPointField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                QuestionPointFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ExamEditPanelLayout = new javax.swing.GroupLayout(ExamEditPanel);
         ExamEditPanel.setLayout(ExamEditPanelLayout);
         ExamEditPanelLayout.setHorizontalGroup(
@@ -2350,12 +2398,13 @@ public class UIManager extends javax.swing.JFrame
                                 .addGap(36, 36, 36)
                                 .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ImportAttendanceData3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ImportAttendanceData4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(AddQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(RemoveQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(ExamEditPanelLayout.createSequentialGroup()
                                         .addComponent(DashboardMainTitle11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10))))
                             .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ExamEditPanelLayout.createSequentialGroup()
                                     .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2378,7 +2427,7 @@ public class UIManager extends javax.swing.JFrame
                         .addComponent(DashboardMainTitle10)
                         .addGap(18, 18, 18)
                         .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(390, Short.MAX_VALUE))
         );
         ExamEditPanelLayout.setVerticalGroup(
             ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2404,13 +2453,13 @@ public class UIManager extends javax.swing.JFrame
                 .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addComponent(ImportAttendanceData3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(ImportAttendanceData4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(RemoveQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DashboardMainTitle11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(22, 22, 22)
                 .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2451,7 +2500,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DBTitlePanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle5)
-                .addContainerGap(741, Short.MAX_VALUE))
+                .addContainerGap(872, Short.MAX_VALUE))
         );
         DBTitlePanel5Layout.setVerticalGroup(
             DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2482,7 +2531,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ReportsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel2)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         ReportsNoCoursePanelLayout.setVerticalGroup(
             ReportsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2657,7 +2706,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SyllabusMainTitle)
-                .addContainerGap(767, Short.MAX_VALUE))
+                .addContainerGap(898, Short.MAX_VALUE))
         );
         SyllabusTitlePanelLayout.setVerticalGroup(
             SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2732,7 +2781,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2816,7 +2865,7 @@ public class UIManager extends javax.swing.JFrame
                         .addComponent(SyllabusMainTitle1)
                         .addGap(278, 278, 278)
                         .addComponent(SyllabusMainTitle3)))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2902,7 +2951,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(321, Short.MAX_VALUE))
+                .addContainerGap(452, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2940,7 +2989,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         SyllabusNoCoursePanelLayout.setVerticalGroup(
             SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2975,7 +3024,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DBTitlePanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(StudentsMainTitle)
-                .addContainerGap(762, Short.MAX_VALUE))
+                .addContainerGap(893, Short.MAX_VALUE))
         );
         DBTitlePanel6Layout.setVerticalGroup(
             DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3031,7 +3080,7 @@ public class UIManager extends javax.swing.JFrame
                     .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addContainerGap(468, Short.MAX_VALUE))
         );
         StudentsIP_Panel1Layout.setVerticalGroup(
             StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3054,7 +3103,7 @@ public class UIManager extends javax.swing.JFrame
         StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
         StudentsIP_Panel2Layout.setHorizontalGroup(
             StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 849, Short.MAX_VALUE)
+            .addGap(0, 980, Short.MAX_VALUE)
         );
         StudentsIP_Panel2Layout.setVerticalGroup(
             StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3082,7 +3131,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         StudentsNoCoursePanelLayout.setVerticalGroup(
             StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3117,7 +3166,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CoursesMainTitle)
-                .addContainerGap(771, Short.MAX_VALUE))
+                .addContainerGap(902, Short.MAX_VALUE))
         );
         CoursesTitlePanelLayout.setVerticalGroup(
             CoursesTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3209,7 +3258,7 @@ public class UIManager extends javax.swing.JFrame
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseIDTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3387,7 +3436,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AddSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(374, Short.MAX_VALUE))
+                .addContainerGap(505, Short.MAX_VALUE))
         );
         kGradientPanel5Layout.setVerticalGroup(
             kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3432,7 +3481,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DashboardTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle)
-                .addContainerGap(743, Short.MAX_VALUE))
+                .addContainerGap(874, Short.MAX_VALUE))
         );
         DashboardTitlePanelLayout.setVerticalGroup(
             DashboardTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3463,16 +3512,16 @@ public class UIManager extends javax.swing.JFrame
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 124, Short.MAX_VALUE)
+                    .addGap(0, 156, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgSuccessTitle)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(29, 29, 29)
                             .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 124, Short.MAX_VALUE)))
+                    .addGap(0, 157, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3504,17 +3553,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 106, Short.MAX_VALUE)
+                    .addGap(0, 139, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgAttendanceTitle)
                         .addGroup(jPanel7Layout.createSequentialGroup()
                             .addGap(46, 46, 46)
                             .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgAttendance, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 107, Short.MAX_VALUE)))
+                    .addGap(0, 139, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3548,17 +3597,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 152, Short.MAX_VALUE)
+                    .addGap(0, 184, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle)
                         .addGroup(jPanel8Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DBImportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 152, Short.MAX_VALUE)))
+                    .addGap(0, 185, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3592,17 +3641,17 @@ public class UIManager extends javax.swing.JFrame
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 499, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 152, Short.MAX_VALUE)
+                    .addGap(0, 184, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle2)
                         .addGroup(jPanel9Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DbExportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 152, Short.MAX_VALUE)))
+                    .addGap(0, 185, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4131,15 +4180,20 @@ public class UIManager extends javax.swing.JFrame
         UpdateExams();
     }//GEN-LAST:event_RemoveExamButtonActionPerformed
 
-    private void ImportAttendanceData3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ImportAttendanceData3ActionPerformed
-    {//GEN-HEADEREND:event_ImportAttendanceData3ActionPerformed
+    private void AddQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddQuestionButtonActionPerformed
+    {//GEN-HEADEREND:event_AddQuestionButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ImportAttendanceData3ActionPerformed
+        Question q = new Question();
+        courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().AddQuestion(q);
+        UpdateExams();
+    }//GEN-LAST:event_AddQuestionButtonActionPerformed
 
-    private void ImportAttendanceData4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ImportAttendanceData4ActionPerformed
-    {//GEN-HEADEREND:event_ImportAttendanceData4ActionPerformed
+    private void RemoveQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveQuestionButtonActionPerformed
+    {//GEN-HEADEREND:event_RemoveQuestionButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ImportAttendanceData4ActionPerformed
+        courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().RemoveQuestion(QuestionList.getSelectedIndex());
+        UpdateExams();
+    }//GEN-LAST:event_RemoveQuestionButtonActionPerformed
 
     private void ExamListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_ExamListMouseReleased
     {//GEN-HEADEREND:event_ExamListMouseReleased
@@ -4190,11 +4244,35 @@ public class UIManager extends javax.swing.JFrame
             courseManager.GetCourse(i_SelectedCourse).CalculateRemainingExamPercentage();
         } catch (NumberFormatException e)
         {
-
+            // handle
         }
 
-        
+
     }//GEN-LAST:event_ExamPercentageFieldActionPerformed
+
+    private void QuestionPointFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_QuestionPointFieldActionPerformed
+    {//GEN-HEADEREND:event_QuestionPointFieldActionPerformed
+        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex() == -1)
+        {
+            return;
+        }
+
+        try
+        {
+            int points = Integer.parseInt(QuestionPointField.getText());
+            courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().setPoints(points);
+            
+        } catch (NumberFormatException e)
+        {
+            // handle
+        }
+    }//GEN-LAST:event_QuestionPointFieldActionPerformed
+
+    private void QuestionListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_QuestionListMouseReleased
+    {//GEN-HEADEREND:event_QuestionListMouseReleased
+        // TODO add your handling code here:
+        SelectQuestion(QuestionList.getSelectedIndex());
+    }//GEN-LAST:event_QuestionListMouseReleased
 
     /**
      * @param args the command line arguments
@@ -4269,6 +4347,7 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton AddNewCourseButton;
     private javax.swing.JDialog AddNewCourseDialog;
     private javax.swing.JButton AddNewLearningOutcomeButton;
+    private javax.swing.JButton AddQuestionButton;
     private javax.swing.JButton AddSectionAddButton;
     private javax.swing.JButton AddSectionButton;
     private javax.swing.JButton AddSectionCancelButton;
@@ -4372,8 +4451,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JPanel Grid31;
     private javax.swing.JPanel Grid32;
     private javax.swing.JButton ImportAttendanceData;
-    private javax.swing.JButton ImportAttendanceData3;
-    private javax.swing.JButton ImportAttendanceData4;
     private javax.swing.JLabel ImportImage;
     private javax.swing.JLabel ImportImage7;
     private javax.swing.JList<String> LearningOutcomeList;
@@ -4384,9 +4461,12 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JLabel NoCourseSelectedLabel1;
     private javax.swing.JLabel NoCourseSelectedLabel2;
     private javax.swing.JLabel NoCourseSelectedLabel4;
+    private javax.swing.JList<String> QuestionList;
+    private javax.swing.JTextField QuestionPointField;
     private javax.swing.JButton RemoveCourseButton;
     private javax.swing.JButton RemoveExamButton;
     private javax.swing.JButton RemoveLearningOutcomeButton;
+    private javax.swing.JButton RemoveQuestionButton;
     private javax.swing.JButton RemoveSectionButton;
     private javax.swing.JLabel ReportsImage;
     private keeptoo.KGradientPanel ReportsInnerPanel;
@@ -4450,7 +4530,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -4481,7 +4560,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;

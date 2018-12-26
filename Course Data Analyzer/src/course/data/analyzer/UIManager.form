@@ -2283,7 +2283,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="DashboardMainTitle4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="784" max="32767" attributes="0"/>
+                              <EmptySpace pref="915" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2353,7 +2353,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                  <EmptySpace pref="198" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2424,7 +2424,7 @@
                                       <Group type="102" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane11" pref="829" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane11" pref="960" max="32767" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="DashboardMainTitle6" min="-2" pref="165" max="-2" attributes="0"/>
                                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2519,7 +2519,7 @@
                                           <Component id="AddExamButton" min="-2" pref="143" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                                           <Component id="RemoveExamButton" min="-2" pref="143" max="-2" attributes="0"/>
-                                          <EmptySpace pref="502" max="32767" attributes="0"/>
+                                          <EmptySpace pref="633" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2596,13 +2596,14 @@
                                                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="1" attributes="0">
                                                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                                  <Component id="ImportAttendanceData3" min="-2" pref="143" max="-2" attributes="0"/>
-                                                                  <Component id="ImportAttendanceData4" min="-2" pref="143" max="-2" attributes="0"/>
+                                                                  <Component id="AddQuestionButton" min="-2" pref="143" max="-2" attributes="0"/>
+                                                                  <Component id="RemoveQuestionButton" min="-2" pref="143" max="-2" attributes="0"/>
                                                               </Group>
                                                               <Group type="102" alignment="1" attributes="0">
                                                                   <Component id="DashboardMainTitle11" min="-2" max="-2" attributes="0"/>
-                                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                                  <Component id="jSpinner1" min="-2" pref="57" max="-2" attributes="0"/>
+                                                                  <EmptySpace max="-2" attributes="0"/>
+                                                                  <Component id="QuestionPointField" min="-2" pref="53" max="-2" attributes="0"/>
+                                                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                                               </Group>
                                                           </Group>
                                                       </Group>
@@ -2635,7 +2636,7 @@
                                                   <Component id="ExamPercentageField" min="-2" pref="53" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="259" max="32767" attributes="0"/>
+                                          <EmptySpace pref="390" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2669,13 +2670,13 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jScrollPane12" min="-2" pref="173" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
-                                                  <Component id="ImportAttendanceData3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="AddQuestionButton" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="ImportAttendanceData4" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="RemoveQuestionButton" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="3" attributes="0">
                                                       <Component id="DashboardMainTitle11" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                                                      <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="QuestionPointField" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -2771,7 +2772,7 @@
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Component class="javax.swing.JList" name="jList2">
+                                    <Component class="javax.swing.JList" name="QuestionList">
                                       <Properties>
                                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                           <Color blue="1a" green="18" red="1a" type="rgb"/>
@@ -2786,6 +2787,9 @@
                                           <StringArray count="0"/>
                                         </Property>
                                       </Properties>
+                                      <Events>
+                                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="QuestionListMouseReleased"/>
+                                      </Events>
                                       <AuxValues>
                                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                                       </AuxValues>
@@ -2807,14 +2811,7 @@
                                     <Property name="toolTipText" type="java.lang.String" value=""/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JSpinner" name="jSpinner1">
-                                  <Properties>
-                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                                      <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-                                    </Property>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JButton" name="ImportAttendanceData3">
+                                <Component class="javax.swing.JButton" name="AddQuestionButton">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Monospaced" size="12" style="0"/>
@@ -2828,10 +2825,10 @@
                                     </Property>
                                   </Properties>
                                   <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportAttendanceData3ActionPerformed"/>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddQuestionButtonActionPerformed"/>
                                   </Events>
                                 </Component>
-                                <Component class="javax.swing.JButton" name="ImportAttendanceData4">
+                                <Component class="javax.swing.JButton" name="RemoveQuestionButton">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Monospaced" size="12" style="0"/>
@@ -2840,12 +2837,13 @@
                                       <Color blue="33" green="33" red="33" type="rgb"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Remove Question"/>
+                                    <Property name="enabled" type="boolean" value="false"/>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[135, 50]"/>
                                     </Property>
                                   </Properties>
                                   <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportAttendanceData4ActionPerformed"/>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RemoveQuestionButtonActionPerformed"/>
                                   </Events>
                                 </Component>
                                 <Component class="javax.swing.JLabel" name="DashboardMainTitle11">
@@ -2957,6 +2955,22 @@
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExamPercentageFieldActionPerformed"/>
                                   </Events>
                                 </Component>
+                                <Component class="javax.swing.JTextField" name="QuestionPointField">
+                                  <Properties>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                                    </Property>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Monospaced" size="14" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                                    </Property>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="QuestionPointFieldActionPerformed"/>
+                                  </Events>
+                                </Component>
                               </SubComponents>
                             </Container>
                           </SubComponents>
@@ -2999,7 +3013,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="DashboardMainTitle5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="741" max="32767" attributes="0"/>
+                              <EmptySpace pref="872" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3069,7 +3083,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                  <EmptySpace pref="198" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3396,7 +3410,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="SyllabusMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="767" max="32767" attributes="0"/>
+                              <EmptySpace pref="898" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3498,7 +3512,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="235" max="32767" attributes="0"/>
+                                          <EmptySpace pref="366" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3618,7 +3632,7 @@
                                                   <Component id="SyllabusMainTitle3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="159" max="32767" attributes="0"/>
+                                          <EmptySpace pref="290" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3771,7 +3785,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="321" max="32767" attributes="0"/>
+                                          <EmptySpace pref="452" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3916,7 +3930,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                  <EmptySpace pref="198" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3983,7 +3997,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="StudentsMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="762" max="32767" attributes="0"/>
+                              <EmptySpace pref="893" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4081,7 +4095,7 @@
                                               <Component id="ImportAttendanceData" min="-2" pref="207" max="-2" attributes="0"/>
                                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="337" max="32767" attributes="0"/>
+                                          <EmptySpace pref="468" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4169,7 +4183,7 @@
                               <Layout>
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="849" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="980" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
@@ -4204,7 +4218,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                  <EmptySpace pref="198" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4274,7 +4288,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="CoursesMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="771" max="32767" attributes="0"/>
+                              <EmptySpace pref="902" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4379,7 +4393,7 @@
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jScrollPane2" pref="453" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane2" pref="584" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
@@ -4778,7 +4792,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="374" max="32767" attributes="0"/>
+                                  <EmptySpace pref="505" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4933,7 +4947,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="DashboardMainTitle" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="743" max="32767" attributes="0"/>
+                                  <EmptySpace pref="874" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4992,10 +5006,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="434" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="499" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="124" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="156" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgSuccessTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5003,7 +5017,7 @@
                                                   <Component id="ChartImage1" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="124" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="157" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5055,10 +5069,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="434" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="499" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="106" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgAttendanceTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5067,7 +5081,7 @@
                                               </Group>
                                               <Component id="ViewAvgAttendance" min="-2" pref="221" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="107" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5129,10 +5143,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="434" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="499" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="152" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="184" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5141,7 +5155,7 @@
                                               </Group>
                                               <Component id="DBImportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="152" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="185" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5203,10 +5217,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="434" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="499" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="152" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="184" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle2" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5215,7 +5229,7 @@
                                               </Group>
                                               <Component id="DbExportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="152" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="185" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>

@@ -6,6 +6,7 @@
 package course.data.analyzer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,15 +54,64 @@ public class Exam implements Serializable
         }
     }
 
-    public ExamType m_Type;
-    public int m_Percentage;
-    public Date m_Date;
+    private ArrayList<Question> _Questions;
+    private ExamType m_Type;
+    private int m_Percentage;
+    private Date m_Date;
+    private int i_SelectedQuestion = -1;
+
+    public int GetSelectedQuestionIndex()
+    {
+        return i_SelectedQuestion;
+    }
+
+    public Question GetSelectedQuestion()
+    {
+        return _Questions.get(i_SelectedQuestion);
+    }
+
+    public void SetSelectedQuestion(int i)
+    {
+        i_SelectedQuestion = i;
+    }
+
+    public ArrayList<Question> getQuestions()
+    {
+        return _Questions;
+    }
+
+    public void AddQuestion(Question q)
+    {
+        _Questions.add(q);
+        i_SelectedQuestion = _Questions.size() - 1;
+    }
+
+    public void RemoveQuestion(int index)
+    {
+        if (index < 0 || index > _Questions.size())
+        {
+            return;
+        }
+
+        _Questions.remove(index);
+        i_SelectedQuestion--;
+
+        if (i_SelectedQuestion < 0 && _Questions.size() > 0)
+        {
+            i_SelectedQuestion = 0;
+        }
+    }
 
     public Exam(ExamType type, int percentage, Date date)
     {
         m_Type = type;
         m_Percentage = percentage;
         m_Date = date;
+
+        if (_Questions == null)
+        {
+            _Questions = new ArrayList<Question>();
+        }
     }
 
     public ExamType getType()
