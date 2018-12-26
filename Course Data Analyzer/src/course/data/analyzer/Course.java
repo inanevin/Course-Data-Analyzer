@@ -29,12 +29,18 @@ public class Course implements Serializable
     private ArrayList<Section> _Sections;
     private int i_SelectedSection = 0;
     private Syllabus m_Syllabus;
+    private ArrayList<Exam> _Exams;
+    private int i_SelectedExam = -1;
 
     public Syllabus GetSyllabus()
     {
         return m_Syllabus;
     }
     
+    public int GetSelectedExamIndex()
+    {
+        return i_SelectedExam;
+    }
     
     public String GetID()
     {
@@ -106,6 +112,11 @@ public class Course implements Serializable
             _Sections.add(new Section("Section 1"));
             i_SelectedSection = 0;
         }
+        
+        if(_Exams == null)
+        {
+            _Exams = new ArrayList<Exam>();
+        }
 
         m_Syllabus = new Syllabus();
     }
@@ -128,6 +139,11 @@ public class Course implements Serializable
             i_SelectedSection = 0;
         }
         
+         if(_Exams == null)
+        {
+            _Exams = new ArrayList<Exam>();
+        }
+        
         m_Syllabus = new Syllabus();
     }
 
@@ -136,10 +152,42 @@ public class Course implements Serializable
         return _Sections;
     }
 
+    public ArrayList<Exam> GetExams()
+    {
+        return _Exams;
+    }
+    
+    public Exam GetSelectedExam()
+    {
+        return _Exams.get(i_SelectedExam);
+    }
+    
     public void Edit(String id, String name, String Desc)
     {
         m_ID = id;
         m_Name = name;
         m_Description = Desc;
+    }
+    
+    
+    public void AddExam(Exam exam)
+    {
+        _Exams.add(exam);
+        i_SelectedExam++;
+    }
+    
+    public void RemoveExam(int index)
+    {
+        if(index < 0 || index > _Exams.size()) return;
+        _Exams.remove(index);
+        i_SelectedExam--;
+        
+        if(i_SelectedExam < 0 && _Exams.size() > 0)
+            i_SelectedExam = 0;
+    }
+    
+    public void SetSelectedExam(int i)
+    {
+        i_SelectedExam = i;
     }
 }

@@ -17,7 +17,7 @@ public class Section implements Serializable
 
     private String m_Name;
     private ArrayList<Student> _Students;
-
+ 
     public ArrayList<Student> GetStudents()
     {
         return _Students;
@@ -43,6 +43,7 @@ public class Section implements Serializable
         if(index < 0 || index >= _Students.size()) return;
         
         _Students.remove(index);
+ 
     }
     
     public boolean CheckIfStudentExists(int ID)

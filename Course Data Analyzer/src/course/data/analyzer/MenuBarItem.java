@@ -8,6 +8,7 @@ package course.data.analyzer;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -20,7 +21,7 @@ public class MenuBarItem
     private JPanel m_MainPanel;
     private UIManager uiManager;
     private JPanel m_NoCoursePanel;
-    private JPanel m_InnerPanel;
+    private JScrollPane m_InnerPanel;
 
     public JPanel GetMainPanel()
     {
@@ -37,17 +38,18 @@ public class MenuBarItem
         return m_NoCoursePanel;
     }
 
-    public JPanel GetInnerPanel()
+    public JScrollPane GetInnerPanel()
     {
         return m_InnerPanel;
     }
 
-    public MenuBarItem(JPanel sp, JPanel mp, JPanel innp, JPanel ncp)
+    public MenuBarItem(JPanel sp, JPanel mp, JScrollPane innp, JPanel ncp)
     {
         m_SelectablePanel = sp;
         m_MainPanel = mp;
         m_InnerPanel = innp;
         m_NoCoursePanel = ncp;
     }
+
 
 }
