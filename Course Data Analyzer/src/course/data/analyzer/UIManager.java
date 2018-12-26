@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -75,8 +76,6 @@ public class UIManager extends javax.swing.JFrame
         AddLOWarning.setVisible(false);
         SaveLOWarning.setVisible(false);
 
-
-  
     }
 
     // 1 is for adding a new course, 2 is for removing.
@@ -115,7 +114,7 @@ public class UIManager extends javax.swing.JFrame
         UpdateExams();
 
     }
-    
+
     public void SelectExam(int exam)
     {
         courseManager.GetCourse(i_SelectedCourse).SetSelectedExam(exam);
@@ -240,13 +239,13 @@ public class UIManager extends javax.swing.JFrame
 
     private void UpdateStudents()
     {
-        if(i_SelectedCourse == -1)
+        if (i_SelectedCourse == -1)
         {
-            
+
             return;
         }
-        
-         ArrayList<Student> students = courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().GetStudents();
+
+        ArrayList<Student> students = courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().GetStudents();
         DefaultListModel studentsModel = new DefaultListModel();
 
         for (int i = 0; i < students.size(); i++)
@@ -254,22 +253,21 @@ public class UIManager extends javax.swing.JFrame
             String elementDisplay = new StringBuilder().append(students.get(i).getID()).toString();
             studentsModel.addElement(elementDisplay);
         }
-        
-  
+
         StudentList.setModel(studentsModel);
-        
+
         courseManager.SaveCourses();
     }
 
     private void UpdateExams()
     {
-        if(i_SelectedCourse == -1)
+        if (i_SelectedCourse == -1)
         {
             return;
         }
-        
+
         int selectedExam = courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex();
-        
+
         ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).GetExams();
         DefaultListModel examsModel = new DefaultListModel();
 
@@ -278,29 +276,29 @@ public class UIManager extends javax.swing.JFrame
             String elementDisplay = new StringBuilder().append(exams.get(i).getType().toString()).toString();
             examsModel.addElement(elementDisplay);
         }
-        
-        if(selectedExam == -1)
+
+        if (selectedExam == -1)
         {
             RemoveExamButton.setEnabled(false);
             ExamEditPanel.setVisible(false);
-            
-        }
-        else
+
+        } else
         {
             RemoveExamButton.setEnabled(true);
             ExamEditPanel.setVisible(true);
-            
+
             ExamTypeComboBox.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getType().getValue());
             ExamDateChooser.setDate(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getDate());
-            
+
+            ExamPercentageField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getPercentage()));
+
         }
-        
-        
+
         ExamList.setModel(examsModel);
         ExamList.setSelectedIndex(selectedExam);
         courseManager.SaveCourses();
     }
-    
+
     private void UpdateSyllabus()
     {
         if (i_SelectedCourse == -1)
@@ -759,13 +757,13 @@ public class UIManager extends javax.swing.JFrame
         ImportAttendanceData3 = new javax.swing.JButton();
         ImportAttendanceData4 = new javax.swing.JButton();
         DashboardMainTitle11 = new javax.swing.JLabel();
-        ExamPercentageSpinner = new javax.swing.JSpinner();
         DashboardMainTitle12 = new javax.swing.JLabel();
         DashboardMainTitle13 = new javax.swing.JLabel();
         jScrollPane14 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jScrollPane15 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        ExamPercentageField = new javax.swing.JTextField();
         ReportsMainPanel = new javax.swing.JPanel();
         DBTitlePanel5 = new javax.swing.JPanel();
         DashboardMainTitle5 = new javax.swing.JLabel();
@@ -2288,8 +2286,6 @@ public class UIManager extends javax.swing.JFrame
         DashboardMainTitle11.setText("Points:");
         DashboardMainTitle11.setToolTipText("");
 
-        ExamPercentageSpinner.setModel(new javax.swing.SpinnerNumberModel());
-
         DashboardMainTitle12.setBackground(new java.awt.Color(199, 50, 38));
         DashboardMainTitle12.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
         DashboardMainTitle12.setForeground(new java.awt.Color(227, 227, 227));
@@ -2325,6 +2321,17 @@ public class UIManager extends javax.swing.JFrame
             }
         ));
         jScrollPane15.setViewportView(jTable2);
+
+        ExamPercentageField.setBackground(new java.awt.Color(26, 24, 26));
+        ExamPercentageField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        ExamPercentageField.setForeground(new java.awt.Color(227, 227, 227));
+        ExamPercentageField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ExamPercentageFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ExamEditPanelLayout = new javax.swing.GroupLayout(ExamEditPanel);
         ExamEditPanel.setLayout(ExamEditPanelLayout);
@@ -2369,9 +2376,9 @@ public class UIManager extends javax.swing.JFrame
                         .addComponent(ExamDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(DashboardMainTitle10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ExamPercentageSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(263, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
         ExamEditPanelLayout.setVerticalGroup(
             ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2390,7 +2397,7 @@ public class UIManager extends javax.swing.JFrame
                         .addContainerGap()
                         .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DashboardMainTitle10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ExamPercentageSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(32, 32, 32)
                 .addComponent(DashboardMainTitle7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -4024,7 +4031,7 @@ public class UIManager extends javax.swing.JFrame
     private void SectionsListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SectionsListMouseReleased
     {//GEN-HEADEREND:event_SectionsListMouseReleased
         // TODO add your handling code here:
-         if (i_SelectedCourse == -1)
+        if (i_SelectedCourse == -1)
         {
             return;
         }
@@ -4058,7 +4065,7 @@ public class UIManager extends javax.swing.JFrame
     private void CoursesListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_CoursesListMouseReleased
     {//GEN-HEADEREND:event_CoursesListMouseReleased
         // TODO add your handling code here:
-         SelectCourse(CoursesList.getSelectedIndex());
+        SelectCourse(CoursesList.getSelectedIndex());
 
         if (evt.getClickCount() == 2)
         {
@@ -4138,7 +4145,6 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_ExamListMouseReleased
         // TODO add your handling code here:
 
-
         SelectExam(ExamList.getSelectedIndex());
     }//GEN-LAST:event_ExamListMouseReleased
 
@@ -4147,15 +4153,48 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
         Exam.ExamType examType = Exam.ExamType.valueOf(ExamTypeComboBox.getSelectedIndex());
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().setType(examType);
+        UpdateExams();
     }//GEN-LAST:event_ExamTypeComboBoxActionPerformed
 
     private void ExamDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_ExamDateChooserPropertyChange
     {//GEN-HEADEREND:event_ExamDateChooserPropertyChange
         // TODO add your handling code here:
-        if(i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex() == -1) return;
-        
+        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex() == -1)
+        {
+            return;
+        }
+
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().setDate(ExamDateChooser.getDate());
     }//GEN-LAST:event_ExamDateChooserPropertyChange
+
+    private void ExamPercentageFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ExamPercentageFieldActionPerformed
+    {//GEN-HEADEREND:event_ExamPercentageFieldActionPerformed
+        // TODO add your handling code here:
+        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex() == -1)
+        {
+            return;
+        }
+        try
+        {
+            int spinnerVal = Integer.parseInt(ExamPercentageField.getText());
+            int examPercentage = courseManager.GetCourse(i_SelectedCourse).GetRemainingExamPercentage();
+            int currentPercentage = courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getPercentage();
+            if (spinnerVal > currentPercentage && spinnerVal > examPercentage)
+            {
+                spinnerVal = currentPercentage + examPercentage;
+            }
+
+            ExamPercentageField.setText(Integer.toString(spinnerVal));
+
+            courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().setPercentage(spinnerVal);
+            courseManager.GetCourse(i_SelectedCourse).CalculateRemainingExamPercentage();
+        } catch (NumberFormatException e)
+        {
+
+        }
+
+        
+    }//GEN-LAST:event_ExamPercentageFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4315,7 +4354,7 @@ public class UIManager extends javax.swing.JFrame
     private com.toedter.calendar.JDateChooser ExamDateChooser;
     private javax.swing.JPanel ExamEditPanel;
     private javax.swing.JList<String> ExamList;
-    private javax.swing.JSpinner ExamPercentageSpinner;
+    private javax.swing.JTextField ExamPercentageField;
     private javax.swing.JComboBox<String> ExamTypeComboBox;
     private javax.swing.JLabel ExamsImage;
     private keeptoo.KGradientPanel ExamsInnerPanel;

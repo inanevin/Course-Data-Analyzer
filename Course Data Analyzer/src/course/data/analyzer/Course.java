@@ -31,6 +31,7 @@ public class Course implements Serializable
     private Syllabus m_Syllabus;
     private ArrayList<Exam> _Exams;
     private int i_SelectedExam = -1;
+    private int remainingExamPercentage = 100;
 
     public Syllabus GetSyllabus()
     {
@@ -147,6 +148,20 @@ public class Course implements Serializable
         m_Syllabus = new Syllabus();
     }
 
+    public int GetRemainingExamPercentage()
+    {
+        return remainingExamPercentage;
+    }
+    
+    public void CalculateRemainingExamPercentage()
+    {
+        remainingExamPercentage = 100;
+        
+        for(int i = 0; i <_Exams.size(); i++)
+        {
+            remainingExamPercentage -= _Exams.get(i).getPercentage();
+        }
+    }
     public ArrayList<Section> GetSections()
     {
         return _Sections;
@@ -179,6 +194,8 @@ public class Course implements Serializable
     public void RemoveExam(int index)
     {
         if(index < 0 || index > _Exams.size()) return;
+        
+        remainingExamPercentage += _Exams.get(index).getPercentage();
         _Exams.remove(index);
         i_SelectedExam--;
         

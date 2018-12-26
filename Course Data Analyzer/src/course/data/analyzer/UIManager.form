@@ -2631,11 +2631,11 @@
                                                   <Component id="ExamDateChooser" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                                   <Component id="DashboardMainTitle10" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="ExamPercentageSpinner" min="-2" pref="57" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="ExamPercentageField" min="-2" pref="53" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="263" max="32767" attributes="0"/>
+                                          <EmptySpace pref="259" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -2659,7 +2659,7 @@
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="3" attributes="0">
                                                       <Component id="DashboardMainTitle10" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                                                      <Component id="ExamPercentageSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="ExamPercentageField" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -2863,13 +2863,6 @@
                                     <Property name="toolTipText" type="java.lang.String" value=""/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JSpinner" name="ExamPercentageSpinner">
-                                  <Properties>
-                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                                      <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
-                                    </Property>
-                                  </Properties>
-                                </Component>
                                 <Component class="javax.swing.JLabel" name="DashboardMainTitle12">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2948,6 +2941,22 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
+                                <Component class="javax.swing.JTextField" name="ExamPercentageField">
+                                  <Properties>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                                    </Property>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Monospaced" size="14" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                                    </Property>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExamPercentageFieldActionPerformed"/>
+                                  </Events>
+                                </Component>
                               </SubComponents>
                             </Container>
                           </SubComponents>
