@@ -1709,7 +1709,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="MenuPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="216" max="32767" attributes="0"/>
+                      <EmptySpace pref="671" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2573,294 +2573,6 @@
             </Constraint>
           </Constraints>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="StudentsMainPanel">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="1a" green="18" red="1a" type="rgb"/>
-                </Property>
-              </Properties>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-              <SubComponents>
-                <Container class="javax.swing.JPanel" name="DBTitlePanel6">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="1a" green="18" red="1a" type="rgb"/>
-                    </Property>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder/>
-                      </Border>
-                    </Property>
-                  </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                      <BorderConstraints direction="North"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="StudentsMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="685" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="StudentsMainTitle" min="-2" pref="29" max="-2" attributes="0"/>
-                              <EmptySpace pref="39" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="StudentsMainTitle">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="26" green="32" red="c7" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Prototype" size="24" style="0"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="e3" green="e3" red="e3" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Students"/>
-                        <Property name="toolTipText" type="java.lang.String" value=""/>
-                      </Properties>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JPanel" name="StudentsMP">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="1a" green="18" red="1a" type="rgb"/>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[100, 200]"/>
-                    </Property>
-                  </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-                      <BorderConstraints direction="Center"/>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="StudentsScrollPane">
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                          <CardConstraints cardName="card4"/>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Container class="keeptoo.KGradientPanel" name="StudentsInnerPanel">
-                          <Properties>
-                            <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="1a" green="18" red="1a" type="rgb"/>
-                            </Property>
-                            <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="1a" green="18" red="1a" type="rgb"/>
-                            </Property>
-                          </Properties>
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-                            <Property name="axis" type="int" value="1"/>
-                          </Layout>
-                          <SubComponents>
-                            <Container class="javax.swing.JPanel" name="StudentsIP_Panel1">
-                              <Properties>
-                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                                    <LineBorder/>
-                                  </Border>
-                                </Property>
-                                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[32767, 600]"/>
-                                </Property>
-                                <Property name="opaque" type="boolean" value="false"/>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[791, 600]"/>
-                                </Property>
-                              </Properties>
-
-                              <Layout>
-                                <DimensionLayout dim="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane10" min="-2" pref="445" max="-2" attributes="0"/>
-                                              <Component id="ImportAttendanceData" min="-2" pref="207" max="-2" attributes="0"/>
-                                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace pref="279" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                </DimensionLayout>
-                                <DimensionLayout dim="1">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane10" min="-2" pref="258" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="ImportAttendanceData" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="155" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                </DimensionLayout>
-                              </Layout>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel3">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Monospaced" size="24" style="1"/>
-                                    </Property>
-                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="Student List"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JButton" name="ImportAttendanceData">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Monospaced" size="12" style="0"/>
-                                    </Property>
-                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="33" green="33" red="33" type="rgb"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="Import Attendance Data"/>
-                                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                      <Dimension value="[135, 50]"/>
-                                    </Property>
-                                  </Properties>
-                                  <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportAttendanceDataActionPerformed"/>
-                                  </Events>
-                                </Component>
-                                <Container class="javax.swing.JScrollPane" name="jScrollPane10">
-                                  <AuxValues>
-                                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                                  </AuxValues>
-
-                                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                                  <SubComponents>
-                                    <Component class="javax.swing.JList" name="StudentList">
-                                      <Properties>
-                                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="1a" green="18" red="1a" type="rgb"/>
-                                        </Property>
-                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                          <Font name="Monospaced" size="14" style="1"/>
-                                        </Property>
-                                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="e3" green="e3" red="e3" type="rgb"/>
-                                        </Property>
-                                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                                          <StringArray count="0"/>
-                                        </Property>
-                                      </Properties>
-                                      <AuxValues>
-                                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                                      </AuxValues>
-                                    </Component>
-                                  </SubComponents>
-                                </Container>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="StudentsIP_Panel2">
-                              <Properties>
-                                <Property name="opaque" type="boolean" value="false"/>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[791, 300]"/>
-                                </Property>
-                              </Properties>
-
-                              <Layout>
-                                <DimensionLayout dim="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="791" max="32767" attributes="0"/>
-                                  </Group>
-                                </DimensionLayout>
-                                <DimensionLayout dim="1">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
-                                  </Group>
-                                </DimensionLayout>
-                              </Layout>
-                            </Container>
-                          </SubComponents>
-                        </Container>
-                      </SubComponents>
-                    </Container>
-                    <Container class="keeptoo.KGradientPanel" name="StudentsNoCoursePanel">
-                      <Properties>
-                        <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="1a" green="18" red="1a" type="rgb"/>
-                        </Property>
-                        <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="1a" green="18" red="1a" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                          <CardConstraints cardName="card3"/>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                                  <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                  <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="520" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JLabel" name="NoCourseSelectedLabel">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="99" green="99" red="99" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Monospaced" size="18" style="2"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="99" green="99" red="99" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="No course is selected. Please select or add a course from Courses Menu."/>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
-              </SubComponents>
-            </Container>
             <Container class="javax.swing.JPanel" name="ExamsMainPanel">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -2893,7 +2605,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="DashboardMainTitle4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="707" max="32767" attributes="0"/>
+                              <EmptySpace pref="756" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2963,7 +2675,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2972,7 +2684,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="548" max="32767" attributes="0"/>
+                                  <EmptySpace pref="1003" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3216,6 +2928,8 @@
                                                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                                               </Group>
                                                           </Group>
+                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                          <Component id="AddQuestionButton1" min="-2" pref="175" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Group type="102" alignment="0" attributes="0">
                                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -3250,7 +2964,7 @@
                                                   <Component id="SelectTopicsButton" min="-2" pref="221" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="417" max="32767" attributes="0"/>
+                                          <EmptySpace pref="284" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3284,7 +2998,10 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jScrollPane12" min="-2" pref="173" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
-                                                  <Component id="AddQuestionButton" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="AddQuestionButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="AddQuestionButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="RemoveQuestionButton" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -3638,10 +3355,315 @@
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectLOButtonActionPerformed"/>
                                   </Events>
                                 </Component>
+                                <Component class="javax.swing.JButton" name="AddQuestionButton1">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Monospaced" size="12" style="0"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="33" green="33" red="33" type="rgb"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Import Exam Results"/>
+                                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                      <Dimension value="[135, 50]"/>
+                                    </Property>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddQuestionButton1ActionPerformed"/>
+                                  </Events>
+                                </Component>
                               </SubComponents>
                             </Container>
                           </SubComponents>
                         </Container>
+                      </SubComponents>
+                    </Container>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="StudentsMainPanel">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="1a" green="18" red="1a" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+              <SubComponents>
+                <Container class="javax.swing.JPanel" name="DBTitlePanel6">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                    </Property>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                      <BorderConstraints direction="North"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="StudentsMainTitle" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="734" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="StudentsMainTitle" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="StudentsMainTitle">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="26" green="32" red="c7" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Prototype" size="24" style="0"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Students"/>
+                        <Property name="toolTipText" type="java.lang.String" value=""/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="StudentsMP">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="1a" green="18" red="1a" type="rgb"/>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[100, 200]"/>
+                    </Property>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                      <BorderConstraints direction="Center"/>
+                    </Constraint>
+                  </Constraints>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
+                  <SubComponents>
+                    <Container class="javax.swing.JScrollPane" name="StudentsScrollPane">
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                          <CardConstraints cardName="card4"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Container class="keeptoo.KGradientPanel" name="StudentsInnerPanel">
+                          <Properties>
+                            <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="1a" green="18" red="1a" type="rgb"/>
+                            </Property>
+                            <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="1a" green="18" red="1a" type="rgb"/>
+                            </Property>
+                          </Properties>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+                            <Property name="axis" type="int" value="1"/>
+                          </Layout>
+                          <SubComponents>
+                            <Container class="javax.swing.JPanel" name="StudentsIP_Panel1">
+                              <Properties>
+                                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                    <LineBorder/>
+                                  </Border>
+                                </Property>
+                                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[32767, 600]"/>
+                                </Property>
+                                <Property name="opaque" type="boolean" value="false"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[791, 600]"/>
+                                </Property>
+                              </Properties>
+
+                              <Layout>
+                                <DimensionLayout dim="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane10" min="-2" pref="445" max="-2" attributes="0"/>
+                                              <Component id="ImportAttendanceData" min="-2" pref="207" max="-2" attributes="0"/>
+                                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace pref="326" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                </DimensionLayout>
+                                <DimensionLayout dim="1">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="jScrollPane10" min="-2" pref="258" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                                          <Component id="ImportAttendanceData" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="155" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                </DimensionLayout>
+                              </Layout>
+                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="jLabel3">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Monospaced" size="24" style="1"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Student List"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JButton" name="ImportAttendanceData">
+                                  <Properties>
+                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                      <Font name="Monospaced" size="12" style="0"/>
+                                    </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="33" green="33" red="33" type="rgb"/>
+                                    </Property>
+                                    <Property name="text" type="java.lang.String" value="Import Attendance Data"/>
+                                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                      <Dimension value="[135, 50]"/>
+                                    </Property>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportAttendanceDataActionPerformed"/>
+                                  </Events>
+                                </Component>
+                                <Container class="javax.swing.JScrollPane" name="jScrollPane10">
+                                  <AuxValues>
+                                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                                  </AuxValues>
+
+                                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                                  <SubComponents>
+                                    <Component class="javax.swing.JList" name="StudentList">
+                                      <Properties>
+                                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                          <Color blue="1a" green="18" red="1a" type="rgb"/>
+                                        </Property>
+                                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                          <Font name="Monospaced" size="14" style="1"/>
+                                        </Property>
+                                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                          <Color blue="e3" green="e3" red="e3" type="rgb"/>
+                                        </Property>
+                                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                                          <StringArray count="0"/>
+                                        </Property>
+                                      </Properties>
+                                      <AuxValues>
+                                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                                      </AuxValues>
+                                    </Component>
+                                  </SubComponents>
+                                </Container>
+                              </SubComponents>
+                            </Container>
+                            <Container class="javax.swing.JPanel" name="StudentsIP_Panel2">
+                              <Properties>
+                                <Property name="opaque" type="boolean" value="false"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[791, 300]"/>
+                                </Property>
+                              </Properties>
+
+                              <Layout>
+                                <DimensionLayout dim="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="838" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                                <DimensionLayout dim="1">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <EmptySpace min="0" pref="445" max="32767" attributes="0"/>
+                                  </Group>
+                                </DimensionLayout>
+                              </Layout>
+                            </Container>
+                          </SubComponents>
+                        </Container>
+                      </SubComponents>
+                    </Container>
+                    <Container class="keeptoo.KGradientPanel" name="StudentsNoCoursePanel">
+                      <Properties>
+                        <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="1a" green="18" red="1a" type="rgb"/>
+                        </Property>
+                        <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="1a" green="18" red="1a" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                          <CardConstraints cardName="card3"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="NoCourseSelectedLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="975" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="NoCourseSelectedLabel">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="99" green="99" red="99" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Monospaced" size="18" style="2"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="99" green="99" red="99" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="No course is selected. Please select or add a course from Courses Menu."/>
+                          </Properties>
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -3680,7 +3702,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="DashboardMainTitle5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="664" max="32767" attributes="0"/>
+                              <EmptySpace pref="713" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3750,7 +3772,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3759,7 +3781,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="548" max="32767" attributes="0"/>
+                                  <EmptySpace pref="1003" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4077,7 +4099,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="SyllabusMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="690" max="32767" attributes="0"/>
+                              <EmptySpace pref="739" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4179,7 +4201,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="160" max="32767" attributes="0"/>
+                                          <EmptySpace pref="207" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4299,7 +4321,7 @@
                                                   <Component id="SyllabusMainTitle3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="84" max="32767" attributes="0"/>
+                                          <EmptySpace pref="131" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4452,7 +4474,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="246" max="32767" attributes="0"/>
+                                          <EmptySpace pref="293" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4470,7 +4492,7 @@
                                                   <Component id="RemoveLearningOutcomeButton" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
+                                          <EmptySpace pref="274" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4597,7 +4619,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4606,7 +4628,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                   <Component id="NoCourseSelectedLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="548" max="32767" attributes="0"/>
+                                  <EmptySpace pref="1003" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4667,7 +4689,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="CoursesMainTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="694" max="32767" attributes="0"/>
+                              <EmptySpace pref="743" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4772,7 +4794,7 @@
                                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jScrollPane2" pref="376" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane2" pref="425" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
@@ -5171,7 +5193,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="297" max="32767" attributes="0"/>
+                                  <EmptySpace pref="346" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5189,7 +5211,7 @@
                                       </Group>
                                       <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="484" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5326,7 +5348,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="DashboardMainTitle" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="666" max="32767" attributes="0"/>
+                                  <EmptySpace pref="715" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5385,10 +5407,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="104" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="117" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgSuccessTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5396,21 +5418,21 @@
                                                   <Component id="ChartImage1" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="105" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="117" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="358" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="92" max="32767" attributes="0"/>
                                           <Component id="AvgSuccessTitle" min="-2" pref="38" max="-2" attributes="0"/>
                                           <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                                           <Component id="ChartImage1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="25" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="96" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5448,10 +5470,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="99" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="AvgAttendanceTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5460,23 +5482,23 @@
                                               </Group>
                                               <Component id="ViewAvgAttendance" min="-2" pref="221" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="358" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                           <Component id="AvgAttendanceTitle" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ChartImage2" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="ViewAvgAttendance" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5522,10 +5544,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="132" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5534,23 +5556,23 @@
                                               </Group>
                                               <Component id="DBImportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="133" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="358" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                           <Component id="CourseDataTitle" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ImportImage" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="DBImportBut" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5596,10 +5618,10 @@
                           <Layout>
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="395" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="132" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="CourseDataTitle2" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
@@ -5608,23 +5630,23 @@
                                               </Group>
                                               <Component id="DbExportBut" min="-2" pref="130" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="133" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="214" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="358" max="32767" attributes="0"/>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                           <Component id="CourseDataTitle2" min="-2" pref="46" max="-2" attributes="0"/>
                                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
                                           <Component id="ExportImage" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                                           <Component id="DbExportBut" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>

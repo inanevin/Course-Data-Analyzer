@@ -7,6 +7,7 @@ package course.data.analyzer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -18,7 +19,14 @@ public class Question implements Serializable
     private int m_Points;
     private ArrayList<Integer> _RelatedTopics;
     private ArrayList<Integer> _RelatedLearningOutcomes;
-
+    public LinkedHashMap<Student, Integer> studentPointPairs = new LinkedHashMap<Student,Integer>();
+    
+    
+    public void AddPair(Student s, int p)
+    {
+        studentPointPairs.put(s, p);
+    }
+    
     public ArrayList<Integer> GetTopicList()
     {
         return _RelatedTopics;
@@ -41,6 +49,20 @@ public class Question implements Serializable
 
     public Question()
     {
+        if (_RelatedTopics == null)
+        {
+            _RelatedTopics = new ArrayList<Integer>();
+        }
+
+        if (_RelatedLearningOutcomes == null)
+        {
+            _RelatedLearningOutcomes = new ArrayList<Integer>();
+        }
+    }
+    
+     public Question(int p)
+    {
+        m_Points = p;
         if (_RelatedTopics == null)
         {
             _RelatedTopics = new ArrayList<Integer>();

@@ -32,7 +32,7 @@ import javax.swing.SpinnerNumberModel;
  */
 public class UIManager extends javax.swing.JFrame
 {
-
+    
     private CourseManager courseManager;
     private ResourceManager resourceManager;
     private ArrayList<MenuBarItem> menuBarItems;
@@ -40,7 +40,7 @@ public class UIManager extends javax.swing.JFrame
     private Color selectedMenuItemColor = new Color(36, 152, 249);
     private Color unselectedMenuItemColor = new Color(53, 55, 61);
     private Color unselectedInnerMenuItemColor = new Color(26, 24, 26);
-
+    
     private ArrayList<CourseAction> courseActions;
     private int i_SelectedCourse = -1;
     private int i_SelectedSection = -1;
@@ -50,18 +50,18 @@ public class UIManager extends javax.swing.JFrame
      */
     public UIManager()
     {
-
+        
         initComponents();
-
+        
         courseActions = new ArrayList<CourseAction>();
         resourceManager = new ResourceManager();
         courseManager = new CourseManager(this, resourceManager);
         courseManager.PopulateCourses();
-
+        
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
-
+        
         AddCourseWarning.setVisible(false);
         EditCourseWarning.setVisible(false);
         AddSectionWarning.setVisible(false);
@@ -69,17 +69,12 @@ public class UIManager extends javax.swing.JFrame
         AddLOWarning.setVisible(false);
         SaveLOWarning.setVisible(false);
         
-        if (i_SelectedCourse != -1)
-        {
-            courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().PrintStudentAttendanceLoad();
-        }
-
     }
 
     // 1 is for adding a new course, 2 is for removing.
     public void SetLastActionForCourses(Course subject, int actionIndex)
     {
-
+        
         try
         {
             CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex());
@@ -89,81 +84,81 @@ public class UIManager extends javax.swing.JFrame
             System.out.println(e.getMessage());
             return;
         }
-
+        
         UndoButton.setEnabled(true);
-
+        
     }
-
+    
     public void SelectCourse(int course)
     {
         i_SelectedCourse = course;
-
+        
         if (i_SelectedCourse != -1)
         {
             SelectSection(courseManager.GetCourse(i_SelectedCourse).GetSelectedSectionIndex());
-
+            
         } else
         {
             UpdateSections();
         }
-
+        
         UpdateCourseList();
         UpdateSyllabus();
         UpdateExams();
-
+        
     }
-
+    
     public void SelectExam(int exam)
     {
         courseManager.GetCourse(i_SelectedCourse).SetSelectedExam(exam);
         UpdateExams();
     }
-
+    
     public void SelectQuestion(int question)
     {
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().SetSelectedQuestion(question);
         UpdateExams();
-
+        
     }
-
+    
     public void SelectSection(int section)
     {
         if (i_SelectedCourse != -1)
         {
             courseManager.GetCourse(i_SelectedCourse).SetSection(section);
         }
-
+        
         UpdateSections();
         UpdateStudents();
     }
-
+    
     public void SelectSyllabusWeek(int week)
     {
         if (i_SelectedCourse != -1)
         {
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().SetSelectedWeek(week);
         }
-
+        
         UpdateSyllabus();
     }
-
+    
     public void SelectLearningOutcome(int outcome)
     {
         if (i_SelectedCourse != -1)
         {
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().SetSelectedLO(outcome);
         }
-
+        
         UpdateSyllabus();
     }
-
+    
     public void UpdateCourseList()
     {
         if (i_SelectedCourse == -1)
         {
             DuplicateCourseButton.setEnabled(false);
             RemoveCourseButton.setEnabled(false);
-
+            
             CourseID.setText("");
             CourseName.setText("");
             CourseDescription.setText("");
@@ -171,7 +166,7 @@ public class UIManager extends javax.swing.JFrame
         {
             DuplicateCourseButton.setEnabled(true);
             RemoveCourseButton.setEnabled(true);
-
+            
             String id = courseManager.GetCourse(i_SelectedCourse).GetID();
             String name = courseManager.GetCourse(i_SelectedCourse).GetName();
             String desc = courseManager.GetCourse(i_SelectedCourse).GetDescription();
@@ -179,44 +174,44 @@ public class UIManager extends javax.swing.JFrame
             CourseName.setText(name);
             CourseDescription.setText(desc);
         }
-
+        
         ArrayList<Course> courses = courseManager.GetCourseList();
         DefaultListModel courseListModel = new DefaultListModel();
         DefaultComboBoxModel courseComboBoxModel = new DefaultComboBoxModel();
-
+        
         for (int i = 0; i < courses.size(); i++)
         {
             String elementDisplay = (new StringBuilder()).append(courses.get(i).GetID()).append(" - ").append(courses.get(i).GetName()).toString();
             courseListModel.addElement(elementDisplay);
             courseComboBoxModel.addElement(elementDisplay);
         }
-
+        
         CoursesList.setModel(courseListModel);
         CourseSelectionComboBox.setModel(courseComboBoxModel);
-
+        
         CoursesList.setSelectedIndex(i_SelectedCourse);
         CourseSelectionComboBox.setSelectedIndex(i_SelectedCourse);
-
+        
         courseManager.SaveCourses();
     }
-
+    
     public void UpdateSections()
     {
         DefaultListModel m = new DefaultListModel();
         DefaultComboBoxModel cm = new DefaultComboBoxModel();
-
+        
         if (i_SelectedCourse != -1)
         {
             ArrayList<Section> sections = new ArrayList<Section>();
             sections = courseManager.GetCourse(i_SelectedCourse).GetSections();
-
+            
             for (int i = 0; i < sections.size(); i++)
             {
                 String elementDisplay = (new StringBuilder()).append(sections.get(i).GetName()).toString();
                 m.addElement(elementDisplay);
                 cm.addElement(elementDisplay);
             }
-
+            
             if (courseManager.GetCourse(i_SelectedCourse).GetSections().size() > 1)
             {
                 RemoveSectionButton.setEnabled(true);
@@ -224,94 +219,94 @@ public class UIManager extends javax.swing.JFrame
             {
                 RemoveSectionButton.setEnabled(false);
             }
-
+            
             AddSectionButton.setEnabled(true);
-
+            
         } else
         {
             AddSectionButton.setEnabled(false);
             RemoveSectionButton.setEnabled(false);
         }
-
+        
         SectionsList.setModel(m);
         SectionSelectionComboBox.setModel(cm);
         int toSelect = i_SelectedCourse == -1 ? -1 : courseManager.GetCourse(i_SelectedCourse).GetSelectedSectionIndex();
         SectionsList.setSelectedIndex(toSelect);
         SectionSelectionComboBox.setSelectedIndex(toSelect);
-
+        
         courseManager.SaveCourses();
     }
-
+    
     private void UpdateStudents()
     {
         if (i_SelectedCourse == -1)
         {
-
+            
             return;
         }
-
+        
         ArrayList<Student> students = courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().GetStudents();
         DefaultListModel studentsModel = new DefaultListModel();
-
+        
         for (int i = 0; i < students.size(); i++)
         {
             String elementDisplay = new StringBuilder().append(students.get(i).getStringID()).toString();
             studentsModel.addElement(elementDisplay);
         }
-
+        
         StudentList.setModel(studentsModel);
-
+        
         courseManager.SaveCourses();
     }
-
+    
     private void UpdateExams()
     {
         if (i_SelectedCourse == -1)
         {
             return;
         }
-
+        
         int selectedExam = courseManager.GetCourse(i_SelectedCourse).GetSelectedExamIndex();
-
+        
         ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).GetExams();
         DefaultListModel examsModel = new DefaultListModel();
-
+        
         for (int i = 0; i < exams.size(); i++)
         {
             String elementDisplay = new StringBuilder().append(exams.get(i).getType().toString()).toString();
             examsModel.addElement(elementDisplay);
         }
-
+        
         ExamList.setModel(examsModel);
         ExamList.setSelectedIndex(selectedExam);
-
+        
         if (selectedExam == -1)
         {
             RemoveExamButton.setEnabled(false);
             ExamEditPanel.setVisible(false);
-
+            
         } else
         {
             RemoveExamButton.setEnabled(true);
             ExamEditPanel.setVisible(true);
-
+            
             ExamTypeComboBox.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getType().getValue());
             ExamDateChooser.setDate(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getDate());
-
+            
             ExamPercentageField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getPercentage()));
-
+            
             ArrayList<Question> questions = courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().getQuestions();
             DefaultListModel questionsModel = new DefaultListModel();
-
+            
             for (int i = 0; i < questions.size(); i++)
             {
                 String elementDisplay = new StringBuilder().append("Question ").append(i).toString();
                 questionsModel.addElement(elementDisplay);
             }
-
+            
             QuestionList.setModel(questionsModel);
             QuestionList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestionIndex());
-
+            
             if (QuestionList.getSelectedIndex() != -1)
             {
                 SelectLOButton.setEnabled(true);
@@ -319,35 +314,35 @@ public class UIManager extends javax.swing.JFrame
                 RemoveQuestionButton.setEnabled(true);
                 QuestionPointField.setEnabled(true);
                 QuestionPointField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().getPoints()));
-
+                
                 ArrayList<Integer> topicIndices = courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().GetTopicList();
-
+                
                 DefaultListModel topicsModel = new DefaultListModel();
                 ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks();
-
+                
                 for (int i = 0; i < topicIndices.size(); i++)
                 {
                     String name = weeks.get(topicIndices.get(i)).getTopic();
                     String elementDisplay = new StringBuilder().append("Week ").append(topicIndices.get(i)).append(" ").append(name).toString();
                     topicsModel.addElement(elementDisplay);
                 }
-
+                
                 ExamTopicList.setModel(topicsModel);
-
+                
                 ArrayList<Integer> loIndices = courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().GetLOList();
                 DefaultListModel loModel = new DefaultListModel();
                 ArrayList<String> learningOutcomes = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getLearningOutcomes();
-
+                
                 for (int i = 0; i < loIndices.size(); i++)
                 {
-
+                    
                     String name = learningOutcomes.get(loIndices.get(i));
                     loModel.addElement(name);
                     System.out.println("Added LO: " + name);
                 }
-
+                
                 ExamLOList.setModel(loModel);
-
+                
             } else
             {
                 ExamLOList.setModel(new DefaultListModel());
@@ -358,12 +353,12 @@ public class UIManager extends javax.swing.JFrame
                 SelectLOButton.setEnabled(false);
                 SelectTopicsButton.setEnabled(false);
             }
-
+            
         }
-
+        
         courseManager.SaveCourses();
     }
-
+    
     private void UpdateSyllabus()
     {
         if (i_SelectedCourse == -1)
@@ -375,28 +370,28 @@ public class UIManager extends javax.swing.JFrame
             LearningOutcomeList.setModel(new DefaultListModel());
             return;
         }
-
+        
         ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks();
-
+        
         DefaultListModel syllabusWeeksModel = new DefaultListModel();
-
+        
         for (int i = 0; i < weeks.size(); i++)
         {
             String elementDisplay = (new StringBuilder()).append("Week ").append((i + 1)).toString();
             syllabusWeeksModel.addElement(elementDisplay);
         }
-
+        
         Date start = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getStartDate();
         Date end = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getEndDate();
-
+        
         SyllabusStartDateChooser.setDate(start);
         SyllabusEndDateChooser.setDate(end);
-
+        
         if (start == null)
         {
             SyllabusEndDateChooser.setEnabled(false);
         }
-
+        
         if (courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks().size() > 0)
         {
             String topic = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks().get(0).getTopic();
@@ -407,31 +402,31 @@ public class UIManager extends javax.swing.JFrame
             SyllabusWeekTopicsArea.setText("");
             SyllabusWeekTopicsArea.setEditable(false);
         }
-
+        
         SyllabusWeekList.setModel(syllabusWeeksModel);
         SyllabusWeekList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).GetSyllabus().GetSelectedWeek());
-
+        
         ArrayList<String> lo = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getLearningOutcomes();
-
+        
         if (lo == null)
         {
             return;
         }
-
+        
         DefaultListModel m = new DefaultListModel();
-
+        
         for (int i = 0; i < lo.size(); i++)
         {
             String elementDisplay = (new StringBuilder()).append("L.O  ").append((i + 1) + ": ").append(lo.get(i)).toString();
             m.addElement(elementDisplay);
-
+            
         }
-
+        
         LearningOutcomeList.setModel(m);
-
+        
         int loIndex = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().GetSelectedLO();
         LearningOutcomeList.setSelectedIndex(loIndex);
-
+        
         System.out.println(loIndex);
         if (loIndex == -1)
         {
@@ -440,10 +435,10 @@ public class UIManager extends javax.swing.JFrame
         {
             RemoveLearningOutcomeButton.setEnabled(true);
         }
-
+        
         courseManager.SaveCourses();
     }
-
+    
     private void InitializeMenuBarItems()
     {
         // Create objects for menu bar items.
@@ -474,7 +469,7 @@ public class UIManager extends javax.swing.JFrame
         // Select dashboard as initial menu.
         SelectMenu(dashboard);
     }
-
+    
     private void SetIcons()
     {
         // Set app ico 
@@ -559,12 +554,12 @@ public class UIManager extends javax.swing.JFrame
         img2 = img.getScaledInstance(ExportImage.getWidth(), ExportImage.getHeight(), Image.SCALE_SMOOTH);
         i = new ImageIcon(img2);
         ExportImage.setIcon(i);
-
+        
     }
-
+    
     private void AddComponentListeners()
     {
-
+        
         MouseAdapterForMenu db = new MouseAdapterForMenu(0, this);
         MouseAdapterForMenu cs = new MouseAdapterForMenu(1, this);
         MouseAdapterForMenu st = new MouseAdapterForMenu(2, this);
@@ -595,14 +590,14 @@ public class UIManager extends javax.swing.JFrame
         SyllabusImage.addMouseListener(syl);
         ExamsImage.addMouseListener(exm);
         ReportsImage.addMouseListener(rp);
-
+        
     }
-
+    
     public void SelectMenu(int barItemIndex)
     {
         SelectMenu(menuBarItems.get(barItemIndex));
     }
-
+    
     public void SelectMenu(MenuBarItem menu)
     {
 
@@ -618,12 +613,12 @@ public class UIManager extends javax.swing.JFrame
         // Enable menu's main panel.
         menu.GetMainPanel().setVisible(true);
         menu.GetMainPanel().setEnabled(true);
-
+        
         if (menu.GetNoCoursePanel() != null)
         {
             menu.GetNoCoursePanel().setVisible(i_SelectedCourse == -1);
         }
-
+        
         if (menu.GetInnerPanel() != null)
         {
             menu.GetInnerPanel().setVisible(i_SelectedCourse != -1);
@@ -631,9 +626,9 @@ public class UIManager extends javax.swing.JFrame
 
         // Set current selected.
         currentSelectedMenu = menu;
-
+        
     }
-
+    
     private void DeselectAllMenu()
     {
         for (int i = 0; i < menuBarItems.size(); i++)
@@ -641,7 +636,7 @@ public class UIManager extends javax.swing.JFrame
             DeselectMenu(menuBarItems.get(i));
         }
     }
-
+    
     void DeselectMenu(MenuBarItem menu)
     {
 
@@ -652,10 +647,10 @@ public class UIManager extends javax.swing.JFrame
         menu.GetMainPanel().setVisible(false);
         menu.GetMainPanel().setEnabled(false);
     }
-
+    
     private void DisposeAddNewCourseDialog()
     {
-
+        
         AddCourseIDField.setText("");
         AddCourseNameField.setText("");
         AddCourseDescField.setText("");
@@ -663,7 +658,7 @@ public class UIManager extends javax.swing.JFrame
         AddCourseAddButton.setEnabled(false);
         AddNewCourseDialog.dispose();
     }
-
+    
     private void DisposeEditCourseDialog()
     {
         EditCourseIDField.setText("");
@@ -672,22 +667,22 @@ public class UIManager extends javax.swing.JFrame
         EditCourseWarning.setVisible(false);
         EditCourseDialog.dispose();
     }
-
+    
     private void DisposeAddSectionDialog()
     {
         AddSectionNameField.setText("");
         AddSectionWarning.setVisible(false);
         AddSectionAddButton.setEnabled(false);
-
+        
         AddSectionDialog.dispose();
     }
-
+    
     private void DisposeEditSectionDialog()
     {
         EditSectionNameField.setText("");
         EditSectionWarning.setVisible(false);
         EditSectionSaveButton.setEnabled(false);
-
+        
         EditSectionDialog.dispose();
     }
 
@@ -808,20 +803,6 @@ public class UIManager extends javax.swing.JFrame
         SettingsImage = new javax.swing.JLabel();
         TopRight = new javax.swing.JPanel();
         Center = new javax.swing.JPanel();
-        StudentsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel6 = new javax.swing.JPanel();
-        StudentsMainTitle = new javax.swing.JLabel();
-        StudentsMP = new javax.swing.JPanel();
-        StudentsScrollPane = new javax.swing.JScrollPane();
-        StudentsInnerPanel = new keeptoo.KGradientPanel();
-        StudentsIP_Panel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        ImportAttendanceData = new javax.swing.JButton();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        StudentList = new javax.swing.JList<>();
-        StudentsIP_Panel2 = new javax.swing.JPanel();
-        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
-        NoCourseSelectedLabel = new javax.swing.JLabel();
         ExamsMainPanel = new javax.swing.JPanel();
         DBTitlePanel4 = new javax.swing.JPanel();
         DashboardMainTitle4 = new javax.swing.JLabel();
@@ -859,6 +840,21 @@ public class UIManager extends javax.swing.JFrame
         ExamLOList = new javax.swing.JList<>();
         SelectTopicsButton = new javax.swing.JButton();
         SelectLOButton = new javax.swing.JButton();
+        AddQuestionButton1 = new javax.swing.JButton();
+        StudentsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel6 = new javax.swing.JPanel();
+        StudentsMainTitle = new javax.swing.JLabel();
+        StudentsMP = new javax.swing.JPanel();
+        StudentsScrollPane = new javax.swing.JScrollPane();
+        StudentsInnerPanel = new keeptoo.KGradientPanel();
+        StudentsIP_Panel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        ImportAttendanceData = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        StudentList = new javax.swing.JList<>();
+        StudentsIP_Panel2 = new javax.swing.JPanel();
+        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
+        NoCourseSelectedLabel = new javax.swing.JLabel();
         ReportsMainPanel = new javax.swing.JPanel();
         DBTitlePanel5 = new javax.swing.JPanel();
         DashboardMainTitle5 = new javax.swing.JLabel();
@@ -2159,7 +2155,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(216, Short.MAX_VALUE))
+                .addContainerGap(671, Short.MAX_VALUE))
         );
 
         Main.add(Left, java.awt.BorderLayout.WEST);
@@ -2291,148 +2287,6 @@ public class UIManager extends javax.swing.JFrame
         Center.setBackground(new java.awt.Color(26, 24, 26));
         Center.setLayout(new javax.swing.OverlayLayout(Center));
 
-        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
-        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
-        StudentsMainTitle.setText("Students");
-        StudentsMainTitle.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
-        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
-        DBTitlePanel6Layout.setHorizontalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle)
-                .addContainerGap(685, Short.MAX_VALUE))
-        );
-        DBTitlePanel6Layout.setVerticalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
-        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
-
-        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
-        StudentsMP.setLayout(new java.awt.CardLayout());
-
-        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
-
-        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 600));
-        StudentsIP_Panel1.setOpaque(false);
-        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 600));
-
-        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
-        jLabel3.setText("Student List");
-
-        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
-        ImportAttendanceData.setText("Import Attendance Data");
-        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
-        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                ImportAttendanceDataActionPerformed(evt);
-            }
-        });
-
-        StudentList.setBackground(new java.awt.Color(26, 24, 26));
-        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        StudentList.setForeground(new java.awt.Color(227, 227, 227));
-        jScrollPane10.setViewportView(StudentList);
-
-        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
-        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
-        StudentsIP_Panel1Layout.setHorizontalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addContainerGap(279, Short.MAX_VALUE))
-        );
-        StudentsIP_Panel1Layout.setVerticalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel1);
-
-        StudentsIP_Panel2.setOpaque(false);
-        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
-
-        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
-        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
-        StudentsIP_Panel2Layout.setHorizontalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 791, Short.MAX_VALUE)
-        );
-        StudentsIP_Panel2Layout.setVerticalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel2);
-
-        StudentsScrollPane.setViewportView(StudentsInnerPanel);
-
-        StudentsMP.add(StudentsScrollPane, "card4");
-
-        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
-
-        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
-        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
-
-        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
-        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
-        StudentsNoCoursePanelLayout.setHorizontalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        StudentsNoCoursePanelLayout.setVerticalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(520, Short.MAX_VALUE))
-        );
-
-        StudentsMP.add(StudentsNoCoursePanel, "card3");
-
-        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
-
-        Center.add(StudentsMainPanel);
-
         ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         ExamsMainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -2452,7 +2306,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DBTitlePanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle4)
-                .addContainerGap(707, Short.MAX_VALUE))
+                .addContainerGap(756, Short.MAX_VALUE))
         );
         DBTitlePanel4Layout.setVerticalGroup(
             DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2483,14 +2337,14 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         ExamsNoCoursePanelLayout.setVerticalGroup(
             ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(548, Short.MAX_VALUE))
+                .addContainerGap(1003, Short.MAX_VALUE))
         );
 
         ExamsMP.add(ExamsNoCoursePanel, "card3");
@@ -2767,6 +2621,18 @@ public class UIManager extends javax.swing.JFrame
             }
         });
 
+        AddQuestionButton1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        AddQuestionButton1.setForeground(new java.awt.Color(51, 51, 51));
+        AddQuestionButton1.setText("Import Exam Results");
+        AddQuestionButton1.setPreferredSize(new java.awt.Dimension(135, 50));
+        AddQuestionButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                AddQuestionButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ExamEditPanelLayout = new javax.swing.GroupLayout(ExamEditPanel);
         ExamEditPanel.setLayout(ExamEditPanelLayout);
         ExamEditPanelLayout.setHorizontalGroup(
@@ -2790,7 +2656,9 @@ public class UIManager extends javax.swing.JFrame
                                         .addComponent(DashboardMainTitle11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(10, 10, 10))))
+                                        .addGap(10, 10, 10)))
+                                .addGap(18, 18, 18)
+                                .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(ExamEditPanelLayout.createSequentialGroup()
                                 .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2816,7 +2684,7 @@ public class UIManager extends javax.swing.JFrame
                     .addGroup(ExamEditPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(SelectTopicsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(417, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
         ExamEditPanelLayout.setVerticalGroup(
             ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2842,7 +2710,9 @@ public class UIManager extends javax.swing.JFrame
                 .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addComponent(AddQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AddQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(RemoveQuestionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -2874,6 +2744,148 @@ public class UIManager extends javax.swing.JFrame
 
         Center.add(ExamsMainPanel);
 
+        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        StudentsMainTitle.setText("Students");
+        StudentsMainTitle.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
+        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
+        DBTitlePanel6Layout.setHorizontalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle)
+                .addContainerGap(734, Short.MAX_VALUE))
+        );
+        DBTitlePanel6Layout.setVerticalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
+
+        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
+        StudentsMP.setLayout(new java.awt.CardLayout());
+
+        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 600));
+        StudentsIP_Panel1.setOpaque(false);
+        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 600));
+
+        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
+        jLabel3.setText("Student List");
+
+        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
+        ImportAttendanceData.setText("Import Attendance Data");
+        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
+        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ImportAttendanceDataActionPerformed(evt);
+            }
+        });
+
+        StudentList.setBackground(new java.awt.Color(26, 24, 26));
+        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        StudentList.setForeground(new java.awt.Color(227, 227, 227));
+        jScrollPane10.setViewportView(StudentList);
+
+        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
+        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
+        StudentsIP_Panel1Layout.setHorizontalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(326, Short.MAX_VALUE))
+        );
+        StudentsIP_Panel1Layout.setVerticalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(155, Short.MAX_VALUE))
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel1);
+
+        StudentsIP_Panel2.setOpaque(false);
+        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
+
+        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
+        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
+        StudentsIP_Panel2Layout.setHorizontalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 838, Short.MAX_VALUE)
+        );
+        StudentsIP_Panel2Layout.setVerticalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel2);
+
+        StudentsScrollPane.setViewportView(StudentsInnerPanel);
+
+        StudentsMP.add(StudentsScrollPane, "card4");
+
+        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
+
+        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
+        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
+
+        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
+        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
+        StudentsNoCoursePanelLayout.setHorizontalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        StudentsNoCoursePanelLayout.setVerticalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(975, Short.MAX_VALUE))
+        );
+
+        StudentsMP.add(StudentsNoCoursePanel, "card3");
+
+        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
+
+        Center.add(StudentsMainPanel);
+
         ReportsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         ReportsMainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -2893,7 +2905,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DBTitlePanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle5)
-                .addContainerGap(664, Short.MAX_VALUE))
+                .addContainerGap(713, Short.MAX_VALUE))
         );
         DBTitlePanel5Layout.setVerticalGroup(
             DBTitlePanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2924,14 +2936,14 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ReportsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         ReportsNoCoursePanelLayout.setVerticalGroup(
             ReportsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReportsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel2)
-                .addContainerGap(548, Short.MAX_VALUE))
+                .addContainerGap(1003, Short.MAX_VALUE))
         );
 
         ReportsMP.add(ReportsNoCoursePanel, "card3");
@@ -3099,7 +3111,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SyllabusMainTitle)
-                .addContainerGap(690, Short.MAX_VALUE))
+                .addContainerGap(739, Short.MAX_VALUE))
         );
         SyllabusTitlePanelLayout.setVerticalGroup(
             SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3174,7 +3186,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3258,7 +3270,7 @@ public class UIManager extends javax.swing.JFrame
                         .addComponent(SyllabusMainTitle1)
                         .addGap(278, 278, 278)
                         .addComponent(SyllabusMainTitle3)))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3344,7 +3356,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addContainerGap(293, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3358,7 +3370,7 @@ public class UIManager extends javax.swing.JFrame
                         .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         SyllabusInnerPanel.add(jPanel12);
@@ -3382,14 +3394,14 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         SyllabusNoCoursePanelLayout.setVerticalGroup(
             SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(548, Short.MAX_VALUE))
+                .addContainerGap(1003, Short.MAX_VALUE))
         );
 
         SylMainPanel.add(SyllabusNoCoursePanel, "card3");
@@ -3417,7 +3429,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(CoursesTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CoursesMainTitle)
-                .addContainerGap(694, Short.MAX_VALUE))
+                .addContainerGap(743, Short.MAX_VALUE))
         );
         CoursesTitlePanelLayout.setVerticalGroup(
             CoursesTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3509,7 +3521,7 @@ public class UIManager extends javax.swing.JFrame
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(CourseIDTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3687,7 +3699,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGroup(kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AddSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(297, Short.MAX_VALUE))
+                .addContainerGap(346, Short.MAX_VALUE))
         );
         kGradientPanel5Layout.setVerticalGroup(
             kGradientPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3701,7 +3713,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGap(18, 18, 18)
                         .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(484, Short.MAX_VALUE))
         );
 
         CoursesCenterPanel.add(kGradientPanel5);
@@ -3732,7 +3744,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(DashboardTitlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DashboardMainTitle)
-                .addContainerGap(666, Short.MAX_VALUE))
+                .addContainerGap(715, Short.MAX_VALUE))
         );
         DashboardTitlePanelLayout.setVerticalGroup(
             DashboardTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3763,27 +3775,27 @@ public class UIManager extends javax.swing.JFrame
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 104, Short.MAX_VALUE)
+                    .addGap(0, 117, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgSuccessTitle)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(29, 29, 29)
                             .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 105, Short.MAX_VALUE)))
+                    .addGap(0, 117, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 19, Short.MAX_VALUE)
+                    .addGap(0, 92, Short.MAX_VALUE)
                     .addComponent(AvgSuccessTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(4, 4, 4)
                     .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 25, Short.MAX_VALUE)))
+                    .addGap(0, 96, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel2);
@@ -3804,30 +3816,30 @@ public class UIManager extends javax.swing.JFrame
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 87, Short.MAX_VALUE)
+                    .addGap(0, 99, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AvgAttendanceTitle)
                         .addGroup(jPanel7Layout.createSequentialGroup()
                             .addGap(46, 46, 46)
                             .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(ViewAvgAttendance, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 87, Short.MAX_VALUE)))
+                    .addGap(0, 100, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 72, Short.MAX_VALUE)
                     .addComponent(AvgAttendanceTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(ViewAvgAttendance)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 72, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel7);
@@ -3848,30 +3860,30 @@ public class UIManager extends javax.swing.JFrame
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 132, Short.MAX_VALUE)
+                    .addGap(0, 145, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle)
                         .addGroup(jPanel8Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DBImportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 133, Short.MAX_VALUE)))
+                    .addGap(0, 145, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 72, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DBImportBut)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 72, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel8);
@@ -3892,30 +3904,30 @@ public class UIManager extends javax.swing.JFrame
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 132, Short.MAX_VALUE)
+                    .addGap(0, 145, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(CourseDataTitle2)
                         .addGroup(jPanel9Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(DbExportBut, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 133, Short.MAX_VALUE)))
+                    .addGap(0, 145, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 214, Short.MAX_VALUE)
+            .addGap(0, 358, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 72, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DbExportBut)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 72, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel9);
@@ -3950,7 +3962,7 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
 
         CourseAction lastAction = courseActions.get(courseActions.size() - 1);
-
+        
         if (lastAction.GetIndex() == 1)
         {
             courseManager.RemoveCourse(lastAction.GetSubject());
@@ -3961,9 +3973,9 @@ public class UIManager extends javax.swing.JFrame
                 courseManager.AddNewCourse(lastAction.GetSubject(), lastAction.GetListIndex());
             }
         }
-
+        
         courseActions.remove(lastAction);
-
+        
         if (courseActions.size() < 1)
         {
             UndoButton.setEnabled(false);
@@ -4040,7 +4052,7 @@ public class UIManager extends javax.swing.JFrame
             EditCourseWarning.setVisible(false);
             EditCourseSaveButton.setEnabled(true);
         }
-
+        
 
     }//GEN-LAST:event_EditCourseIDFieldKeyReleased
 
@@ -4053,7 +4065,7 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
         courseManager.GetCourse(i_SelectedCourse).Edit(EditCourseIDField.getText(), EditCourseNameField.getText(), EditCourseDescField.getText());
         SelectCourse(i_SelectedCourse);
-
+        
         DisposeEditCourseDialog();
     }//GEN-LAST:event_EditCourseSaveButtonActionPerformed
 
@@ -4081,7 +4093,7 @@ public class UIManager extends javax.swing.JFrame
                 AddSectionAddButton.setEnabled(true);
                 AddSectionWarning.setVisible(false);
             }
-
+            
         }
     }//GEN-LAST:event_AddSectionNameFieldKeyReleased
 
@@ -4122,7 +4134,7 @@ public class UIManager extends javax.swing.JFrame
                 EditSectionSaveButton.setEnabled(false);
                 EditSectionWarning.setVisible(true);
             }
-
+            
         } else
         {
             if (EditSectionNameField.getText().equals(""))
@@ -4171,16 +4183,16 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_SyllabusStartDateChooserPropertyChange
         // TODO add your handling code here:
         Date date = SyllabusStartDateChooser.getDate();
-
+        
         if (date == null)
         {
             return;
         }
-
+        
         if (SyllabusEndDateChooser.isEnabled())
         {
             Date courseEndDate = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getEndDate();
-
+            
             if (courseEndDate != null)
             {
                 if (date.after(courseEndDate))
@@ -4192,13 +4204,13 @@ public class UIManager extends javax.swing.JFrame
                     courseManager.GetCourse(i_SelectedCourse).GetSyllabus().setStartDate(date);
                 }
             }
-
+            
         } else
         {
             SyllabusEndDateChooser.setEnabled(true);
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().setStartDate(date);
         }
-
+        
         UpdateSyllabus();
     }//GEN-LAST:event_SyllabusStartDateChooserPropertyChange
 
@@ -4207,14 +4219,14 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
 
         Date date = SyllabusEndDateChooser.getDate();
-
+        
         if (date == null)
         {
             return;
         }
-
+        
         Date courseStartDate = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getStartDate();
-
+        
         if (date.before(courseStartDate))
         {
             SyllabusEndDateChooser.setDate(courseStartDate);
@@ -4223,7 +4235,7 @@ public class UIManager extends javax.swing.JFrame
         {
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().setEndDate(date);
         }
-
+        
         UpdateSyllabus();
 
     }//GEN-LAST:event_SyllabusEndDateChooserPropertyChange
@@ -4235,13 +4247,13 @@ public class UIManager extends javax.swing.JFrame
 
         int selected = SyllabusWeekList.getSelectedIndex();
         String text = SyllabusWeekTopicsArea.getText();
-
+        
         if (i_SelectedCourse != -1 && courseManager.GetCourse(i_SelectedCourse).GetSyllabus() != null)
         {
             courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks().get(selected).setTopic(text);
             courseManager.SaveCourses();
         }
-
+        
 
     }//GEN-LAST:event_SyllabusWeekTopicsAreaKeyReleased
 
@@ -4259,9 +4271,9 @@ public class UIManager extends javax.swing.JFrame
         AddLOTextField.setText("");
         AddLOWarning.setVisible(false);
         AddLOAddButton.setEnabled(false);
-
+        
         SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).GetSyllabus().GetSelectedLO());
-
+        
         AddLearningOutcomeDialog.dispose();
 
     }//GEN-LAST:event_AddLOAddButtonActionPerformed
@@ -4331,7 +4343,7 @@ public class UIManager extends javax.swing.JFrame
         {
             resourceManager.SetCurrentSection(courseManager.GetCourse(i_SelectedCourse).GetSelectedSection());
             resourceManager.LoadStudentXLSX();
-            courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().PrintStudentAttendanceLoad();
+            
             UpdateStudents();
         } catch (IOException ex)
         {
@@ -4348,7 +4360,7 @@ public class UIManager extends javax.swing.JFrame
         {
             return;
         }
-
+        
         if (SectionsList.getSelectedIndex() != -1)
         {
             if (courseManager.GetCourse(i_SelectedCourse).GetSections().size() < 2)
@@ -4358,20 +4370,20 @@ public class UIManager extends javax.swing.JFrame
             {
                 RemoveSectionButton.setEnabled(true);
             }
-
+            
             courseManager.GetCourse(i_SelectedCourse).SetSection(SectionsList.getSelectedIndex());
-
+            
             SelectSection(SectionsList.getSelectedIndex());
         }
-
+        
         if (evt.getClickCount() == 2)
         {
             Course c = courseManager.GetCourse(i_SelectedCourse);
-
+            
             EditSectionNameField.setText(c.GetSelectedSection().GetName());
-
+            
             EditSectionDialog.show();
-
+            
         }
     }//GEN-LAST:event_SectionsListMouseReleased
 
@@ -4379,17 +4391,17 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_CoursesListMouseReleased
         // TODO add your handling code here:
         SelectCourse(CoursesList.getSelectedIndex());
-
+        
         if (evt.getClickCount() == 2)
         {
             Course c = courseManager.GetCourse(i_SelectedCourse);
-
+            
             EditCourseIDField.setText(c.GetID());
             EditCourseNameField.setText(c.GetName());
             EditCourseDescField.setText(c.GetDescription());
-
+            
             EditCourseDialog.show();
-
+            
         }
     }//GEN-LAST:event_CoursesListMouseReleased
 
@@ -4397,12 +4409,12 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_SyllabusWeekListMouseReleased
         // TODO add your handling code here:
         int selected = SyllabusWeekList.getSelectedIndex();
-
+        
         if (selected == -1)
         {
             return;
         }
-
+        
         String topic = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks().get(selected).getTopic();
         SyllabusWeekTopicsArea.setText(topic);
     }//GEN-LAST:event_SyllabusWeekListMouseReleased
@@ -4413,7 +4425,7 @@ public class UIManager extends javax.swing.JFrame
         if (LearningOutcomeList.getSelectedIndex() != -1)
         {
             RemoveLearningOutcomeButton.setEnabled(true);
-
+            
             if (evt.getClickCount() == 2)
             {
                 String lo = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getLearningOutcomes().get(LearningOutcomeList.getSelectedIndex());
@@ -4423,9 +4435,9 @@ public class UIManager extends javax.swing.JFrame
         } else
         {
             RemoveLearningOutcomeButton.setEnabled(false);
-
+            
         }
-
+        
         SelectLearningOutcome(LearningOutcomeList.getSelectedIndex());
     }//GEN-LAST:event_LearningOutcomeListMouseReleased
 
@@ -4481,7 +4493,7 @@ public class UIManager extends javax.swing.JFrame
         {
             return;
         }
-
+        
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().setDate(ExamDateChooser.getDate());
     }//GEN-LAST:event_ExamDateChooserPropertyChange
 
@@ -4501,16 +4513,16 @@ public class UIManager extends javax.swing.JFrame
             {
                 spinnerVal = currentPercentage + examPercentage;
             }
-
+            
             ExamPercentageField.setText(Integer.toString(spinnerVal));
-
+            
             courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().setPercentage(spinnerVal);
             courseManager.GetCourse(i_SelectedCourse).CalculateRemainingExamPercentage();
         } catch (NumberFormatException e)
         {
             // handle
         }
-
+        
 
     }//GEN-LAST:event_ExamPercentageFieldActionPerformed
 
@@ -4520,12 +4532,12 @@ public class UIManager extends javax.swing.JFrame
         {
             return;
         }
-
+        
         try
         {
             int points = Integer.parseInt(QuestionPointField.getText());
             courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().setPoints(points);
-
+            
         } catch (NumberFormatException e)
         {
             // handle
@@ -4552,13 +4564,13 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_SelectTopicsButtonActionPerformed
         DefaultListModel topicsListModel = new DefaultListModel();
         ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getWeeks();
-
+        
         for (int i = 0; i < weeks.size(); i++)
         {
             String elementDisplay = new StringBuilder().append("Week ").append(i).append(" ").append(weeks.get(i).getTopic()).toString();
             topicsListModel.addElement(elementDisplay);
         }
-
+        
         SelectTopicList.setModel(topicsListModel);
         ExamTopicList.clearSelection();
         SelectTopicDialog.show();
@@ -4570,13 +4582,13 @@ public class UIManager extends javax.swing.JFrame
 
         DefaultListModel loListModel = new DefaultListModel();
         ArrayList<String> learningOutcomes = courseManager.GetCourse(i_SelectedCourse).GetSyllabus().getLearningOutcomes();
-
+        
         for (int i = 0; i < learningOutcomes.size(); i++)
         {
             String elementDisplay = learningOutcomes.get(i);
             loListModel.addElement(elementDisplay);
         }
-
+        
         SelectLOList.setModel(loListModel);
         ExamLOList.clearSelection();
         SelectLODialog.show();
@@ -4587,12 +4599,12 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().ClearLOList();
         int[] indices = SelectLOList.getSelectedIndices();
-
+        
         for (int i = 0; i < indices.length; i++)
         {
             courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().AddRelatedLO(indices[i]);
         }
-
+        
         UpdateExams();
         SelectLODialog.dispose();
     }//GEN-LAST:event_SelectLOListSelectButtonActionPerformed
@@ -4614,12 +4626,12 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
         courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().ClearTopicsList();
         int[] indices = SelectTopicList.getSelectedIndices();
-
+        
         for (int i = 0; i < indices.length; i++)
         {
             courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().AddRelatedTopic(indices[i]);
         }
-
+        
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectButtonActionPerformed
@@ -4651,6 +4663,22 @@ public class UIManager extends javax.swing.JFrame
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectEmptyButtonActionPerformed
+
+    private void AddQuestionButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddQuestionButton1ActionPerformed
+    {//GEN-HEADEREND:event_AddQuestionButton1ActionPerformed
+        // TODO add your handling code here:
+        try
+        {
+            resourceManager.SetCurrentExam(courseManager.GetCourse(i_SelectedCourse).GetSelectedExam());
+            resourceManager.LoadExamXLSX();
+        } catch (Exception e)
+        {
+            
+        }
+        
+        UpdateExams();        
+        
+    }//GEN-LAST:event_AddQuestionButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4701,7 +4729,7 @@ public class UIManager extends javax.swing.JFrame
                 new UIManager().setVisible(true);
             }
         });
-
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -4726,6 +4754,7 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JDialog AddNewCourseDialog;
     private javax.swing.JButton AddNewLearningOutcomeButton;
     private javax.swing.JButton AddQuestionButton;
+    private javax.swing.JButton AddQuestionButton1;
     private javax.swing.JButton AddSectionAddButton;
     private javax.swing.JButton AddSectionButton;
     private javax.swing.JButton AddSectionCancelButton;

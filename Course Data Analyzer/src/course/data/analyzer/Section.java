@@ -24,7 +24,6 @@ public class Section implements Serializable
     
      public void PrintStudentAttendanceLoad()
      { 
-        System.out.println(_Lectures.size());
         
         
         for (int i = 0; i < _Students.size(); i++)

@@ -59,6 +59,15 @@ public class Exam implements Serializable
     private int m_Percentage;
     private Date m_Date;
     private int i_SelectedQuestion = -1;
+    
+    private ArrayList<Student> _Students;
+
+    public ArrayList<Student> getStudents()
+    {
+        return _Students;
+    }
+    
+
 
     public int GetSelectedQuestionIndex()
     {
@@ -111,6 +120,11 @@ public class Exam implements Serializable
         if (_Questions == null)
         {
             _Questions = new ArrayList<Question>();
+        }
+        
+        if(_Students == null)
+        {
+            _Students = new ArrayList<Student>();
         }
     }
 

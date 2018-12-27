@@ -37,7 +37,12 @@ public class ResourceManager
 {
 
     private Section currentCourse;
-
+    private Exam currentExam;
+    
+    public void SetCurrentExam(Exam e)
+    {
+        currentExam = e;
+    }
     public void SetCurrentSection(Section s)
     {
         currentCourse = s;
@@ -86,6 +91,104 @@ public class ResourceManager
         }
 
         return list;
+    }
+
+    public void LoadExamXLSX() throws IOException
+    {
+        File myFile = new File(System.getProperty("user.dir"), "studentExamData.xlsx");
+        FileInputStream fis = new FileInputStream(myFile);
+
+        XSSFWorkbook mw = new XSSFWorkbook(fis);
+
+        XSSFSheet mySheet = mw.getSheetAt(0);
+
+        Iterator<Row> rowIterator = mySheet.iterator();
+        DataFormatter objDefaultFormat = new DataFormatter();
+        FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) mw);
+
+        while (rowIterator.hasNext())
+        {
+
+            Row row = rowIterator.next();
+            
+            Iterator<Cell> cellIterator = row.cellIterator();
+          
+            while (cellIterator.hasNext())
+            {
+                Cell cell = cellIterator.next();
+                
+                
+                if (cell.getCellType() == CellType.NUMERIC)
+                {
+                    if (cell.getAddress().getColumn() == 0)
+                    {
+                        objFormulaEvaluator.evaluate(cell);
+                        String studentID = objDefaultFormat.formatCellValue(cell, objFormulaEvaluator);
+                        Student student = new Student(studentID);
+                        currentExam.getStudents().add(student);
+                    } else
+                    {
+                        int point = (int)cell.getNumericCellValue();
+                        int columnIndex = cell.getColumnIndex() -1;
+                        
+                        currentExam.getQuestions().get(columnIndex).AddPair(currentExam.getStudents().get(currentExam.getStudents().size()-1), point);
+                    }
+
+                } else
+                {
+                    if (cell.getCellType() == CellType.STRING)
+                    {
+                        // QUESTION TITLES
+
+                        String cellStr = cell.getStringCellValue();
+
+                        StringBuilder pointsBuilder = new StringBuilder();
+
+                        boolean inParanthesis = false;
+                        int counter = 0;
+
+                        for (int i = 0; i < cellStr.length(); i++)
+                        {
+                            if (inParanthesis == true)
+                            {
+                                if (cellStr.charAt(i) == ')')
+                                {
+                                    inParanthesis = false;
+                                } else
+                                {
+                                    pointsBuilder.append(cellStr.charAt(i));
+                                }
+                            } else
+                            {
+                                if (cellStr.charAt(i) == '(')
+                                {
+                                    inParanthesis = true;
+                                }
+                            }
+                        }
+
+                        String points = pointsBuilder.toString();
+
+                        int point = 0;
+
+                        try
+                        {
+                            point = Integer.parseInt(points);
+
+                        } catch (NumberFormatException e)
+                        {
+
+                        }
+
+                        Question q = new Question(point);
+                        currentExam.getQuestions().add(q);
+
+                    }
+                }
+
+            }
+        }
+
     }
 
     public void LoadStudentXLSX() throws IOException
@@ -210,8 +313,6 @@ public class ResourceManager
 
         mw.close();
         fis.close();
-
-        
 
     }
 
