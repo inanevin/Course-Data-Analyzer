@@ -6,6 +6,7 @@
 package course.data.analyzer;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -13,10 +14,15 @@ import java.io.Serializable;
  */
 public class Week implements Serializable
 {
-    
+    private Date m_Date;
     private String m_Topic;
     
+    public Date getDate() { return m_Date;}
     public String getTopic() { return m_Topic; }
     public void setTopic(String tpc) { m_Topic = tpc; }
     
+    public Week(Date date)
+    {
+        m_Date = date;
+    }
 }

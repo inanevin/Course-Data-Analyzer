@@ -31,25 +31,39 @@ public class Syllabus implements Serializable
     private ArrayList<String> _LearningOutcomes;
     private int i_SelectedWeek;
     private int i_SelectedLO = -1;
-    
+
     public Syllabus()
     {
         _Weeks = new ArrayList<Week>();
         _LearningOutcomes = new ArrayList<String>();
-        
+
     }
 
-    public int GetSelectedWeek() { return i_SelectedWeek; }
-    public void SetSelectedWeek(int i) { i_SelectedWeek = i; }
-    
-    public int GetSelectedLO() { return i_SelectedLO; }
-    public void SetSelectedLO(int i) { i_SelectedLO = i; }
-    
+    public int GetSelectedWeek()
+    {
+        return i_SelectedWeek;
+    }
+
+    public void SetSelectedWeek(int i)
+    {
+        i_SelectedWeek = i;
+    }
+
+    public int GetSelectedLO()
+    {
+        return i_SelectedLO;
+    }
+
+    public void SetSelectedLO(int i)
+    {
+        i_SelectedLO = i;
+    }
+
     public ArrayList<String> getLearningOutcomes()
     {
         return _LearningOutcomes;
     }
-    
+
     public ArrayList<Week> getWeeks()
     {
         return _Weeks;
@@ -58,26 +72,35 @@ public class Syllabus implements Serializable
     public void AddLearningOutcome(String outcome)
     {
         _LearningOutcomes.add(outcome);
-        i_SelectedLO = _LearningOutcomes.size()-1;
+        i_SelectedLO = _LearningOutcomes.size() - 1;
     }
-    
+
     public void EditLearningOutcome(int index, String outcome)
     {
-        if(index < 0 || index >= _LearningOutcomes.size()) return;
-        
+        if (index < 0 || index >= _LearningOutcomes.size())
+        {
+            return;
+        }
+
         _LearningOutcomes.set(index, outcome);
     }
-    
+
     public void RemoveLearningOutcome(int index)
     {
-        if(index < 0 || index >= _LearningOutcomes.size()) return;
-        
+        if (index < 0 || index >= _LearningOutcomes.size())
+        {
+            return;
+        }
+
         _LearningOutcomes.remove(index);
         i_SelectedLO--;
-        
-        if(_LearningOutcomes.size() > 0 && i_SelectedLO == -1) i_SelectedLO = 0;
+
+        if (_LearningOutcomes.size() > 0 && i_SelectedLO == -1)
+        {
+            i_SelectedLO = 0;
+        }
     }
-    
+
     public Date getStartDate()
     {
         return startDate;
@@ -102,26 +125,33 @@ public class Syllabus implements Serializable
 
     private void CalculateWeeks()
     {
-        if(startDate == null || endDate == null) return;
-        
-        int weekCount = getWeeksBetween(startDate, endDate)+1;
-        
-       
-        if(_Weeks.size() > weekCount)
+        if (startDate == null || endDate == null)
+        {
+            return;
+        }
+
+        int weekCount = getWeeksBetween(startDate, endDate) + 1;
+
+        if (_Weeks.size() > weekCount)
         {
             int diff = _Weeks.size() - weekCount;
-            for(int i = 0; i < diff; i++)
+            for (int i = 0; i < diff; i++)
             {
-                _Weeks.remove(_Weeks.size()-1);
+                _Weeks.remove(_Weeks.size() - 1);
             }
-        }
-        else
+        } else
         {
             int diff = weekCount - _Weeks.size();
-            
-            for(int i = 0; i < diff; i++)
+
+            int noOfDays = 7; 
+
+            for (int i = 0; i < diff; i++)
             {
-                _Weeks.add(new Week());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(startDate);
+                calendar.add(Calendar.DAY_OF_YEAR, noOfDays * i);
+                Date date = calendar.getTime();
+                _Weeks.add(new Week(date));
             }
         }
     }

@@ -7,6 +7,7 @@ package course.data.analyzer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -21,11 +22,64 @@ public class Section implements Serializable
     public ArrayList<String> _Lectures;
     public ArrayList<Student> _Students;
 
-    
-     public void PrintStudentAttendanceLoad()
-     { 
-        
-        
+    public ArrayList<AttendanceDate> GetAttendanceDates()
+    {
+        return _AttendanceDates;
+    }
+
+    public int GetAbsenteeismUntilDate(Date date)
+    {
+        int count = 0;
+        for (int i = 0; i < _AttendanceDates.size(); i++)
+        {
+            if (date.after(_AttendanceDates.get(i).getDate()))
+            {
+                count += GetTotalAbsentheismCountAtDate(i);
+            }
+        }
+
+        return count;
+    }
+
+    public int GetTotalAbsentheismCountAtDate(int attIndex)
+    {
+        int total = 0;
+        for (int i = 0; i < _Students.size(); i++)
+        {
+            AttendanceInformation info = _AttendanceDates.get(attIndex).GetMap().get(_Students.get(i));
+            total += info.absentCount;
+        }
+
+        return total;
+    }
+
+    public int GetAbsenteeismOfStudentAtDate(int attIndex, int studentIndex)
+    {
+
+        AttendanceInformation info = _AttendanceDates.get(attIndex).GetMap().get(_Students.get(studentIndex));
+
+        return info.absentCount;
+    }
+
+    public int GetAbsenteeismOfStudentUntilDate(Date date, int studentIndex)
+    {
+
+        int count = 0;
+        for (int i = 0; i < _AttendanceDates.size(); i++)
+        {
+            if (date.after(_AttendanceDates.get(i).getDate()))
+            {
+                AttendanceInformation info = _AttendanceDates.get(i).GetMap().get(_Students.get(studentIndex));
+                count += info.absentCount;
+            }
+        }
+
+        return count;
+    }
+
+    public void PrintStudentAttendanceLoad()
+    {
+
         for (int i = 0; i < _Students.size(); i++)
         {
             System.out.println("Student ID: " + _Students.get(i).getStringID() + "\n\n");
@@ -40,7 +94,7 @@ public class Section implements Serializable
             }
         }
     }
-     
+
     public ArrayList<Student> GetStudents()
     {
         return _Students;
@@ -55,39 +109,41 @@ public class Section implements Serializable
     {
         m_Name = n;
     }
-    
+
     public void AddNewStudent(Student s)
     {
         _Students.add(s);
     }
-    
+
     public void RemoveStudent(int index)
     {
-        if(index < 0 || index >= _Students.size()) return;
-        
+        if (index < 0 || index >= _Students.size())
+        {
+            return;
+        }
+
         _Students.remove(index);
- 
+
     }
-    
+
     public boolean CheckIfStudentExists(int ID)
     {
-     
-        
-        for(int i = 0; i < _Students.size(); i++)
+
+        for (int i = 0; i < _Students.size(); i++)
         {
-            if(_Students.get(i).getID() == ID)
+            if (_Students.get(i).getID() == ID)
             {
                 return true;
             }
         }
-        
+
         return false;
     }
 
     public Section(String n)
     {
         m_Name = n;
-        
+
         if (_Students == null)
         {
             _Students = new ArrayList<Student>();
@@ -109,7 +165,7 @@ public class Section implements Serializable
 
     public Section()
     {
-        
+
         if (_Students == null)
         {
             _Students = new ArrayList<Student>();
