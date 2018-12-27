@@ -16,11 +16,21 @@ public class Week implements Serializable
 {
     private Date m_Date;
     private String m_Topic;
-    
+    private float successScore;
     public Date getDate() { return m_Date;}
     public String getTopic() { return m_Topic; }
     public void setTopic(String tpc) { m_Topic = tpc; }
     
+    public void SetSuccessScore(float s)
+    {
+        successScore = s;
+        
+    }
+    
+    public float GetSuccessScore()
+    {
+        return successScore;
+    }
     public Week(Date date)
     {
         m_Date = date;

@@ -38,11 +38,12 @@ public class ResourceManager
 
     private Section currentCourse;
     private Exam currentExam;
-    
+
     public void SetCurrentExam(Exam e)
     {
         currentExam = e;
     }
+
     public void SetCurrentSection(Section s)
     {
         currentCourse = s;
@@ -93,9 +94,9 @@ public class ResourceManager
         return list;
     }
 
-    public void LoadExamXLSX() throws IOException
+    public void LoadExamXLSX(File file) throws IOException
     {
-        File myFile = new File(System.getProperty("user.dir"), "studentExamData.xlsx");
+        File myFile = file;
         FileInputStream fis = new FileInputStream(myFile);
 
         XSSFWorkbook mw = new XSSFWorkbook(fis);
@@ -105,19 +106,37 @@ public class ResourceManager
         Iterator<Row> rowIterator = mySheet.iterator();
         DataFormatter objDefaultFormat = new DataFormatter();
         FormulaEvaluator objFormulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) mw);
-
+        currentExam.getStudents().clear();
+        currentExam.getQuestions().clear();
+        boolean first = true;
+        boolean breakOuter = false;
         while (rowIterator.hasNext())
         {
 
             Row row = rowIterator.next();
-            
+
             Iterator<Cell> cellIterator = row.cellIterator();
-          
+
             while (cellIterator.hasNext())
             {
                 Cell cell = cellIterator.next();
-                
-                
+
+                if (first)
+                {
+                    String firstCell = cell.getStringCellValue();
+
+                    if (!firstCell.equals("EXAMDATA"))
+                    {
+                        
+                        currentExam.getStudents().clear();
+                        currentExam.getQuestions().clear();
+                        breakOuter = true;
+                        break;
+                    }
+
+                    first = false;
+                    continue;
+                }
                 if (cell.getCellType() == CellType.NUMERIC)
                 {
                     if (cell.getAddress().getColumn() == 0)
@@ -128,10 +147,10 @@ public class ResourceManager
                         currentExam.getStudents().add(student);
                     } else
                     {
-                        int point = (int)cell.getNumericCellValue();
-                        int columnIndex = cell.getColumnIndex() -1;
-                        
-                        currentExam.getQuestions().get(columnIndex).AddPair(currentExam.getStudents().get(currentExam.getStudents().size()-1), point);
+                        int point = (int) cell.getNumericCellValue();
+                        int columnIndex = cell.getColumnIndex() - 1;
+
+                        currentExam.getQuestions().get(columnIndex).AddPair(currentExam.getStudents().get(currentExam.getStudents().size() - 1), point);
                     }
 
                 } else
@@ -187,13 +206,18 @@ public class ResourceManager
                 }
 
             }
+
+            if (breakOuter)
+            {
+                break;
+            }
         }
 
     }
 
-    public void LoadStudentXLSX() throws IOException
+    public void LoadStudentXLSX(File file) throws IOException
     {
-        File myFile = new File(System.getProperty("user.dir"), "studentDataTest.xlsx");
+        File myFile = file;
         FileInputStream fis = new FileInputStream(myFile);
 
         XSSFWorkbook mw = new XSSFWorkbook(fis);
@@ -209,7 +233,11 @@ public class ResourceManager
         int cellCounter = 0;
         int attendanceDateCounter = 0;
         AttendanceInformation attInfo = null;
-
+        currentCourse._AttendanceDates.clear();
+        currentCourse._Lectures.clear();
+        currentCourse._Students.clear();
+        boolean first = true;
+        boolean breakOuter = false;
         while (rowIterator.hasNext())
         {
 
@@ -220,6 +248,21 @@ public class ResourceManager
             while (cellIterator.hasNext())
             {
                 Cell cell = cellIterator.next();
+
+                if (first)
+                {
+
+                    String firstCell = cell.getStringCellValue();
+
+                    if (!firstCell.equals("ATTDATA"))
+                    {
+                        breakOuter = true;
+                        break;
+                    }
+
+                    first = false;
+                    continue;
+                }
 
                 // Student Numbers as Strings
                 if (cell.getAddress().getColumn() == 0)
@@ -236,7 +279,16 @@ public class ResourceManager
                         {
                             int attDataSize = currentCourse._AttendanceDates.size();
                             int lectureDataSize = currentCourse._Lectures.size();
-                            lecturePerDate = (lectureDataSize / attDataSize);
+                            try
+                            {
+                                lecturePerDate = (lectureDataSize / attDataSize);
+                            } catch (ArithmeticException e)
+                            {
+                                currentCourse._AttendanceDates.clear();
+                                currentCourse._Lectures.clear();
+                                currentCourse._Students.clear();
+                                break;
+                            }
                             hasFinishedLectures = true;
                         }
                         attInfo = new AttendanceInformation();
@@ -308,6 +360,11 @@ public class ResourceManager
                     }
                 }
 
+            }
+
+            if (breakOuter)
+            {
+                break;
             }
         }
 

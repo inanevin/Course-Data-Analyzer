@@ -15,12 +15,26 @@ import java.util.LinkedHashMap;
  */
 public class Question implements Serializable
 {
-
+    private float successRate;
     private int m_Points;
     private ArrayList<Integer> _RelatedTopics;
     private ArrayList<Integer> _RelatedLearningOutcomes;
     public LinkedHashMap<Student, Integer> studentPointPairs = new LinkedHashMap<Student,Integer>();
     
+    public LinkedHashMap<Student, Integer> getMap()
+    {
+        return studentPointPairs;
+    }
+    
+    public void setSuccessRate(float rate)
+    {
+        successRate = rate;
+    }
+    
+    public float getSuccessRate()
+    {
+        return successRate;
+    }
     
     public void AddPair(Student s, int p)
     {

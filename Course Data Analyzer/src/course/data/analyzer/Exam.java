@@ -59,15 +59,39 @@ public class Exam implements Serializable
     private int m_Percentage;
     private Date m_Date;
     private int i_SelectedQuestion = -1;
-    
+    public float studentScoreOverTotal;
     private ArrayList<Student> _Students;
 
     public ArrayList<Student> getStudents()
     {
         return _Students;
     }
-    
 
+    public ArrayList<Question> CalculateQuestionSuccessRate()
+    {
+        studentScoreOverTotal = 0;
+        for (int i = 0; i < _Questions.size(); i++)
+        {
+            float questionMaxScore = _Questions.get(i).getPoints();
+            float totalQuestionScore = 0;
+            float totalStudentScore = 0;
+            for (int j = 0; j < _Students.size(); j++)
+            {
+                totalQuestionScore += questionMaxScore * (i + 1);
+
+                totalStudentScore += _Questions.get(i).getMap().get(_Students.get(j));
+            }
+
+            float rate = totalStudentScore / totalQuestionScore;
+            _Questions.get(i).setSuccessRate(rate);
+            studentScoreOverTotal += totalStudentScore / _Students.size();
+        }
+        
+        QuestionSuccessRateComparator comp = new QuestionSuccessRateComparator();
+        ArrayList<Question> copyList = new ArrayList<Question>(_Questions);
+        //copyList.sort(comp);
+        return copyList;
+    }
 
     public int GetSelectedQuestionIndex()
     {
@@ -121,8 +145,8 @@ public class Exam implements Serializable
         {
             _Questions = new ArrayList<Question>();
         }
-        
-        if(_Students == null)
+
+        if (_Students == null)
         {
             _Students = new ArrayList<Student>();
         }
