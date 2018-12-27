@@ -58,13 +58,6 @@ public class UIManager extends javax.swing.JFrame
         courseManager = new CourseManager(this, resourceManager);
         courseManager.PopulateCourses();
 
-        /*try
-        {
-            resourceManager.LoadStudentXLSX();
-        } catch (IOException ex)
-        {
-            Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
@@ -75,6 +68,11 @@ public class UIManager extends javax.swing.JFrame
         EditSectionWarning.setVisible(false);
         AddLOWarning.setVisible(false);
         SaveLOWarning.setVisible(false);
+        
+        if (i_SelectedCourse != -1)
+        {
+            courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().PrintStudentAttendanceLoad();
+        }
 
     }
 
@@ -257,7 +255,7 @@ public class UIManager extends javax.swing.JFrame
 
         for (int i = 0; i < students.size(); i++)
         {
-            String elementDisplay = new StringBuilder().append(students.get(i).getID()).toString();
+            String elementDisplay = new StringBuilder().append(students.get(i).getStringID()).toString();
             studentsModel.addElement(elementDisplay);
         }
 
@@ -347,11 +345,8 @@ public class UIManager extends javax.swing.JFrame
                     loModel.addElement(name);
                     System.out.println("Added LO: " + name);
                 }
-                
+
                 ExamLOList.setModel(loModel);
-                
-                
-                
 
             } else
             {
@@ -813,6 +808,20 @@ public class UIManager extends javax.swing.JFrame
         SettingsImage = new javax.swing.JLabel();
         TopRight = new javax.swing.JPanel();
         Center = new javax.swing.JPanel();
+        StudentsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel6 = new javax.swing.JPanel();
+        StudentsMainTitle = new javax.swing.JLabel();
+        StudentsMP = new javax.swing.JPanel();
+        StudentsScrollPane = new javax.swing.JScrollPane();
+        StudentsInnerPanel = new keeptoo.KGradientPanel();
+        StudentsIP_Panel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        ImportAttendanceData = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        StudentList = new javax.swing.JList<>();
+        StudentsIP_Panel2 = new javax.swing.JPanel();
+        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
+        NoCourseSelectedLabel = new javax.swing.JLabel();
         ExamsMainPanel = new javax.swing.JPanel();
         DBTitlePanel4 = new javax.swing.JPanel();
         DashboardMainTitle4 = new javax.swing.JLabel();
@@ -902,20 +911,6 @@ public class UIManager extends javax.swing.JFrame
         AddNewLearningOutcomeButton = new javax.swing.JButton();
         SyllabusNoCoursePanel = new keeptoo.KGradientPanel();
         NoCourseSelectedLabel4 = new javax.swing.JLabel();
-        StudentsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel6 = new javax.swing.JPanel();
-        StudentsMainTitle = new javax.swing.JLabel();
-        StudentsMP = new javax.swing.JPanel();
-        StudentsScrollPane = new javax.swing.JScrollPane();
-        StudentsInnerPanel = new keeptoo.KGradientPanel();
-        StudentsIP_Panel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        ImportAttendanceData = new javax.swing.JButton();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        StudentList = new javax.swing.JList<>();
-        StudentsIP_Panel2 = new javax.swing.JPanel();
-        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
-        NoCourseSelectedLabel = new javax.swing.JLabel();
         CoursesMainPanel = new javax.swing.JPanel();
         CoursesTitlePanel = new javax.swing.JPanel();
         CoursesMainTitle = new javax.swing.JLabel();
@@ -2164,7 +2159,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(420, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
 
         Main.add(Left, java.awt.BorderLayout.WEST);
@@ -2296,6 +2291,148 @@ public class UIManager extends javax.swing.JFrame
         Center.setBackground(new java.awt.Color(26, 24, 26));
         Center.setLayout(new javax.swing.OverlayLayout(Center));
 
+        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        StudentsMainTitle.setText("Students");
+        StudentsMainTitle.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
+        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
+        DBTitlePanel6Layout.setHorizontalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle)
+                .addContainerGap(685, Short.MAX_VALUE))
+        );
+        DBTitlePanel6Layout.setVerticalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
+
+        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
+        StudentsMP.setLayout(new java.awt.CardLayout());
+
+        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 600));
+        StudentsIP_Panel1.setOpaque(false);
+        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 600));
+
+        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
+        jLabel3.setText("Student List");
+
+        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
+        ImportAttendanceData.setText("Import Attendance Data");
+        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
+        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ImportAttendanceDataActionPerformed(evt);
+            }
+        });
+
+        StudentList.setBackground(new java.awt.Color(26, 24, 26));
+        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        StudentList.setForeground(new java.awt.Color(227, 227, 227));
+        jScrollPane10.setViewportView(StudentList);
+
+        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
+        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
+        StudentsIP_Panel1Layout.setHorizontalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(279, Short.MAX_VALUE))
+        );
+        StudentsIP_Panel1Layout.setVerticalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(155, Short.MAX_VALUE))
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel1);
+
+        StudentsIP_Panel2.setOpaque(false);
+        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
+
+        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
+        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
+        StudentsIP_Panel2Layout.setHorizontalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 791, Short.MAX_VALUE)
+        );
+        StudentsIP_Panel2Layout.setVerticalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel2);
+
+        StudentsScrollPane.setViewportView(StudentsInnerPanel);
+
+        StudentsMP.add(StudentsScrollPane, "card4");
+
+        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
+
+        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
+        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
+
+        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
+        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
+        StudentsNoCoursePanelLayout.setHorizontalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        StudentsNoCoursePanelLayout.setVerticalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        StudentsMP.add(StudentsNoCoursePanel, "card3");
+
+        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
+
+        Center.add(StudentsMainPanel);
+
         ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         ExamsMainPanel.setLayout(new java.awt.BorderLayout());
 
@@ -2353,7 +2490,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(752, Short.MAX_VALUE))
+                .addContainerGap(548, Short.MAX_VALUE))
         );
 
         ExamsMP.add(ExamsNoCoursePanel, "card3");
@@ -2794,7 +2931,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(ReportsNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel2)
-                .addContainerGap(752, Short.MAX_VALUE))
+                .addContainerGap(548, Short.MAX_VALUE))
         );
 
         ReportsMP.add(ReportsNoCoursePanel, "card3");
@@ -3252,7 +3389,7 @@ public class UIManager extends javax.swing.JFrame
             .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(752, Short.MAX_VALUE))
+                .addContainerGap(548, Short.MAX_VALUE))
         );
 
         SylMainPanel.add(SyllabusNoCoursePanel, "card3");
@@ -3260,148 +3397,6 @@ public class UIManager extends javax.swing.JFrame
         SyllabusMainPanel.add(SylMainPanel, java.awt.BorderLayout.CENTER);
 
         Center.add(SyllabusMainPanel);
-
-        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
-        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
-        StudentsMainTitle.setText("Students");
-        StudentsMainTitle.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
-        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
-        DBTitlePanel6Layout.setHorizontalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle)
-                .addContainerGap(685, Short.MAX_VALUE))
-        );
-        DBTitlePanel6Layout.setVerticalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
-        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
-
-        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
-        StudentsMP.setLayout(new java.awt.CardLayout());
-
-        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
-
-        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 600));
-        StudentsIP_Panel1.setOpaque(false);
-        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 600));
-
-        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
-        jLabel3.setText("Student List");
-
-        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
-        ImportAttendanceData.setText("Import Attendance Data");
-        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
-        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                ImportAttendanceDataActionPerformed(evt);
-            }
-        });
-
-        StudentList.setBackground(new java.awt.Color(26, 24, 26));
-        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        StudentList.setForeground(new java.awt.Color(227, 227, 227));
-        jScrollPane10.setViewportView(StudentList);
-
-        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
-        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
-        StudentsIP_Panel1Layout.setHorizontalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addContainerGap(279, Short.MAX_VALUE))
-        );
-        StudentsIP_Panel1Layout.setVerticalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel1);
-
-        StudentsIP_Panel2.setOpaque(false);
-        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
-
-        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
-        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
-        StudentsIP_Panel2Layout.setHorizontalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 791, Short.MAX_VALUE)
-        );
-        StudentsIP_Panel2Layout.setVerticalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel2);
-
-        StudentsScrollPane.setViewportView(StudentsInnerPanel);
-
-        StudentsMP.add(StudentsScrollPane, "card4");
-
-        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
-
-        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
-        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
-
-        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
-        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
-        StudentsNoCoursePanelLayout.setHorizontalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        StudentsNoCoursePanelLayout.setVerticalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(724, Short.MAX_VALUE))
-        );
-
-        StudentsMP.add(StudentsNoCoursePanel, "card3");
-
-        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
-
-        Center.add(StudentsMainPanel);
 
         CoursesMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         CoursesMainPanel.setLayout(new java.awt.BorderLayout(5, 25));
@@ -3706,7 +3701,7 @@ public class UIManager extends javax.swing.JFrame
                         .addGap(18, 18, 18)
                         .addComponent(RemoveSectionButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         CoursesCenterPanel.add(kGradientPanel5);
@@ -3781,14 +3776,14 @@ public class UIManager extends javax.swing.JFrame
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 49, Short.MAX_VALUE)
+                    .addGap(0, 19, Short.MAX_VALUE)
                     .addComponent(AvgSuccessTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(4, 4, 4)
                     .addComponent(ChartImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 56, Short.MAX_VALUE)))
+                    .addGap(0, 25, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel2);
@@ -3823,16 +3818,16 @@ public class UIManager extends javax.swing.JFrame
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(0, 30, Short.MAX_VALUE)
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(AvgAttendanceTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ChartImage2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(ViewAvgAttendance)
-                    .addGap(0, 31, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel7);
@@ -3867,16 +3862,16 @@ public class UIManager extends javax.swing.JFrame
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 30, Short.MAX_VALUE)
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ImportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DBImportBut)
-                    .addGap(0, 31, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel8);
@@ -3911,16 +3906,16 @@ public class UIManager extends javax.swing.JFrame
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
+            .addGap(0, 214, Short.MAX_VALUE)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addGap(0, 30, Short.MAX_VALUE)
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(CourseDataTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(8, 8, 8)
                     .addComponent(ExportImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(9, 9, 9)
                     .addComponent(DbExportBut)
-                    .addGap(0, 31, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         DBCenterPanel.add(jPanel9);
@@ -4331,6 +4326,19 @@ public class UIManager extends javax.swing.JFrame
     private void ImportAttendanceDataActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ImportAttendanceDataActionPerformed
     {//GEN-HEADEREND:event_ImportAttendanceDataActionPerformed
         // TODO add your handling code here:
+
+        try
+        {
+            resourceManager.SetCurrentSection(courseManager.GetCourse(i_SelectedCourse).GetSelectedSection());
+            resourceManager.LoadStudentXLSX();
+            courseManager.GetCourse(i_SelectedCourse).GetSelectedSection().PrintStudentAttendanceLoad();
+            UpdateStudents();
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_ImportAttendanceDataActionPerformed
 
     private void SectionsListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SectionsListMouseReleased
@@ -4639,7 +4647,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectEmptyButtonActionPerformed
         // TODO add your handling code here:
-           courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().ClearTopicsList();
+        courseManager.GetCourse(i_SelectedCourse).GetSelectedExam().GetSelectedQuestion().ClearTopicsList();
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectEmptyButtonActionPerformed

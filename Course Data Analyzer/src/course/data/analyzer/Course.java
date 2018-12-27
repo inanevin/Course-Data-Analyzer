@@ -14,7 +14,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author InanEvin
@@ -33,16 +32,17 @@ public class Course implements Serializable
     private int i_SelectedExam = -1;
     private int remainingExamPercentage = 100;
 
+
     public Syllabus GetSyllabus()
     {
         return m_Syllabus;
     }
-    
+
     public int GetSelectedExamIndex()
     {
         return i_SelectedExam;
     }
-    
+
     public String GetID()
     {
         return m_ID;
@@ -67,6 +67,7 @@ public class Course implements Serializable
     {
         return _Sections.get(i_SelectedSection);
     }
+
     public void SetSection(int i)
     {
         if (i == -1)
@@ -75,7 +76,7 @@ public class Course implements Serializable
         }
         i_SelectedSection = i;
     }
-    
+
     public void AddSection(String name)
     {
         _Sections.add(new Section(name));
@@ -113,11 +114,13 @@ public class Course implements Serializable
             _Sections.add(new Section("Section 1"));
             i_SelectedSection = 0;
         }
-        
-        if(_Exams == null)
+
+        if (_Exams == null)
         {
             _Exams = new ArrayList<Exam>();
         }
+
+        
 
         m_Syllabus = new Syllabus();
     }
@@ -139,12 +142,13 @@ public class Course implements Serializable
             _Sections.add(new Section("Section 1"));
             i_SelectedSection = 0;
         }
-        
-         if(_Exams == null)
+
+        if (_Exams == null)
         {
             _Exams = new ArrayList<Exam>();
         }
-        
+
+
         m_Syllabus = new Syllabus();
     }
 
@@ -152,16 +156,17 @@ public class Course implements Serializable
     {
         return remainingExamPercentage;
     }
-    
+
     public void CalculateRemainingExamPercentage()
     {
         remainingExamPercentage = 100;
-        
-        for(int i = 0; i <_Exams.size(); i++)
+
+        for (int i = 0; i < _Exams.size(); i++)
         {
             remainingExamPercentage -= _Exams.get(i).getPercentage();
         }
     }
+
     public ArrayList<Section> GetSections()
     {
         return _Sections;
@@ -171,42 +176,45 @@ public class Course implements Serializable
     {
         return _Exams;
     }
-    
+
     public Exam GetSelectedExam()
     {
         return _Exams.get(i_SelectedExam);
     }
-    
+
     public void Edit(String id, String name, String Desc)
     {
         m_ID = id;
         m_Name = name;
         m_Description = Desc;
     }
-    
-    
+
     public void AddExam(Exam exam)
     {
         _Exams.add(exam);
         i_SelectedExam++;
     }
-    
+
     public void RemoveExam(int index)
     {
-        if(index < 0 || index > _Exams.size()) return;
-        
+        if (index < 0 || index > _Exams.size())
+        {
+            return;
+        }
+
         remainingExamPercentage += _Exams.get(index).getPercentage();
         _Exams.remove(index);
         i_SelectedExam--;
-        
-        if(i_SelectedExam < 0 && _Exams.size() > 0)
+
+        if (i_SelectedExam < 0 && _Exams.size() > 0)
+        {
             i_SelectedExam = 0;
+        }
     }
-    
+
     public void SetSelectedExam(int i)
     {
         i_SelectedExam = i;
     }
-    
- 
+
 }

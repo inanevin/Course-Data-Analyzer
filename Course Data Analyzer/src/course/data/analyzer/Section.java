@@ -16,8 +16,32 @@ public class Section implements Serializable
 {
 
     private String m_Name;
-    private ArrayList<Student> _Students;
- 
+
+    public ArrayList<AttendanceDate> _AttendanceDates;
+    public ArrayList<String> _Lectures;
+    public ArrayList<Student> _Students;
+
+    
+     public void PrintStudentAttendanceLoad()
+     { 
+        System.out.println(_Lectures.size());
+        
+        
+        for (int i = 0; i < _Students.size(); i++)
+        {
+            System.out.println("Student ID: " + _Students.get(i).getStringID() + "\n\n");
+
+            for (int j = 0; j < _AttendanceDates.size(); j++)
+            {
+                System.out.println(j + ". Attendance Date: " + _AttendanceDates.get(j).getDate() + "\n");
+
+                System.out.println("PresentCount: " + _AttendanceDates.get(j).GetMap().get(_Students.get(i)).presentCount);
+                System.out.println("AbsentCount: " + _AttendanceDates.get(j).GetMap().get(_Students.get(i)).absentCount);
+
+            }
+        }
+    }
+     
     public ArrayList<Student> GetStudents()
     {
         return _Students;
@@ -64,12 +88,46 @@ public class Section implements Serializable
     public Section(String n)
     {
         m_Name = n;
-        _Students = new ArrayList<Student>();
+        
+        if (_Students == null)
+        {
+            _Students = new ArrayList<Student>();
+
+        }
+
+        if (_AttendanceDates == null)
+        {
+            _AttendanceDates = new ArrayList<AttendanceDate>();
+
+        }
+
+        if (_Lectures == null)
+        {
+            _Lectures = new ArrayList<String>();
+
+        }
     }
 
     public Section()
     {
-        _Students = new ArrayList<Student>();
+        
+        if (_Students == null)
+        {
+            _Students = new ArrayList<Student>();
+
+        }
+
+        if (_AttendanceDates == null)
+        {
+            _AttendanceDates = new ArrayList<AttendanceDate>();
+
+        }
+
+        if (_Lectures == null)
+        {
+            _Lectures = new ArrayList<String>();
+
+        }
     }
 
 }
