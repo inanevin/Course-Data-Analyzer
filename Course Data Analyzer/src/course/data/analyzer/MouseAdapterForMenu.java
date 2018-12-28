@@ -25,8 +25,8 @@ public class MouseAdapterForMenu extends MouseAdapter
 
     public MouseAdapterForMenu(int menuIndex, UIManager uiMan)
     {
-        menuIndex = menuIndex;
-        uiManager = uiMan;
+        this.menuIndex = menuIndex;
+        this.uiManager = uiMan;
     }
 
     @Override

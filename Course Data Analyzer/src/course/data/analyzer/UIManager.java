@@ -41,24 +41,21 @@ import org.knowm.xchart.style.Styler.LegendPosition;
 public class UIManager extends javax.swing.JFrame
 {
 
-    private CourseManager courseManager;
-    private ResourceManager resourceManager;
-    private ArrayList<MenuBarItem> menuBarItems;
-    private MenuBarItem currentSelectedMenu;
-    private Color selectedMenuItemColor = new Color(36, 152, 249);
-    private Color unselectedMenuItemColor = new Color(53, 55, 61);
-    private Color unselectedInnerMenuItemColor = new Color(26, 24, 26);
-
-    private ArrayList<CourseAction> courseActions;
-    private int i_SelectedCourse = -1;
-    private int i_SelectedSection = -1;
-
     private enum FileChooseState
     {
         ExamResults,
         StudentAttendance,
     }
-
+    private CourseManager courseManager;
+    private ResourceManager resourceManager;
+    private MenuBarItem currentSelectedMenu;
+    private Color selectedMenuItemColor = new Color(36, 152, 249);
+    private Color unselectedMenuItemColor = new Color(53, 55, 61);
+    private Color unselectedInnerMenuItemColor = new Color(26, 24, 26);
+    private ArrayList<MenuBarItem> menuBarItems;
+    private ArrayList<CourseAction> courseActions;
+    private int selectedCourse = -1;
+    private int selectedSection = -1;
     private FileChooseState fileChooseState;
 
     /**
@@ -69,485 +66,19 @@ public class UIManager extends javax.swing.JFrame
 
         initComponents();
 
+        // Instantiate managers.
         courseActions = new ArrayList<CourseAction>();
         resourceManager = new ResourceManager();
         courseManager = new CourseManager(this, resourceManager);
-        courseManager.PopulateCourses();
 
         SetIcons();
         InitializeMenuBarItems();
         AddComponentListeners();
+        SetUIChoices();
 
-        AddCourseWarning.setVisible(false);
-        EditCourseWarning.setVisible(false);
-        AddSectionWarning.setVisible(false);
-        EditSectionWarning.setVisible(false);
-        AddLOWarning.setVisible(false);
-        SaveLOWarning.setVisible(false);
+        // Load courses.
+        courseManager.PopulateCourses();
 
-        FileFilter filter = new FileNameExtensionFilter("Excel (.XLSX)", "xlsx");
-        FileChooser.setFileFilter(filter);
-        FileChooser.setAcceptAllFileFilterUsed(false);
-    
-    }
-
-    // 1 is for adding a new course, 2 is for removing.
-    public void SetLastActionForCourses(Course subject, int actionIndex)
-    {
-
-        try
-        {
-            CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex());
-            courseActions.add(c);
-        } catch (ActionIndexException e)
-        {
-            System.out.println(e.getMessage());
-            return;
-        }
-
-        UndoButton.setEnabled(true);
-
-    }
-
-    public void SelectCourse(int course)
-    {
-        i_SelectedCourse = course;
-
-        if (i_SelectedCourse != -1)
-        {
-            SelectSection(courseManager.GetCourse(i_SelectedCourse).getSelectedSectionIndex());
-
-        } else
-        {
-            UpdateSections();
-        }
-
-        UpdateCourseList();
-        UpdateSyllabus();
-        UpdateExams();
-        UpdateReports();
-    }
-
-    public void SelectExam(int exam)
-    {
-        courseManager.GetCourse(i_SelectedCourse).setSelectedExam(exam);
-        UpdateExams();
-        UpdateReports();
-    }
-
-    public void SelectQuestion(int question)
-    {
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setSelectedQuestion(question);
-        UpdateExams();
-        UpdateReports();
-    }
-
-    public void SelectSection(int section)
-    {
-        if (i_SelectedCourse != -1)
-        {
-            courseManager.GetCourse(i_SelectedCourse).setSection(section);
-        }
-
-        UpdateSections();
-        UpdateStudents();
-        UpdateReports();
-    }
-
-    public void SelectSyllabusWeek(int week)
-    {
-        if (i_SelectedCourse != -1)
-        {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().setSelectedWeek(week);
-        }
-
-        UpdateSyllabus();
-        UpdateReports();
-    }
-
-    public void SelectLearningOutcome(int outcome)
-    {
-        if (i_SelectedCourse != -1)
-        {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO(outcome);
-        }
-
-        UpdateSyllabus();
-        UpdateReports();
-    }
-
-    public void UpdateCourseList()
-    {
-        if (i_SelectedCourse == -1)
-        {
-            DuplicateCourseButton.setEnabled(false);
-            RemoveCourseButton.setEnabled(false);
-
-            CourseID.setText("");
-            CourseName.setText("");
-            CourseDescription.setText("");
-        } else
-        {
-            DuplicateCourseButton.setEnabled(true);
-            RemoveCourseButton.setEnabled(true);
-
-            String id = courseManager.GetCourse(i_SelectedCourse).getID();
-            String name = courseManager.GetCourse(i_SelectedCourse).getName();
-            String desc = courseManager.GetCourse(i_SelectedCourse).getDescription();
-            CourseID.setText(id);
-            CourseName.setText(name);
-            CourseDescription.setText(desc);
-        }
-
-        ArrayList<Course> courses = courseManager.GetCourseList();
-        DefaultListModel courseListModel = new DefaultListModel();
-        DefaultComboBoxModel courseComboBoxModel = new DefaultComboBoxModel();
-
-        for (int i = 0; i < courses.size(); i++)
-        {
-            String elementDisplay = (new StringBuilder()).append(courses.get(i).getID()).append(" - ").append(courses.get(i).getName()).toString();
-            courseListModel.addElement(elementDisplay);
-            courseComboBoxModel.addElement(elementDisplay);
-        }
-
-        CoursesList.setModel(courseListModel);
-        CourseSelectionComboBox.setModel(courseComboBoxModel);
-
-        CoursesList.setSelectedIndex(i_SelectedCourse);
-        CourseSelectionComboBox.setSelectedIndex(i_SelectedCourse);
-
-        courseManager.SaveCourses();
-    }
-
-    public void UpdateSections()
-    {
-        DefaultListModel m = new DefaultListModel();
-        DefaultComboBoxModel cm = new DefaultComboBoxModel();
-
-        if (i_SelectedCourse != -1)
-        {
-            ArrayList<Section> sections = new ArrayList<Section>();
-            sections = courseManager.GetCourse(i_SelectedCourse).getSections();
-
-            for (int i = 0; i < sections.size(); i++)
-            {
-                String elementDisplay = (new StringBuilder()).append(sections.get(i).GetName()).toString();
-                m.addElement(elementDisplay);
-                cm.addElement(elementDisplay);
-            }
-
-            if (courseManager.GetCourse(i_SelectedCourse).getSections().size() > 1)
-            {
-                RemoveSectionButton.setEnabled(true);
-            } else
-            {
-                RemoveSectionButton.setEnabled(false);
-            }
-
-            AddSectionButton.setEnabled(true);
-
-        } else
-        {
-            AddSectionButton.setEnabled(false);
-            RemoveSectionButton.setEnabled(false);
-        }
-
-        SectionsList.setModel(m);
-        SectionSelectionComboBox.setModel(cm);
-        int toSelect = i_SelectedCourse == -1 ? -1 : courseManager.GetCourse(i_SelectedCourse).getSelectedSectionIndex();
-        SectionsList.setSelectedIndex(toSelect);
-        SectionSelectionComboBox.setSelectedIndex(toSelect);
-
-        courseManager.SaveCourses();
-    }
-
-    private void UpdateStudents()
-    {
-        if (i_SelectedCourse == -1)
-        {
-
-            return;
-        }
-
-        ArrayList<Student> students = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetStudents();
-        DefaultListModel studentsModel = new DefaultListModel();
-
-        for (int i = 0; i < students.size(); i++)
-        {
-            String elementDisplay = new StringBuilder().append(students.get(i).getID()).toString();
-            studentsModel.addElement(elementDisplay);
-        }
-
-        StudentList.setModel(studentsModel);
-        UpdateReports();
-        courseManager.SaveCourses();
-    }
-
-    private void UpdateExams()
-    {
-        if (i_SelectedCourse == -1)
-        {
-            return;
-        }
-
-        int selectedExam = courseManager.GetCourse(i_SelectedCourse).getSelectedExamIndex();
-
-        ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).getExams();
-        DefaultListModel examsModel = new DefaultListModel();
-
-        for (int i = 0; i < exams.size(); i++)
-        {
-            String elementDisplay = new StringBuilder().append(exams.get(i).getType().toString()).toString();
-            examsModel.addElement(elementDisplay);
-        }
-
-        ExamList.setModel(examsModel);
-        ExamList.setSelectedIndex(selectedExam);
-
-        if (selectedExam == -1)
-        {
-            RemoveExamButton.setEnabled(false);
-            ExamEditPanel.setVisible(false);
-
-        } else
-        {
-            RemoveExamButton.setEnabled(true);
-            ExamEditPanel.setVisible(true);
-
-            ExamTypeComboBox.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getType().getValue());
-            ExamDateChooser.setDate(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getDate());
-
-            ExamPercentageField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getPercentage()));
-
-            ArrayList<Question> questions = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getQuestions();
-            DefaultListModel questionsModel = new DefaultListModel();
-
-            for (int i = 0; i < questions.size(); i++)
-            {
-                String elementDisplay = new StringBuilder().append("Question ").append(i).toString();
-                questionsModel.addElement(elementDisplay);
-            }
-
-            QuestionList.setModel(questionsModel);
-            QuestionList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestionIndex());
-
-            if (QuestionList.getSelectedIndex() != -1)
-            {
-                SelectLOButton.setEnabled(true);
-                SelectTopicsButton.setEnabled(true);
-                RemoveQuestionButton.setEnabled(true);
-                QuestionPointField.setEnabled(true);
-                QuestionPointField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getPoints()));
-
-                ArrayList<Integer> topicIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getTopicList();
-
-                DefaultListModel topicsModel = new DefaultListModel();
-                ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks();
-
-                for (int i = 0; i < topicIndices.size(); i++)
-                {
-                    String name = weeks.get(topicIndices.get(i)).getTopic();
-                    String elementDisplay = new StringBuilder().append("Week ").append(topicIndices.get(i)).append(" ").append(name).toString();
-                    topicsModel.addElement(elementDisplay);
-                }
-
-                ExamTopicList.setModel(topicsModel);
-
-                ArrayList<Integer> loIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getLOList();
-                DefaultListModel loModel = new DefaultListModel();
-                ArrayList<String> learningOutcomes = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes();
-
-                for (int i = 0; i < loIndices.size(); i++)
-                {
-
-                    String name = learningOutcomes.get(loIndices.get(i));
-                    loModel.addElement(name);
-                    System.out.println("Added LO: " + name);
-                }
-
-                ExamLOList.setModel(loModel);
-
-            } else
-            {
-                ExamLOList.setModel(new DefaultListModel());
-                ExamTopicList.setModel(new DefaultListModel());
-                RemoveQuestionButton.setEnabled(false);
-                QuestionPointField.setEnabled(false);
-                QuestionPointField.setText("");
-                SelectLOButton.setEnabled(false);
-                SelectTopicsButton.setEnabled(false);
-            }
-
-        }
-
-        courseManager.SaveCourses();
-    }
-
-    private void UpdateReports()
-    {
-        if (i_SelectedCourse == -1)
-        {
-
-            return;
-        }
-
-        DefaultComboBoxModel cm = new DefaultComboBoxModel();
-
-        ArrayList<Student> studentList = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetStudents();
-
-        if (studentList.size() > 0)
-        {
-            cm.addElement("ALL STUDENTS");
-
-            for (int i = 0; i < studentList.size(); i++)
-            {
-                String id = studentList.get(i).getID();
-                cm.addElement(id);
-            }
-
-            AttendanceReportsComboBox.setModel(cm);
-            ViewAttendanceReportButton.setEnabled(true);
-
-        } else
-        {
-            AttendanceReportsComboBox.setModel(new DefaultComboBoxModel());
-            ViewAttendanceReportButton.setEnabled(false);
-
-        }
-
-        if (studentList.size() > 0 && courseManager.GetCourse(i_SelectedCourse).getExams().size() > 0)
-        {
-            ViewAttendanceReportExamsButton.setEnabled(true);
-        } else
-        {
-            ViewAttendanceReportExamsButton.setEnabled(false);
-        }
-
-        if (courseManager.GetCourse(i_SelectedCourse).getExams().size() > 0 && courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks().size() > 0
-                && courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getQuestions().size() > 0)
-        {
-            ViewTopicSuccessButton.setEnabled(true);
-            ViewExamGradesButton.setEnabled(true);
-
-        } else
-        {
-            ViewExamGradesButton.setEnabled(false);
-            ViewTopicSuccessButton.setEnabled(false);
-
-        }
-
-        courseManager.SaveCourses();
-    }
-
-    private void UpdateSyllabus()
-    {
-        if (i_SelectedCourse == -1)
-        {
-            SyllabusStartDateChooser.setDate(null);
-            SyllabusEndDateChooser.setDate(null);
-            SyllabusWeekTopicsArea.setText("");
-            SyllabusWeekList.setModel(new DefaultListModel());
-            LearningOutcomeList.setModel(new DefaultListModel());
-            return;
-        }
-
-        ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks();
-
-        DefaultListModel syllabusWeeksModel = new DefaultListModel();
-
-        for (int i = 0; i < weeks.size(); i++)
-        {
-            String elementDisplay = (new StringBuilder()).append("Week ").append((i + 1)).toString();
-            syllabusWeeksModel.addElement(elementDisplay);
-        }
-
-        Date start = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getStartDate();
-        Date end = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getEndDate();
-
-        SyllabusStartDateChooser.setDate(start);
-        SyllabusEndDateChooser.setDate(end);
-
-        if (start == null)
-        {
-            SyllabusEndDateChooser.setEnabled(false);
-        }
-
-        if (courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks().size() > 0)
-        {
-            String topic = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks().get(0).getTopic();
-            SyllabusWeekTopicsArea.setText(topic);
-            SyllabusWeekTopicsArea.setEditable(true);
-        } else
-        {
-            SyllabusWeekTopicsArea.setText("");
-            SyllabusWeekTopicsArea.setEditable(false);
-        }
-
-        SyllabusWeekList.setModel(syllabusWeeksModel);
-        SyllabusWeekList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedWeek());
-
-        ArrayList<String> lo = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes();
-
-        if (lo == null)
-        {
-            return;
-        }
-
-        DefaultListModel m = new DefaultListModel();
-
-        for (int i = 0; i < lo.size(); i++)
-        {
-            String elementDisplay = (new StringBuilder()).append("L.O  ").append((i + 1) + ": ").append(lo.get(i)).toString();
-            m.addElement(elementDisplay);
-
-        }
-
-        LearningOutcomeList.setModel(m);
-
-        int loIndex = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO();
-        LearningOutcomeList.setSelectedIndex(loIndex);
-
-        System.out.println(loIndex);
-        if (loIndex == -1)
-        {
-            RemoveLearningOutcomeButton.setEnabled(false);
-        } else
-        {
-            RemoveLearningOutcomeButton.setEnabled(true);
-        }
-
-        courseManager.SaveCourses();
-    }
-
-    private void InitializeMenuBarItems()
-    {
-        // Create objects for menu bar items.
-        MenuBarItem dashboard = new MenuBarItem(DashboardWrapper, DashboardMainPanel, null, null);
-        MenuBarItem courses = new MenuBarItem(CoursesWrapper, CoursesMainPanel, null, null);
-        MenuBarItem students = new MenuBarItem(StudentsWrapper, StudentsMainPanel, StudentsScrollPane, StudentsNoCoursePanel);
-        MenuBarItem syllabus = new MenuBarItem(SyllabusWrapper, SyllabusMainPanel, SyllabusScrollPane, SyllabusNoCoursePanel);
-        MenuBarItem exams = new MenuBarItem(ExamsWrapper, ExamsMainPanel, ExamsScrollPane, ExamsNoCoursePanel);
-        MenuBarItem reports = new MenuBarItem(ReportsWrapper, ReportsMainPanel, ReportsScrollPane, ReportsNoCoursePanel);
-
-        // Init list
-        menuBarItems = new ArrayList<MenuBarItem>();
-
-        // Init current selected menu
-        currentSelectedMenu = null;
-
-        // Add objets.
-        menuBarItems.add(dashboard);
-        menuBarItems.add(courses);
-        menuBarItems.add(students);
-        menuBarItems.add(syllabus);
-        menuBarItems.add(exams);
-        menuBarItems.add(reports);
-
-        // Deselect all menus.
-        DeselectAllMenu();
-
-        // Select dashboard as initial menu.
-        SelectMenu(dashboard);
     }
 
     private void SetIcons()
@@ -637,6 +168,37 @@ public class UIManager extends javax.swing.JFrame
 
     }
 
+    private void InitializeMenuBarItems()
+    {
+        // Create objects for menu bar items.
+        MenuBarItem dashboard = new MenuBarItem(DashboardWrapper, DashboardMainPanel, null, null);
+        MenuBarItem courses = new MenuBarItem(CoursesWrapper, CoursesMainPanel, null, null);
+        MenuBarItem students = new MenuBarItem(StudentsWrapper, StudentsMainPanel, StudentsScrollPane, StudentsNoCoursePanel);
+        MenuBarItem syllabus = new MenuBarItem(SyllabusWrapper, SyllabusMainPanel, SyllabusScrollPane, SyllabusNoCoursePanel);
+        MenuBarItem exams = new MenuBarItem(ExamsWrapper, ExamsMainPanel, ExamsScrollPane, ExamsNoCoursePanel);
+        MenuBarItem reports = new MenuBarItem(ReportsWrapper, ReportsMainPanel, ReportsScrollPane, ReportsNoCoursePanel);
+
+        // Init list
+        menuBarItems = new ArrayList<MenuBarItem>();
+
+        // Init current selected menu
+        currentSelectedMenu = null;
+
+        // Add objets.
+        menuBarItems.add(dashboard);
+        menuBarItems.add(courses);
+        menuBarItems.add(students);
+        menuBarItems.add(syllabus);
+        menuBarItems.add(exams);
+        menuBarItems.add(reports);
+
+        // Deselect all menus.
+        DeselectAllMenu();
+
+        // Select dashboard as initial menu.
+        SelectMenu(dashboard);
+    }
+
     private void AddComponentListeners()
     {
 
@@ -673,6 +235,95 @@ public class UIManager extends javax.swing.JFrame
 
     }
 
+    private void SetUIChoices()
+    {
+        AddCourseWarning.setVisible(false);
+        EditCourseWarning.setVisible(false);
+        AddSectionWarning.setVisible(false);
+        EditSectionWarning.setVisible(false);
+        AddLOWarning.setVisible(false);
+        SaveLOWarning.setVisible(false);
+        FileFilter filter = new FileNameExtensionFilter("Excel (.XLSX)", "xlsx");
+        FileChooser.setFileFilter(filter);
+        FileChooser.setAcceptAllFileFilterUsed(false);
+    }
+
+    // 1 is for adding a new course, 2 is for removing.
+    public void SetLastActionForCourses(Course subject, int actionIndex)
+    {
+        try
+        {
+            CourseAction c = new CourseAction(subject, actionIndex, CoursesList.getSelectedIndex());
+            courseActions.add(c);
+        }
+        catch (ActionIndexException e)
+        {
+            return;
+        }
+
+        UndoButton.setEnabled(true);
+
+    }
+
+    public void SelectCourse(int course)
+    {
+        selectedCourse = course;
+
+        if (selectedCourse != -1)
+            SelectSection(courseManager.GetCourse(selectedCourse).getSelectedSectionIndex());
+        else
+            UpdateSections();
+
+        // Update menus.
+        UpdateCourseList();
+        UpdateSyllabus();
+        UpdateExams();
+        UpdateReports();
+    }
+
+    public void SelectExam(int exam)
+    {
+        courseManager.GetCourse(selectedCourse).setSelectedExam(exam);
+        UpdateExams();
+        UpdateReports();
+    }
+
+    public void SelectQuestion(int question)
+    {
+        courseManager.GetCourse(selectedCourse).getSelectedExam().setSelectedQuestion(question);
+        UpdateExams();
+        UpdateReports();
+    }
+
+    public void SelectSection(int section)
+    {
+        if (selectedCourse != -1)
+            courseManager.GetCourse(selectedCourse).setSection(section);
+
+        UpdateSections();
+        UpdateStudents();
+        UpdateReports();
+    }
+
+    public void SelectSyllabusWeek(int week)
+    {
+        if (selectedCourse != -1)
+            courseManager.GetCourse(selectedCourse).getSyllabus().setSelectedWeek(week);
+
+        UpdateSyllabus();
+        UpdateReports();
+    }
+
+    public void SelectLearningOutcome(int outcome)
+    {
+        if (selectedCourse != -1)
+            courseManager.GetCourse(selectedCourse).getSyllabus().getSelectedLO(outcome);
+
+        UpdateSyllabus();
+        UpdateReports();
+    }
+
+    // Called from mouse adapters.
     public void SelectMenu(int barItemIndex)
     {
         SelectMenu(menuBarItems.get(barItemIndex));
@@ -680,12 +331,9 @@ public class UIManager extends javax.swing.JFrame
 
     public void SelectMenu(MenuBarItem menu)
     {
-
         // Deselect if current menu is not null.
         if (currentSelectedMenu != null)
-        {
             DeselectMenu(currentSelectedMenu);
-        }
 
         // Set selectable panel color to selected.
         menu.getSelectablePanel().setBackground(selectedMenuItemColor);
@@ -694,15 +342,12 @@ public class UIManager extends javax.swing.JFrame
         menu.getMainPanel().setVisible(true);
         menu.getMainPanel().setEnabled(true);
 
+        // Set the visibility of no course panels and inner panels.
         if (menu.getNoCoursePanel() != null)
-        {
-            menu.getNoCoursePanel().setVisible(i_SelectedCourse == -1);
-        }
+            menu.getNoCoursePanel().setVisible(selectedCourse == -1);
 
         if (menu.getInnerPanel() != null)
-        {
-            menu.getInnerPanel().setVisible(i_SelectedCourse != -1);
-        }
+            menu.getInnerPanel().setVisible(selectedCourse != -1);
 
         // Set current selected.
         currentSelectedMenu = menu;
@@ -712,14 +357,11 @@ public class UIManager extends javax.swing.JFrame
     private void DeselectAllMenu()
     {
         for (int i = 0; i < menuBarItems.size(); i++)
-        {
             DeselectMenu(menuBarItems.get(i));
-        }
     }
 
     void DeselectMenu(MenuBarItem menu)
     {
-
         // Set selectable panel color to unselected.
         menu.getSelectablePanel().setBackground(unselectedMenuItemColor);
 
@@ -728,9 +370,354 @@ public class UIManager extends javax.swing.JFrame
         menu.getMainPanel().setEnabled(false);
     }
 
+    public void UpdateCourseList()
+    {
+        if (selectedCourse == -1)
+        {
+            // Disable buttons and empty the fields.
+            DuplicateCourseButton.setEnabled(false);
+            RemoveCourseButton.setEnabled(false);
+            CourseID.setText("");
+            CourseName.setText("");
+            CourseDescription.setText("");
+        }
+        else
+        {
+            // Enable buttons and fill the fields.
+            String id = courseManager.GetCourse(selectedCourse).getID();
+            String name = courseManager.GetCourse(selectedCourse).getName();
+            String desc = courseManager.GetCourse(selectedCourse).getDescription();
+            DuplicateCourseButton.setEnabled(true);
+            RemoveCourseButton.setEnabled(true);
+            CourseID.setText(id);
+            CourseName.setText(name);
+            CourseDescription.setText(desc);
+        }
+
+        ArrayList<Course> courses = courseManager.GetCourseList();
+        DefaultListModel courseListModel = new DefaultListModel();
+        DefaultComboBoxModel courseComboBoxModel = new DefaultComboBoxModel();
+
+        // Fill list & combobox model based on courses.
+        for (int i = 0; i < courses.size(); i++)
+        {
+            String elementDisplay = (new StringBuilder()).append(courses.get(i).getID()).append(" - ").append(courses.get(i).getName()).toString();
+            courseListModel.addElement(elementDisplay);
+            courseComboBoxModel.addElement(elementDisplay);
+        }
+
+        // Set list & combobox model.
+        CoursesList.setModel(courseListModel);
+        CourseSelectionComboBox.setModel(courseComboBoxModel);
+        CoursesList.setSelectedIndex(selectedCourse);
+        CourseSelectionComboBox.setSelectedIndex(selectedCourse);
+
+        courseManager.SaveCourses();
+    }
+
+    public void UpdateSections()
+    {
+        DefaultListModel m = new DefaultListModel();
+        DefaultComboBoxModel cm = new DefaultComboBoxModel();
+
+        if (selectedCourse != -1)
+        {
+            ArrayList<Section> sections = new ArrayList<Section>();
+            sections = courseManager.GetCourse(selectedCourse).getSections();
+
+            // Fill list & combobox models for sections.
+            for (int i = 0; i < sections.size(); i++)
+            {
+                String elementDisplay = (new StringBuilder()).append(sections.get(i).GetName()).toString();
+                m.addElement(elementDisplay);
+                cm.addElement(elementDisplay);
+            }
+
+            // Adjust button activation.
+            if (courseManager.GetCourse(selectedCourse).getSections().size() > 1)
+                RemoveSectionButton.setEnabled(true);
+            else
+                RemoveSectionButton.setEnabled(false);
+
+            AddSectionButton.setEnabled(true);
+
+        }
+        else
+        {
+            AddSectionButton.setEnabled(false);
+            RemoveSectionButton.setEnabled(false);
+        }
+
+        // Set models.
+        SectionsList.setModel(m);
+        SectionSelectionComboBox.setModel(cm);
+
+        // Set selection indices.
+        int toSelect = selectedCourse == -1 ? -1 : courseManager.GetCourse(selectedCourse).getSelectedSectionIndex();
+        SectionsList.setSelectedIndex(toSelect);
+        SectionSelectionComboBox.setSelectedIndex(toSelect);
+
+        courseManager.SaveCourses();
+    }
+
+    private void UpdateStudents()
+    {
+        if (selectedCourse == -1)
+            return;
+
+        ArrayList<Student> students = courseManager.GetCourse(selectedCourse).getSelectedSection().GetStudents();
+        DefaultListModel studentsModel = new DefaultListModel();
+
+        // Fill list model for students.
+        for (int i = 0; i < students.size(); i++)
+        {
+            String elementDisplay = new StringBuilder().append(students.get(i).getID()).toString();
+            studentsModel.addElement(elementDisplay);
+        }
+
+        // Set model, update and save.
+        StudentList.setModel(studentsModel);
+        UpdateReports();
+        courseManager.SaveCourses();
+    }
+
+    private void UpdateExams()
+    {
+        if (selectedCourse == -1)
+            return;
+
+        int selectedExam = courseManager.GetCourse(selectedCourse).getSelectedExamIndex();
+        ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
+        DefaultListModel examsModel = new DefaultListModel();
+
+        // Fill list model for exams.
+        for (int i = 0; i < exams.size(); i++)
+        {
+            String elementDisplay = new StringBuilder().append(exams.get(i).getType().toString()).toString();
+            examsModel.addElement(elementDisplay);
+        }
+
+        // Set model and select index.
+        ExamList.setModel(examsModel);
+        ExamList.setSelectedIndex(selectedExam);
+
+        if (selectedExam == -1)
+        {
+            // Disable buttons.
+            RemoveExamButton.setEnabled(false);
+            ExamEditPanel.setVisible(false);
+        }
+        else
+        {
+            // Enable buttons, adjust selection, dates and fields.
+            RemoveExamButton.setEnabled(true);
+            ExamEditPanel.setVisible(true);
+            ExamTypeComboBox.setSelectedIndex(courseManager.GetCourse(selectedCourse).getSelectedExam().getType().getValue());
+            ExamDateChooser.setDate(courseManager.GetCourse(selectedCourse).getSelectedExam().getDate());
+            ExamPercentageField.setText(Integer.toString(courseManager.GetCourse(selectedCourse).getSelectedExam().getPercentage()));
+
+            ArrayList<Question> questions = courseManager.GetCourse(selectedCourse).getSelectedExam().getQuestions();
+            DefaultListModel questionsModel = new DefaultListModel();
+
+            // Fill question list model.
+            for (int i = 0; i < questions.size(); i++)
+            {
+                String elementDisplay = new StringBuilder().append("Question ").append(i).toString();
+                questionsModel.addElement(elementDisplay);
+            }
+
+            // Set model and selection.
+            QuestionList.setModel(questionsModel);
+            QuestionList.setSelectedIndex(courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestionIndex());
+
+            if (QuestionList.getSelectedIndex() != -1)
+            {
+                // Adjust buttons and fields.
+                SelectLOButton.setEnabled(true);
+                SelectTopicsButton.setEnabled(true);
+                QuestionPointField.setEnabled(true);
+                QuestionPointField.setText(Integer.toString(courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().getPoints()));
+
+                // Fill model for topic list.
+                ArrayList<Integer> topicIndices = courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().getTopicList();
+                DefaultListModel topicsModel = new DefaultListModel();
+                ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
+
+                for (int i = 0; i < topicIndices.size(); i++)
+                {
+                    String name = weeks.get(topicIndices.get(i)).getTopic();
+                    String elementDisplay = new StringBuilder().append("Week ").append(topicIndices.get(i)).append(" ").append(name).toString();
+                    topicsModel.addElement(elementDisplay);
+                }
+
+                // Set model.
+                ExamTopicList.setModel(topicsModel);
+
+                // Set model for lo indices.
+                ArrayList<Integer> loIndices = courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().getLOList();
+                DefaultListModel loModel = new DefaultListModel();
+                ArrayList<String> learningOutcomes = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes();
+
+                for (int i = 0; i < loIndices.size(); i++)
+                {
+                    String name = learningOutcomes.get(loIndices.get(i));
+                    loModel.addElement(name);
+                }
+
+                ExamLOList.setModel(loModel);
+
+            }
+            else
+            {
+                // Set empty models and disable buttons.
+                ExamLOList.setModel(new DefaultListModel());
+                ExamTopicList.setModel(new DefaultListModel());
+                QuestionPointField.setEnabled(false);
+                QuestionPointField.setText("");
+                SelectLOButton.setEnabled(false);
+                SelectTopicsButton.setEnabled(false);
+            }
+        }
+
+        courseManager.SaveCourses();
+    }
+
+    private void UpdateReports()
+    {
+        if (selectedCourse == -1)
+            return;
+
+        // Fill model for student combobox.
+        DefaultComboBoxModel cm = new DefaultComboBoxModel();
+        ArrayList<Student> studentList = courseManager.GetCourse(selectedCourse).getSelectedSection().GetStudents();
+
+        if (studentList.size() > 0)
+        {
+            // Must add all students manually.
+            cm.addElement("ALL STUDENTS");
+
+            // Fill model.
+            for (int i = 0; i < studentList.size(); i++)
+            {
+                String id = studentList.get(i).getID();
+                cm.addElement(id);
+            }
+
+            // Set model.
+            AttendanceReportsComboBox.setModel(cm);
+            ViewAttendanceReportButton.setEnabled(true);
+        }
+        else
+        {
+            // Set default model and disable button.
+            AttendanceReportsComboBox.setModel(new DefaultComboBoxModel());
+            ViewAttendanceReportButton.setEnabled(false);
+        }
+
+        // Enable & disable buttons based on current exams, weeks and questions.
+        if (studentList.size() > 0 && courseManager.GetCourse(selectedCourse).getExams().size() > 0)
+            ViewAttendanceReportExamsButton.setEnabled(true);
+        else
+            ViewAttendanceReportExamsButton.setEnabled(false);
+
+        if (courseManager.GetCourse(selectedCourse).getExams().size() > 0 && courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().size() > 0
+                && courseManager.GetCourse(selectedCourse).getSelectedExam().getQuestions().size() > 0)
+        {
+            ViewTopicSuccessButton.setEnabled(true);
+            ViewExamGradesButton.setEnabled(true);
+        }
+        else
+        {
+            ViewExamGradesButton.setEnabled(false);
+            ViewTopicSuccessButton.setEnabled(false);
+        }
+
+        courseManager.SaveCourses();
+    }
+
+    private void UpdateSyllabus()
+    {
+        // Set models to default and dates to null if no course is selected.
+        if (selectedCourse == -1)
+        {
+            SyllabusStartDateChooser.setDate(null);
+            SyllabusEndDateChooser.setDate(null);
+            SyllabusWeekTopicsArea.setText("");
+            SyllabusWeekList.setModel(new DefaultListModel());
+            LearningOutcomeList.setModel(new DefaultListModel());
+            return;
+        }
+
+        // Fill model for weeks.
+        ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
+        DefaultListModel syllabusWeeksModel = new DefaultListModel();
+
+        for (int i = 0; i < weeks.size(); i++)
+        {
+            String elementDisplay = (new StringBuilder()).append("Week ").append((i + 1)).toString();
+            syllabusWeeksModel.addElement(elementDisplay);
+        }
+
+        // Set model and selection for week list.
+        SyllabusWeekList.setModel(syllabusWeeksModel);
+        SyllabusWeekList.setSelectedIndex(courseManager.GetCourse(selectedCourse).getSyllabus().getSelectedWeek());
+
+        // Set dates.
+        Date start = courseManager.GetCourse(selectedCourse).getSyllabus().getStartDate();
+        Date end = courseManager.GetCourse(selectedCourse).getSyllabus().getEndDate();
+        SyllabusStartDateChooser.setDate(start);
+        SyllabusEndDateChooser.setDate(end);
+
+        // Cant select end date if start has not been select.
+        if (start == null)
+            SyllabusEndDateChooser.setEnabled(false);
+
+        // Fill topics area.
+        if (courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().size() > 0)
+        {
+            String topic = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().get(0).getTopic();
+            SyllabusWeekTopicsArea.setText(topic);
+            SyllabusWeekTopicsArea.setEditable(true);
+        }
+        else
+        {
+            SyllabusWeekTopicsArea.setText("");
+            SyllabusWeekTopicsArea.setEditable(false);
+        }
+
+        ArrayList<String> lo = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes();
+
+        if (lo == null)
+        {
+            courseManager.SaveCourses();
+            return;
+        }
+
+        // fill model for learning outcomes.
+        DefaultListModel m = new DefaultListModel();
+        for (int i = 0; i < lo.size(); i++)
+        {
+            String elementDisplay = (new StringBuilder()).append("L.O  ").append((i + 1) + ": ").append(lo.get(i)).toString();
+            m.addElement(elementDisplay);
+        }
+
+        // Set model & selection index.
+        LearningOutcomeList.setModel(m);
+        int loIndex = courseManager.GetCourse(selectedCourse).getSyllabus().getSelectedLO();
+        LearningOutcomeList.setSelectedIndex(loIndex);
+
+        // Activation of remove button.
+        if (loIndex == -1)
+            RemoveLearningOutcomeButton.setEnabled(false);
+        else
+            RemoveLearningOutcomeButton.setEnabled(true);
+
+        courseManager.SaveCourses();
+    }
+
     private void DisposeAddNewCourseDialog()
     {
-
+        // Reset components & dispose.
         AddCourseIDField.setText("");
         AddCourseNameField.setText("");
         AddCourseDescField.setText("");
@@ -740,7 +727,8 @@ public class UIManager extends javax.swing.JFrame
     }
 
     private void DisposeEditCourseDialog()
-    {
+    {      
+        // Reset components & dispose.
         EditCourseIDField.setText("");
         EditCourseNameField.setText("");
         EditCourseDescField.setText("");
@@ -749,20 +737,20 @@ public class UIManager extends javax.swing.JFrame
     }
 
     private void DisposeAddSectionDialog()
-    {
+    {       
+        // Reset components & dispose.
         AddSectionNameField.setText("");
         AddSectionWarning.setVisible(false);
         AddSectionAddButton.setEnabled(false);
-
         AddSectionDialog.dispose();
     }
 
     private void DisposeEditSectionDialog()
-    {
+    {       
+        // Reset components & dispose.
         EditSectionNameField.setText("");
         EditSectionWarning.setVisible(false);
         EditSectionSaveButton.setEnabled(false);
-
         EditSectionDialog.dispose();
     }
 
@@ -776,7 +764,6 @@ public class UIManager extends javax.swing.JFrame
     private void initComponents()
     {
 
-        RemoveQuestionButton = new javax.swing.JButton();
         EditCourseDialog = new javax.swing.JDialog();
         jPanel4 = new javax.swing.JPanel();
         EditCourseID = new javax.swing.JLabel();
@@ -845,8 +832,6 @@ public class UIManager extends javax.swing.JFrame
         SelectTopicList = new javax.swing.JList<>();
         SelectTopicListCancelButton = new javax.swing.JButton();
         SelectTopicListSelectEmptyButton = new javax.swing.JButton();
-        AddQuestionButton = new javax.swing.JButton();
-        buttonGroup1 = new javax.swing.ButtonGroup();
         FileChooser = new javax.swing.JFileChooser();
         Main = new javax.swing.JPanel();
         Left = new javax.swing.JPanel();
@@ -886,34 +871,6 @@ public class UIManager extends javax.swing.JFrame
         SettingsImage = new javax.swing.JLabel();
         TopRight = new javax.swing.JPanel();
         Center = new javax.swing.JPanel();
-        SyllabusMainPanel = new javax.swing.JPanel();
-        SyllabusTitlePanel = new javax.swing.JPanel();
-        SyllabusMainTitle = new javax.swing.JLabel();
-        SylMainPanel = new javax.swing.JPanel();
-        SyllabusScrollPane = new javax.swing.JScrollPane();
-        SyllabusInnerPanel = new keeptoo.KGradientPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        SyllabusStartDateChooser = new com.toedter.calendar.JDateChooser();
-        SyllabusEndDateChooser = new com.toedter.calendar.JDateChooser();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
-        SyllabusMainTitle1 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        SyllabusWeekList = new javax.swing.JList<>();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        SyllabusWeekTopicsArea = new javax.swing.JTextArea();
-        SyllabusMainTitle3 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        SyllabusMainTitle2 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        LearningOutcomeList = new javax.swing.JList<>();
-        RemoveLearningOutcomeButton = new javax.swing.JButton();
-        AddNewLearningOutcomeButton = new javax.swing.JButton();
-        SyllabusNoCoursePanel = new keeptoo.KGradientPanel();
-        NoCourseSelectedLabel4 = new javax.swing.JLabel();
         CoursesMainPanel = new javax.swing.JPanel();
         CoursesTitlePanel = new javax.swing.JPanel();
         CoursesMainTitle = new javax.swing.JLabel();
@@ -942,20 +899,6 @@ public class UIManager extends javax.swing.JFrame
         jScrollPane3 = new javax.swing.JScrollPane();
         SectionsList = new javax.swing.JList<>();
         RemoveSectionButton = new javax.swing.JButton();
-        StudentsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel6 = new javax.swing.JPanel();
-        StudentsMainTitle = new javax.swing.JLabel();
-        StudentsMP = new javax.swing.JPanel();
-        StudentsScrollPane = new javax.swing.JScrollPane();
-        StudentsInnerPanel = new keeptoo.KGradientPanel();
-        StudentsIP_Panel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        ImportAttendanceData = new javax.swing.JButton();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        StudentList = new javax.swing.JList<>();
-        StudentsIP_Panel2 = new javax.swing.JPanel();
-        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
-        NoCourseSelectedLabel = new javax.swing.JLabel();
         DashboardMainPanel = new javax.swing.JPanel();
         DBMain = new javax.swing.JPanel();
         DashboardTitlePanel = new keeptoo.KGradientPanel();
@@ -973,6 +916,48 @@ public class UIManager extends javax.swing.JFrame
         jPanel9 = new javax.swing.JPanel();
         ExportImage = new javax.swing.JLabel();
         CourseDataTitle2 = new javax.swing.JLabel();
+        SyllabusMainPanel = new javax.swing.JPanel();
+        SyllabusTitlePanel = new javax.swing.JPanel();
+        SyllabusMainTitle = new javax.swing.JLabel();
+        SylMainPanel = new javax.swing.JPanel();
+        SyllabusScrollPane = new javax.swing.JScrollPane();
+        SyllabusInnerPanel = new keeptoo.KGradientPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        SyllabusStartDateChooser = new com.toedter.calendar.JDateChooser();
+        SyllabusEndDateChooser = new com.toedter.calendar.JDateChooser();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        SyllabusMainTitle1 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        SyllabusWeekList = new javax.swing.JList<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        SyllabusWeekTopicsArea = new javax.swing.JTextArea();
+        SyllabusMainTitle3 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        SyllabusMainTitle2 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        LearningOutcomeList = new javax.swing.JList<>();
+        RemoveLearningOutcomeButton = new javax.swing.JButton();
+        AddNewLearningOutcomeButton = new javax.swing.JButton();
+        SyllabusNoCoursePanel = new keeptoo.KGradientPanel();
+        NoCourseSelectedLabel4 = new javax.swing.JLabel();
+        StudentsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel6 = new javax.swing.JPanel();
+        StudentsMainTitle = new javax.swing.JLabel();
+        StudentsMP = new javax.swing.JPanel();
+        StudentsScrollPane = new javax.swing.JScrollPane();
+        StudentsInnerPanel = new keeptoo.KGradientPanel();
+        StudentsIP_Panel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        ImportAttendanceData = new javax.swing.JButton();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        StudentList = new javax.swing.JList<>();
+        StudentsIP_Panel2 = new javax.swing.JPanel();
+        StudentsNoCoursePanel = new keeptoo.KGradientPanel();
+        NoCourseSelectedLabel = new javax.swing.JLabel();
         ReportsMainPanel = new javax.swing.JPanel();
         DBTitlePanel5 = new javax.swing.JPanel();
         DashboardMainTitle5 = new javax.swing.JLabel();
@@ -1029,19 +1014,6 @@ public class UIManager extends javax.swing.JFrame
         SelectLOButton = new javax.swing.JButton();
         AddQuestionButton1 = new javax.swing.JButton();
 
-        RemoveQuestionButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        RemoveQuestionButton.setForeground(new java.awt.Color(51, 51, 51));
-        RemoveQuestionButton.setText("Remove Question");
-        RemoveQuestionButton.setEnabled(false);
-        RemoveQuestionButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        RemoveQuestionButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                RemoveQuestionButtonActionPerformed(evt);
-            }
-        });
-
         EditCourseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         EditCourseDialog.setTitle("Add New Course");
         EditCourseDialog.setAlwaysOnTop(true);
@@ -1064,13 +1036,6 @@ public class UIManager extends javax.swing.JFrame
         EditCourseIDField.setForeground(new java.awt.Color(227, 227, 227));
         EditCourseIDField.setCaretColor(new java.awt.Color(204, 204, 204));
         EditCourseIDField.setPreferredSize(new java.awt.Dimension(200, 40));
-        EditCourseIDField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                EditCourseIDFieldActionPerformed(evt);
-            }
-        });
         EditCourseIDField.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyReleased(java.awt.event.KeyEvent evt)
@@ -1872,18 +1837,6 @@ public class UIManager extends javax.swing.JFrame
 
         SelectTopicDialog.getContentPane().add(jPanel18);
 
-        AddQuestionButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        AddQuestionButton.setForeground(new java.awt.Color(51, 51, 51));
-        AddQuestionButton.setText("Add Question");
-        AddQuestionButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        AddQuestionButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                AddQuestionButtonActionPerformed(evt);
-            }
-        });
-
         FileChooser.setControlButtonsAreShown(false);
         FileChooser.setCurrentDirectory(new java.io.File("C:\\Program Files\\NetBeans 8.2\\bin\\\"user.dir\""));
         FileChooser.addActionListener(new java.awt.event.ActionListener()
@@ -2397,326 +2350,6 @@ public class UIManager extends javax.swing.JFrame
         Center.setBackground(new java.awt.Color(26, 24, 26));
         Center.setLayout(new javax.swing.OverlayLayout(Center));
 
-        SyllabusMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        SyllabusMainPanel.setLayout(new java.awt.BorderLayout());
-
-        SyllabusTitlePanel.setBackground(new java.awt.Color(26, 24, 26));
-        SyllabusTitlePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        SyllabusMainTitle.setBackground(new java.awt.Color(199, 50, 38));
-        SyllabusMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        SyllabusMainTitle.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusMainTitle.setText("Syllabus");
-        SyllabusMainTitle.setToolTipText("");
-
-        javax.swing.GroupLayout SyllabusTitlePanelLayout = new javax.swing.GroupLayout(SyllabusTitlePanel);
-        SyllabusTitlePanel.setLayout(SyllabusTitlePanelLayout);
-        SyllabusTitlePanelLayout.setHorizontalGroup(
-            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(SyllabusMainTitle)
-                .addContainerGap(843, Short.MAX_VALUE))
-        );
-        SyllabusTitlePanelLayout.setVerticalGroup(
-            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(SyllabusMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        SyllabusMainPanel.add(SyllabusTitlePanel, java.awt.BorderLayout.NORTH);
-
-        SylMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        SylMainPanel.setPreferredSize(new java.awt.Dimension(100, 200));
-        SylMainPanel.setLayout(new java.awt.CardLayout());
-
-        SyllabusScrollPane.setPreferredSize(new java.awt.Dimension(793, 900));
-
-        SyllabusInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        SyllabusInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
-        SyllabusInnerPanel.setLayout(new javax.swing.BoxLayout(SyllabusInnerPanel, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel5.setMaximumSize(new java.awt.Dimension(32767, 250));
-        jPanel5.setOpaque(false);
-        jPanel5.setPreferredSize(new java.awt.Dimension(791, 250));
-
-        jLabel1.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(227, 227, 227));
-        jLabel1.setText("End Date:");
-
-        jLabel2.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(227, 227, 227));
-        jLabel2.setText("Start Date:");
-
-        SyllabusStartDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
-        {
-            public void propertyChange(java.beans.PropertyChangeEvent evt)
-            {
-                SyllabusStartDateChooserPropertyChange(evt);
-            }
-        });
-
-        SyllabusEndDateChooser.setEnabled(false);
-        SyllabusEndDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
-        {
-            public void propertyChange(java.beans.PropertyChangeEvent evt)
-            {
-                SyllabusEndDateChooserPropertyChange(evt);
-            }
-        });
-
-        jTextArea1.setEditable(false);
-        jTextArea1.setBackground(new java.awt.Color(26, 24, 26));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(227, 227, 227));
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Please specify the start and end dates of the course. You should selectthe start day for one of the sections, and the end day must correspond to the same day of the week for calculations to work properly.");
-        jScrollPane4.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(294, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
-        );
-
-        SyllabusInnerPanel.add(jPanel5);
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel6.setOpaque(false);
-        jPanel6.setPreferredSize(new java.awt.Dimension(791, 300));
-
-        SyllabusMainTitle1.setBackground(new java.awt.Color(199, 50, 38));
-        SyllabusMainTitle1.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        SyllabusMainTitle1.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusMainTitle1.setText("Weeks");
-        SyllabusMainTitle1.setToolTipText("");
-
-        jScrollPane8.setMinimumSize(new java.awt.Dimension(100, 23));
-        jScrollPane8.setPreferredSize(new java.awt.Dimension(400, 130));
-        jScrollPane8.setVerifyInputWhenFocusTarget(false);
-
-        SyllabusWeekList.setBackground(new java.awt.Color(53, 55, 61));
-        SyllabusWeekList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        SyllabusWeekList.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusWeekList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        SyllabusWeekList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        SyllabusWeekList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                SyllabusWeekListMouseReleased(evt);
-            }
-        });
-        jScrollPane8.setViewportView(SyllabusWeekList);
-
-        SyllabusWeekTopicsArea.setBackground(new java.awt.Color(26, 24, 26));
-        SyllabusWeekTopicsArea.setColumns(20);
-        SyllabusWeekTopicsArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        SyllabusWeekTopicsArea.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusWeekTopicsArea.setRows(5);
-        SyllabusWeekTopicsArea.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                SyllabusWeekTopicsAreaKeyReleased(evt);
-            }
-        });
-        jScrollPane6.setViewportView(SyllabusWeekTopicsArea);
-
-        SyllabusMainTitle3.setBackground(new java.awt.Color(199, 50, 38));
-        SyllabusMainTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        SyllabusMainTitle3.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusMainTitle3.setText("Topic");
-        SyllabusMainTitle3.setToolTipText("");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(SyllabusMainTitle1)
-                        .addGap(278, 278, 278)
-                        .addComponent(SyllabusMainTitle3)))
-                .addContainerGap(218, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SyllabusMainTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SyllabusMainTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
-        );
-
-        SyllabusInnerPanel.add(jPanel6);
-
-        jPanel12.setOpaque(false);
-        jPanel12.setPreferredSize(new java.awt.Dimension(791, 350));
-
-        SyllabusMainTitle2.setBackground(new java.awt.Color(199, 50, 38));
-        SyllabusMainTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        SyllabusMainTitle2.setForeground(new java.awt.Color(227, 227, 227));
-        SyllabusMainTitle2.setText("Learning Outcomes");
-        SyllabusMainTitle2.setToolTipText("");
-
-        jScrollPane7.setMinimumSize(new java.awt.Dimension(100, 23));
-        jScrollPane7.setPreferredSize(new java.awt.Dimension(400, 130));
-        jScrollPane7.setVerifyInputWhenFocusTarget(false);
-
-        LearningOutcomeList.setBackground(new java.awt.Color(53, 55, 61));
-        LearningOutcomeList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        LearningOutcomeList.setForeground(new java.awt.Color(227, 227, 227));
-        LearningOutcomeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        LearningOutcomeList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        LearningOutcomeList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                LearningOutcomeListMouseReleased(evt);
-            }
-        });
-        jScrollPane7.setViewportView(LearningOutcomeList);
-
-        RemoveLearningOutcomeButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        RemoveLearningOutcomeButton.setForeground(new java.awt.Color(51, 51, 51));
-        RemoveLearningOutcomeButton.setText("Remove");
-        RemoveLearningOutcomeButton.setEnabled(false);
-        RemoveLearningOutcomeButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        RemoveLearningOutcomeButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                RemoveLearningOutcomeButtonActionPerformed(evt);
-            }
-        });
-
-        AddNewLearningOutcomeButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        AddNewLearningOutcomeButton.setForeground(new java.awt.Color(51, 51, 51));
-        AddNewLearningOutcomeButton.setText("Add New Outcome");
-        AddNewLearningOutcomeButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        AddNewLearningOutcomeButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                AddNewLearningOutcomeButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(SyllabusMainTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(380, Short.MAX_VALUE))
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(SyllabusMainTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                        .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
-        );
-
-        SyllabusInnerPanel.add(jPanel12);
-
-        SyllabusScrollPane.setViewportView(SyllabusInnerPanel);
-
-        SylMainPanel.add(SyllabusScrollPane, "card4");
-
-        SyllabusNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        SyllabusNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
-
-        NoCourseSelectedLabel4.setBackground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel4.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
-        NoCourseSelectedLabel4.setForeground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel4.setText("No course is selected. Please select or add a course from Courses Menu.");
-
-        javax.swing.GroupLayout SyllabusNoCoursePanelLayout = new javax.swing.GroupLayout(SyllabusNoCoursePanel);
-        SyllabusNoCoursePanel.setLayout(SyllabusNoCoursePanelLayout);
-        SyllabusNoCoursePanelLayout.setHorizontalGroup(
-            SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(143, Short.MAX_VALUE))
-        );
-        SyllabusNoCoursePanelLayout.setVerticalGroup(
-            SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(NoCourseSelectedLabel4)
-                .addContainerGap(826, Short.MAX_VALUE))
-        );
-
-        SylMainPanel.add(SyllabusNoCoursePanel, "card3");
-
-        SyllabusMainPanel.add(SylMainPanel, java.awt.BorderLayout.CENTER);
-
-        Center.add(SyllabusMainPanel);
-
         CoursesMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         CoursesMainPanel.setLayout(new java.awt.BorderLayout(5, 25));
 
@@ -3040,148 +2673,6 @@ public class UIManager extends javax.swing.JFrame
 
         Center.add(CoursesMainPanel);
 
-        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
-        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
-        StudentsMainTitle.setText("Students");
-        StudentsMainTitle.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
-        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
-        DBTitlePanel6Layout.setHorizontalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle)
-                .addContainerGap(838, Short.MAX_VALUE))
-        );
-        DBTitlePanel6Layout.setVerticalGroup(
-            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
-        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
-
-        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
-        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
-        StudentsMP.setLayout(new java.awt.CardLayout());
-
-        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
-        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
-
-        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 450));
-        StudentsIP_Panel1.setOpaque(false);
-        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 450));
-
-        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
-        jLabel3.setText("Student List");
-
-        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
-        ImportAttendanceData.setText("Import Attendance Data");
-        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
-        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                ImportAttendanceDataActionPerformed(evt);
-            }
-        });
-
-        StudentList.setBackground(new java.awt.Color(26, 24, 26));
-        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        StudentList.setForeground(new java.awt.Color(227, 227, 227));
-        jScrollPane10.setViewportView(StudentList);
-
-        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
-        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
-        StudentsIP_Panel1Layout.setHorizontalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(485, Short.MAX_VALUE))
-        );
-        StudentsIP_Panel1Layout.setVerticalGroup(
-            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel1);
-
-        StudentsIP_Panel2.setOpaque(false);
-        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
-
-        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
-        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
-        StudentsIP_Panel2Layout.setHorizontalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 942, Short.MAX_VALUE)
-        );
-        StudentsIP_Panel2Layout.setVerticalGroup(
-            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 418, Short.MAX_VALUE)
-        );
-
-        StudentsInnerPanel.add(StudentsIP_Panel2);
-
-        StudentsScrollPane.setViewportView(StudentsInnerPanel);
-
-        StudentsMP.add(StudentsScrollPane, "card4");
-
-        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
-
-        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
-        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
-
-        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
-        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
-        StudentsNoCoursePanelLayout.setHorizontalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(143, Short.MAX_VALUE))
-        );
-        StudentsNoCoursePanelLayout.setVerticalGroup(
-            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(NoCourseSelectedLabel)
-                .addContainerGap(798, Short.MAX_VALUE))
-        );
-
-        StudentsMP.add(StudentsNoCoursePanel, "card3");
-
-        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
-
-        Center.add(StudentsMainPanel);
-
         DashboardMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         DashboardMainPanel.setLayout(new javax.swing.OverlayLayout(DashboardMainPanel));
 
@@ -3379,6 +2870,468 @@ public class UIManager extends javax.swing.JFrame
         DashboardMainPanel.add(DBMain);
 
         Center.add(DashboardMainPanel);
+
+        SyllabusMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        SyllabusMainPanel.setLayout(new java.awt.BorderLayout());
+
+        SyllabusTitlePanel.setBackground(new java.awt.Color(26, 24, 26));
+        SyllabusTitlePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        SyllabusMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusMainTitle.setText("Syllabus");
+        SyllabusMainTitle.setToolTipText("");
+
+        javax.swing.GroupLayout SyllabusTitlePanelLayout = new javax.swing.GroupLayout(SyllabusTitlePanel);
+        SyllabusTitlePanel.setLayout(SyllabusTitlePanelLayout);
+        SyllabusTitlePanelLayout.setHorizontalGroup(
+            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SyllabusMainTitle)
+                .addContainerGap(843, Short.MAX_VALUE))
+        );
+        SyllabusTitlePanelLayout.setVerticalGroup(
+            SyllabusTitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusTitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SyllabusMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        SyllabusMainPanel.add(SyllabusTitlePanel, java.awt.BorderLayout.NORTH);
+
+        SylMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        SylMainPanel.setPreferredSize(new java.awt.Dimension(100, 200));
+        SylMainPanel.setLayout(new java.awt.CardLayout());
+
+        SyllabusScrollPane.setPreferredSize(new java.awt.Dimension(793, 900));
+
+        SyllabusInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        SyllabusInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
+        SyllabusInnerPanel.setLayout(new javax.swing.BoxLayout(SyllabusInnerPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel5.setMaximumSize(new java.awt.Dimension(32767, 250));
+        jPanel5.setOpaque(false);
+        jPanel5.setPreferredSize(new java.awt.Dimension(791, 250));
+
+        jLabel1.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(227, 227, 227));
+        jLabel1.setText("End Date:");
+
+        jLabel2.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(227, 227, 227));
+        jLabel2.setText("Start Date:");
+
+        SyllabusStartDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
+        {
+            public void propertyChange(java.beans.PropertyChangeEvent evt)
+            {
+                SyllabusStartDateChooserPropertyChange(evt);
+            }
+        });
+
+        SyllabusEndDateChooser.setEnabled(false);
+        SyllabusEndDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
+        {
+            public void propertyChange(java.beans.PropertyChangeEvent evt)
+            {
+                SyllabusEndDateChooserPropertyChange(evt);
+            }
+        });
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setBackground(new java.awt.Color(26, 24, 26));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        jTextArea1.setForeground(new java.awt.Color(227, 227, 227));
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Please specify the start and end dates of the course. You should selectthe start day for one of the sections, and the end day must correspond to the same day of the week for calculations to work properly.");
+        jScrollPane4.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(294, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(SyllabusStartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(SyllabusEndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+
+        SyllabusInnerPanel.add(jPanel5);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel6.setOpaque(false);
+        jPanel6.setPreferredSize(new java.awt.Dimension(791, 300));
+
+        SyllabusMainTitle1.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusMainTitle1.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusMainTitle1.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusMainTitle1.setText("Weeks");
+        SyllabusMainTitle1.setToolTipText("");
+
+        jScrollPane8.setMinimumSize(new java.awt.Dimension(100, 23));
+        jScrollPane8.setPreferredSize(new java.awt.Dimension(400, 130));
+        jScrollPane8.setVerifyInputWhenFocusTarget(false);
+
+        SyllabusWeekList.setBackground(new java.awt.Color(53, 55, 61));
+        SyllabusWeekList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        SyllabusWeekList.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusWeekList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        SyllabusWeekList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SyllabusWeekList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
+                SyllabusWeekListMouseReleased(evt);
+            }
+        });
+        jScrollPane8.setViewportView(SyllabusWeekList);
+
+        SyllabusWeekTopicsArea.setBackground(new java.awt.Color(26, 24, 26));
+        SyllabusWeekTopicsArea.setColumns(20);
+        SyllabusWeekTopicsArea.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        SyllabusWeekTopicsArea.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusWeekTopicsArea.setRows(5);
+        SyllabusWeekTopicsArea.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                SyllabusWeekTopicsAreaKeyReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(SyllabusWeekTopicsArea);
+
+        SyllabusMainTitle3.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusMainTitle3.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusMainTitle3.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusMainTitle3.setText("Topic");
+        SyllabusMainTitle3.setToolTipText("");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(SyllabusMainTitle1)
+                        .addGap(278, 278, 278)
+                        .addComponent(SyllabusMainTitle3)))
+                .addContainerGap(218, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SyllabusMainTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SyllabusMainTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15))
+        );
+
+        SyllabusInnerPanel.add(jPanel6);
+
+        jPanel12.setOpaque(false);
+        jPanel12.setPreferredSize(new java.awt.Dimension(791, 350));
+
+        SyllabusMainTitle2.setBackground(new java.awt.Color(199, 50, 38));
+        SyllabusMainTitle2.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        SyllabusMainTitle2.setForeground(new java.awt.Color(227, 227, 227));
+        SyllabusMainTitle2.setText("Learning Outcomes");
+        SyllabusMainTitle2.setToolTipText("");
+
+        jScrollPane7.setMinimumSize(new java.awt.Dimension(100, 23));
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(400, 130));
+        jScrollPane7.setVerifyInputWhenFocusTarget(false);
+
+        LearningOutcomeList.setBackground(new java.awt.Color(53, 55, 61));
+        LearningOutcomeList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        LearningOutcomeList.setForeground(new java.awt.Color(227, 227, 227));
+        LearningOutcomeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        LearningOutcomeList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        LearningOutcomeList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
+                LearningOutcomeListMouseReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(LearningOutcomeList);
+
+        RemoveLearningOutcomeButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        RemoveLearningOutcomeButton.setForeground(new java.awt.Color(51, 51, 51));
+        RemoveLearningOutcomeButton.setText("Remove");
+        RemoveLearningOutcomeButton.setEnabled(false);
+        RemoveLearningOutcomeButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        RemoveLearningOutcomeButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                RemoveLearningOutcomeButtonActionPerformed(evt);
+            }
+        });
+
+        AddNewLearningOutcomeButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        AddNewLearningOutcomeButton.setForeground(new java.awt.Color(51, 51, 51));
+        AddNewLearningOutcomeButton.setText("Add New Outcome");
+        AddNewLearningOutcomeButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        AddNewLearningOutcomeButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                AddNewLearningOutcomeButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(SyllabusMainTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(380, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(SyllabusMainTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(AddNewLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(RemoveLearningOutcomeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(101, Short.MAX_VALUE))
+        );
+
+        SyllabusInnerPanel.add(jPanel12);
+
+        SyllabusScrollPane.setViewportView(SyllabusInnerPanel);
+
+        SylMainPanel.add(SyllabusScrollPane, "card4");
+
+        SyllabusNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        SyllabusNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
+
+        NoCourseSelectedLabel4.setBackground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel4.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
+        NoCourseSelectedLabel4.setForeground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel4.setText("No course is selected. Please select or add a course from Courses Menu.");
+
+        javax.swing.GroupLayout SyllabusNoCoursePanelLayout = new javax.swing.GroupLayout(SyllabusNoCoursePanel);
+        SyllabusNoCoursePanel.setLayout(SyllabusNoCoursePanelLayout);
+        SyllabusNoCoursePanelLayout.setHorizontalGroup(
+            SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(NoCourseSelectedLabel4)
+                .addContainerGap(143, Short.MAX_VALUE))
+        );
+        SyllabusNoCoursePanelLayout.setVerticalGroup(
+            SyllabusNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SyllabusNoCoursePanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(NoCourseSelectedLabel4)
+                .addContainerGap(826, Short.MAX_VALUE))
+        );
+
+        SylMainPanel.add(SyllabusNoCoursePanel, "card3");
+
+        SyllabusMainPanel.add(SylMainPanel, java.awt.BorderLayout.CENTER);
+
+        Center.add(SyllabusMainPanel);
+
+        StudentsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel6.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        StudentsMainTitle.setBackground(new java.awt.Color(199, 50, 38));
+        StudentsMainTitle.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        StudentsMainTitle.setForeground(new java.awt.Color(227, 227, 227));
+        StudentsMainTitle.setText("Students");
+        StudentsMainTitle.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel6Layout = new javax.swing.GroupLayout(DBTitlePanel6);
+        DBTitlePanel6.setLayout(DBTitlePanel6Layout);
+        DBTitlePanel6Layout.setHorizontalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle)
+                .addContainerGap(838, Short.MAX_VALUE))
+        );
+        DBTitlePanel6Layout.setVerticalGroup(
+            DBTitlePanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StudentsMainTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        StudentsMainPanel.add(DBTitlePanel6, java.awt.BorderLayout.NORTH);
+
+        StudentsMP.setBackground(new java.awt.Color(26, 24, 26));
+        StudentsMP.setPreferredSize(new java.awt.Dimension(100, 200));
+        StudentsMP.setLayout(new java.awt.CardLayout());
+
+        StudentsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
+        StudentsInnerPanel.setLayout(new javax.swing.BoxLayout(StudentsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        StudentsIP_Panel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        StudentsIP_Panel1.setMaximumSize(new java.awt.Dimension(32767, 450));
+        StudentsIP_Panel1.setOpaque(false);
+        StudentsIP_Panel1.setPreferredSize(new java.awt.Dimension(791, 450));
+
+        jLabel3.setFont(new java.awt.Font("Monospaced", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(227, 227, 227));
+        jLabel3.setText("Student List");
+
+        ImportAttendanceData.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        ImportAttendanceData.setForeground(new java.awt.Color(51, 51, 51));
+        ImportAttendanceData.setText("Import Attendance Data");
+        ImportAttendanceData.setPreferredSize(new java.awt.Dimension(135, 50));
+        ImportAttendanceData.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ImportAttendanceDataActionPerformed(evt);
+            }
+        });
+
+        StudentList.setBackground(new java.awt.Color(26, 24, 26));
+        StudentList.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        StudentList.setForeground(new java.awt.Color(227, 227, 227));
+        jScrollPane10.setViewportView(StudentList);
+
+        javax.swing.GroupLayout StudentsIP_Panel1Layout = new javax.swing.GroupLayout(StudentsIP_Panel1);
+        StudentsIP_Panel1.setLayout(StudentsIP_Panel1Layout);
+        StudentsIP_Panel1Layout.setHorizontalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(485, Short.MAX_VALUE))
+        );
+        StudentsIP_Panel1Layout.setVerticalGroup(
+            StudentsIP_Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsIP_Panel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel3)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ImportAttendanceData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel1);
+
+        StudentsIP_Panel2.setOpaque(false);
+        StudentsIP_Panel2.setPreferredSize(new java.awt.Dimension(791, 300));
+
+        javax.swing.GroupLayout StudentsIP_Panel2Layout = new javax.swing.GroupLayout(StudentsIP_Panel2);
+        StudentsIP_Panel2.setLayout(StudentsIP_Panel2Layout);
+        StudentsIP_Panel2Layout.setHorizontalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 942, Short.MAX_VALUE)
+        );
+        StudentsIP_Panel2Layout.setVerticalGroup(
+            StudentsIP_Panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 418, Short.MAX_VALUE)
+        );
+
+        StudentsInnerPanel.add(StudentsIP_Panel2);
+
+        StudentsScrollPane.setViewportView(StudentsInnerPanel);
+
+        StudentsMP.add(StudentsScrollPane, "card4");
+
+        StudentsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        StudentsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
+
+        NoCourseSelectedLabel.setBackground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
+        NoCourseSelectedLabel.setForeground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel.setText("No course is selected. Please select or add a course from Courses Menu.");
+
+        javax.swing.GroupLayout StudentsNoCoursePanelLayout = new javax.swing.GroupLayout(StudentsNoCoursePanel);
+        StudentsNoCoursePanel.setLayout(StudentsNoCoursePanelLayout);
+        StudentsNoCoursePanelLayout.setHorizontalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(143, Short.MAX_VALUE))
+        );
+        StudentsNoCoursePanelLayout.setVerticalGroup(
+            StudentsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StudentsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(NoCourseSelectedLabel)
+                .addContainerGap(798, Short.MAX_VALUE))
+        );
+
+        StudentsMP.add(StudentsNoCoursePanel, "card3");
+
+        StudentsMainPanel.add(StudentsMP, java.awt.BorderLayout.CENTER);
+
+        Center.add(StudentsMainPanel);
 
         ReportsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         ReportsMainPanel.setLayout(new java.awt.BorderLayout());
@@ -4040,66 +3993,60 @@ public class UIManager extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void RemoveCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveCourseButtonActionPerformed
-        // TODO add your handling code here:
-
         courseManager.RemoveCourse(CoursesList.getSelectedIndex());
     }//GEN-LAST:event_RemoveCourseButtonActionPerformed
 
     private void DuplicateCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DuplicateCourseButtonActionPerformed
-        // TODO add your handling code here:
         courseManager.DuplicateCourse(CoursesList.getSelectedIndex());
     }//GEN-LAST:event_DuplicateCourseButtonActionPerformed
 
     private void UndoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoButtonActionPerformed
-        // TODO add your handling code here:
 
+        // Get last course action.
         CourseAction lastAction = courseActions.get(courseActions.size() - 1);
 
+        // Add or remove the subject of last action depending on the action index.
         if (lastAction.getIndex() == 1)
-        {
             courseManager.RemoveCourse(lastAction.getSubject());
-        } else
-        {
-            if (lastAction.getIndex() == 2)
-            {
-                courseManager.AddNewCourse(lastAction.getSubject(), lastAction.getListIndex());
-            }
-        }
+        else if (lastAction.getIndex() == 2)
+            courseManager.AddNewCourse(lastAction.getSubject(), lastAction.getListIndex());
 
+        // Delete the last action.
         courseActions.remove(lastAction);
 
+        // Disable undo if no action is left.
         if (courseActions.size() < 1)
-        {
             UndoButton.setEnabled(false);
-        }
 
     }//GEN-LAST:event_UndoButtonActionPerformed
 
     private void AddNewCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewCourseButtonActionPerformed
-        // TODO add your handling code here:
         AddNewCourseDialog.show();
     }//GEN-LAST:event_AddNewCourseButtonActionPerformed
 
     private void AddCourseCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCourseCancelButtonActionPerformed
-        // TODO add your handling code here:
         DisposeAddNewCourseDialog();
     }//GEN-LAST:event_AddCourseCancelButtonActionPerformed
 
     private void AddCourseIDFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddCourseIDFieldKeyReleased
-        // TODO add your handling code here:
+        
         if (courseManager.CheckIfExists(AddCourseIDField.getText()))
         {
+            // The course already exists, set components accordingly.
             AddCourseWarning.setText("This course already exists!");
             AddCourseWarning.setVisible(true);
             AddCourseAddButton.setEnabled(false);
-        } else
+        }
+        else
         {
+            // The course does not exists, enable adding if the field is not empty.
             if (AddCourseIDField.getText().equals(""))
             {
                 AddCourseWarning.setText("Course ID can not be empty!");
                 AddCourseWarning.setVisible(true);
                 AddCourseAddButton.setEnabled(false);
-            } else
+            }
+            else
             {
                 AddCourseWarning.setVisible(false);
                 AddCourseAddButton.setEnabled(true);
@@ -4108,38 +4055,41 @@ public class UIManager extends javax.swing.JFrame
     }//GEN-LAST:event_AddCourseIDFieldKeyReleased
 
     private void AddCourseAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCourseAddButtonActionPerformed
-        // TODO add your handling code here:
-
+        // Add new course and select it.
         courseManager.AddNewCourse(AddCourseIDField.getText(), AddCourseNameField.getText(), AddCourseDescField.getText());
         SelectCourse(courseManager.GetCourseList().size() - 1);
         DisposeAddNewCourseDialog();
-
     }//GEN-LAST:event_AddCourseAddButtonActionPerformed
 
     private void EditCourseIDFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_EditCourseIDFieldKeyReleased
-        // TODO add your handling code here:
 
-        if (!courseManager.GetCourse(i_SelectedCourse).getID().equals(EditCourseIDField.getText()))
+        // Check if newly typed id already equals to current edited course, if equals disable warning and enable save button.
+        if (!courseManager.GetCourse(selectedCourse).getID().equals(EditCourseIDField.getText()))
         {
+            // Check if the new name exists.
             if (courseManager.CheckIfExists(EditCourseIDField.getText()))
             {
                 EditCourseWarning.setText("This course already exists!");
                 EditCourseWarning.setVisible(true);
                 EditCourseSaveButton.setEnabled(false);
-            } else
+            }
+            else
             {
+                // If not existing, check whether its empty or not. Don't allow empty name.
                 if (EditCourseIDField.getText().equals(""))
                 {
                     EditCourseWarning.setText("Course ID can not be empty!");
                     EditCourseWarning.setVisible(true);
                     EditCourseSaveButton.setEnabled(false);
-                } else
+                }
+                else
                 {
                     EditCourseWarning.setVisible(false);
                     EditCourseSaveButton.setEnabled(true);
                 }
             }
-        } else
+        }
+        else
         {
             EditCourseWarning.setVisible(false);
             EditCourseSaveButton.setEnabled(true);
@@ -4149,38 +4099,35 @@ public class UIManager extends javax.swing.JFrame
     }//GEN-LAST:event_EditCourseIDFieldKeyReleased
 
     private void EditCourseCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCourseCancelButtonActionPerformed
-        // TODO add your handling code here:
         DisposeEditCourseDialog();
     }//GEN-LAST:event_EditCourseCancelButtonActionPerformed
 
     private void EditCourseSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCourseSaveButtonActionPerformed
-        // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).edit(EditCourseIDField.getText(), EditCourseNameField.getText(), EditCourseDescField.getText());
-        SelectCourse(i_SelectedCourse);
-
+        // Edit course and select to update GUI.
+        courseManager.GetCourse(selectedCourse).edit(EditCourseIDField.getText(), EditCourseNameField.getText(), EditCourseDescField.getText());
+        SelectCourse(selectedCourse);
         DisposeEditCourseDialog();
     }//GEN-LAST:event_EditCourseSaveButtonActionPerformed
 
-    private void EditCourseIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCourseIDFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EditCourseIDFieldActionPerformed
-
     private void AddSectionNameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddSectionNameFieldKeyReleased
-        // TODO add your handling code here:
-
-        if (courseManager.GetCourse(i_SelectedCourse).checkIfSectionExists(AddSectionNameField.getText()))
+        
+        // Can not add an existing section.
+        if (courseManager.GetCourse(selectedCourse).checkIfSectionExists(AddSectionNameField.getText()))
         {
             AddSectionWarning.setText("This section already exists!");
             AddSectionAddButton.setEnabled(false);
             AddSectionWarning.setVisible(true);
-        } else
+        }
+        else
         {
+            // Check if section name is empty, don't allow if so.
             if (AddSectionNameField.getText().equals(""))
             {
                 AddSectionWarning.setText("Section name can not be empty!");
                 AddSectionAddButton.setEnabled(false);
                 AddSectionWarning.setVisible(true);
-            } else
+            }
+            else
             {
                 AddSectionAddButton.setEnabled(true);
                 AddSectionWarning.setVisible(false);
@@ -4190,51 +4137,51 @@ public class UIManager extends javax.swing.JFrame
     }//GEN-LAST:event_AddSectionNameFieldKeyReleased
 
     private void AddSectionCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSectionCancelButtonActionPerformed
-        // TODO add your handling code here:
-
         DisposeAddSectionDialog();
     }//GEN-LAST:event_AddSectionCancelButtonActionPerformed
 
     private void AddSectionAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSectionAddButtonActionPerformed
-        // TODO add your handling code here:
-        courseManager.AddSectionToCourse(i_SelectedCourse, AddSectionNameField.getText());
-        SelectSection(courseManager.GetCourse(i_SelectedCourse).getSections().size() - 1);
+        // Add section and select it.
+        courseManager.AddSectionToCourse(selectedCourse, AddSectionNameField.getText());
+        SelectSection(courseManager.GetCourse(selectedCourse).getSections().size() - 1);
         DisposeAddSectionDialog();
     }//GEN-LAST:event_AddSectionAddButtonActionPerformed
 
     private void AddSectionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddSectionButtonActionPerformed
     {//GEN-HEADEREND:event_AddSectionButtonActionPerformed
-        // TODO add your handling code here:
         AddSectionDialog.show();
     }//GEN-LAST:event_AddSectionButtonActionPerformed
 
     private void RemoveSectionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveSectionButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveSectionButtonActionPerformed
-        // TODO add your handling code here:
-        courseManager.RemoveSectionFromCourse(i_SelectedCourse);
+        courseManager.RemoveSectionFromCourse(selectedCourse);
     }//GEN-LAST:event_RemoveSectionButtonActionPerformed
 
     private void EditSectionNameFieldKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_EditSectionNameFieldKeyReleased
     {//GEN-HEADEREND:event_EditSectionNameFieldKeyReleased
         // TODO add your handling code here:
 
-        if (courseManager.GetCourse(i_SelectedCourse).checkIfSectionExists(EditSectionNameField.getText()))
+        // Check if the edited name exists.
+        if (courseManager.GetCourse(selectedCourse).checkIfSectionExists(EditSectionNameField.getText()))
         {
-            if (!courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetName().equals(EditSectionNameField.getText()))
+            // If it exists and not the current section, out warning.
+            if (!courseManager.GetCourse(selectedCourse).getSelectedSection().GetName().equals(EditSectionNameField.getText()))
             {
                 EditSectionWarning.setText("This section already exists!");
                 EditSectionSaveButton.setEnabled(false);
                 EditSectionWarning.setVisible(true);
             }
-
-        } else
+        }
+        else
         {
+            // Dont allow empty fields.
             if (EditSectionNameField.getText().equals(""))
             {
                 EditSectionWarning.setText("Section name can not be empty!");
                 EditSectionSaveButton.setEnabled(false);
                 EditSectionWarning.setVisible(true);
-            } else
+            }
+            else
             {
                 EditSectionSaveButton.setEnabled(true);
                 EditSectionWarning.setVisible(false);
@@ -4250,57 +4197,54 @@ public class UIManager extends javax.swing.JFrame
 
     private void EditSectionSaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EditSectionSaveButtonActionPerformed
     {//GEN-HEADEREND:event_EditSectionSaveButtonActionPerformed
-        // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedSection().SetName(EditSectionNameField.getText());
-        SelectSection(courseManager.GetCourse(i_SelectedCourse).getSelectedSectionIndex());
+        // Edit name and select it again to update GUI.
+        courseManager.GetCourse(selectedCourse).getSelectedSection().SetName(EditSectionNameField.getText());
+        SelectSection(courseManager.GetCourse(selectedCourse).getSelectedSectionIndex());
         DisposeEditSectionDialog();
     }//GEN-LAST:event_EditSectionSaveButtonActionPerformed
 
     private void RemoveLearningOutcomeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveLearningOutcomeButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveLearningOutcomeButtonActionPerformed
-        // TODO add your handling code here:
-
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().removeLearningOutcome(LearningOutcomeList.getSelectedIndex());
-        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO());
+        // Remove outcome and select the new one.
+        courseManager.GetCourse(selectedCourse).getSyllabus().removeLearningOutcome(LearningOutcomeList.getSelectedIndex());
+        SelectLearningOutcome(courseManager.GetCourse(selectedCourse).getSyllabus().getSelectedLO());
     }//GEN-LAST:event_RemoveLearningOutcomeButtonActionPerformed
 
     private void AddNewLearningOutcomeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddNewLearningOutcomeButtonActionPerformed
     {//GEN-HEADEREND:event_AddNewLearningOutcomeButtonActionPerformed
-        // TODO add your handling code here:
         AddLearningOutcomeDialog.show();
-
     }//GEN-LAST:event_AddNewLearningOutcomeButtonActionPerformed
 
     private void SyllabusStartDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_SyllabusStartDateChooserPropertyChange
     {//GEN-HEADEREND:event_SyllabusStartDateChooserPropertyChange
-        // TODO add your handling code here:
+        
+        // Return if null.
         Date date = SyllabusStartDateChooser.getDate();
-
         if (date == null)
-        {
             return;
-        }
 
+        // If end chooser is enabled check if the new start date is later than end date.
         if (SyllabusEndDateChooser.isEnabled())
         {
-            Date courseEndDate = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getEndDate();
-
+            
+            // Dont allow entering a start date that is later than the end date.
+            Date courseEndDate = courseManager.GetCourse(selectedCourse).getSyllabus().getEndDate();
             if (courseEndDate != null)
             {
                 if (date.after(courseEndDate))
                 {
                     SyllabusStartDateChooser.setDate(courseEndDate);
-                    courseManager.GetCourse(i_SelectedCourse).getSyllabus().setStartDate(courseEndDate);
-                } else
-                {
-                    courseManager.GetCourse(i_SelectedCourse).getSyllabus().setStartDate(date);
+                    courseManager.GetCourse(selectedCourse).getSyllabus().setStartDate(courseEndDate);
                 }
+                else
+                    courseManager.GetCourse(selectedCourse).getSyllabus().setStartDate(date);
             }
-
-        } else
+        }
+        else
         {
+            // Enable end date chooser if not enabled.
             SyllabusEndDateChooser.setEnabled(true);
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().setStartDate(date);
+            courseManager.GetCourse(selectedCourse).getSyllabus().setStartDate(date);
         }
 
         UpdateSyllabus();
@@ -4308,79 +4252,63 @@ public class UIManager extends javax.swing.JFrame
 
     private void SyllabusEndDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_SyllabusEndDateChooserPropertyChange
     {//GEN-HEADEREND:event_SyllabusEndDateChooserPropertyChange
-        // TODO add your handling code here:
-
+        // Return if null.
         Date date = SyllabusEndDateChooser.getDate();
-
         if (date == null)
-        {
             return;
-        }
 
-        Date courseStartDate = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getStartDate();
-
+        // Get start date, dont allow the end date to be before the start date.
+        Date courseStartDate = courseManager.GetCourse(selectedCourse).getSyllabus().getStartDate();
         if (date.before(courseStartDate))
         {
             SyllabusEndDateChooser.setDate(courseStartDate);
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().setEndDate(courseStartDate);
-        } else
-        {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().setEndDate(date);
+            courseManager.GetCourse(selectedCourse).getSyllabus().setEndDate(courseStartDate);
         }
+        else
+            courseManager.GetCourse(selectedCourse).getSyllabus().setEndDate(date);
 
         UpdateSyllabus();
-
     }//GEN-LAST:event_SyllabusEndDateChooserPropertyChange
 
     private void SyllabusWeekTopicsAreaKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_SyllabusWeekTopicsAreaKeyReleased
     {//GEN-HEADEREND:event_SyllabusWeekTopicsAreaKeyReleased
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-
         int selected = SyllabusWeekList.getSelectedIndex();
         String text = SyllabusWeekTopicsArea.getText();
-
-        if (i_SelectedCourse != -1 && courseManager.GetCourse(i_SelectedCourse).getSyllabus() != null)
+        
+        // Check the selected course and syllabus to avoid runtime errors.
+        if (selectedCourse != -1 && courseManager.GetCourse(selectedCourse).getSyllabus() != null)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks().get(selected).setTopic(text);
+            courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().get(selected).setTopic(text);
             courseManager.SaveCourses();
         }
-
-
     }//GEN-LAST:event_SyllabusWeekTopicsAreaKeyReleased
 
     private void AddLOCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddLOCancelActionPerformed
     {//GEN-HEADEREND:event_AddLOCancelActionPerformed
-        // TODO add your handling code here:
         AddLearningOutcomeDialog.dispose();
     }//GEN-LAST:event_AddLOCancelActionPerformed
 
     private void AddLOAddButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddLOAddButtonActionPerformed
     {//GEN-HEADEREND:event_AddLOAddButtonActionPerformed
-        // TODO add your handling code here:
-
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().addLearningOutcome(AddLOTextField.getText());
+        // Set GUI and select the newly added learning outcome list item.
+        courseManager.GetCourse(selectedCourse).getSyllabus().addLearningOutcome(AddLOTextField.getText());
         AddLOTextField.setText("");
         AddLOWarning.setVisible(false);
         AddLOAddButton.setEnabled(false);
-
-        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO());
-
+        SelectLearningOutcome(courseManager.GetCourse(selectedCourse).getSyllabus().getSelectedLO());
         AddLearningOutcomeDialog.dispose();
 
     }//GEN-LAST:event_AddLOAddButtonActionPerformed
 
     private void SaveLOCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SaveLOCancelActionPerformed
     {//GEN-HEADEREND:event_SaveLOCancelActionPerformed
-        // TODO add your handling code here:
         EditLearningOutcomeDialog.dispose();
     }//GEN-LAST:event_SaveLOCancelActionPerformed
 
     private void SaveLOSaveButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SaveLOSaveButtonActionPerformed
     {//GEN-HEADEREND:event_SaveLOSaveButtonActionPerformed
-        // TODO add your handling code here:
-
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().editLearningOutcome(LearningOutcomeList.getSelectedIndex(), SaveLOTextField.getText());
+        // Set GUI and update it.
+        courseManager.GetCourse(selectedCourse).getSyllabus().editLearningOutcome(LearningOutcomeList.getSelectedIndex(), SaveLOTextField.getText());
         SaveLOTextField.setText("");
         SaveLOWarning.setVisible(false);
         SaveLOSaveButton.setEnabled(false);
@@ -4390,11 +4318,13 @@ public class UIManager extends javax.swing.JFrame
 
     private void AddLOTextFieldCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_AddLOTextFieldCaretUpdate
     {//GEN-HEADEREND:event_AddLOTextFieldCaretUpdate
+        // Dont allow empty field.
         if (AddLOTextField.getText().equals(""))
         {
             AddLOWarning.setVisible(true);
             AddLOAddButton.setEnabled(false);
-        } else
+        }
+        else
         {
             AddLOWarning.setVisible(false);
             AddLOAddButton.setEnabled(true);
@@ -4403,11 +4333,13 @@ public class UIManager extends javax.swing.JFrame
 
     private void SaveLOTextFieldCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_SaveLOTextFieldCaretUpdate
     {//GEN-HEADEREND:event_SaveLOTextFieldCaretUpdate
+        // Dont allow empty field.
         if (SaveLOTextField.getText().equals(""))
         {
             SaveLOWarning.setVisible(true);
             SaveLOSaveButton.setEnabled(false);
-        } else
+        }
+        else
         {
             SaveLOWarning.setVisible(false);
             SaveLOSaveButton.setEnabled(true);
@@ -4416,76 +4348,61 @@ public class UIManager extends javax.swing.JFrame
 
     private void CourseSelectionComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_CourseSelectionComboBoxActionPerformed
     {//GEN-HEADEREND:event_CourseSelectionComboBoxActionPerformed
-        // TODO add your handling code here:
         SelectCourse(CourseSelectionComboBox.getSelectedIndex());
     }//GEN-LAST:event_CourseSelectionComboBoxActionPerformed
 
     private void SectionSelectionComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SectionSelectionComboBoxActionPerformed
     {//GEN-HEADEREND:event_SectionSelectionComboBoxActionPerformed
-        // TODO add your handling code here:
-
         SelectSection(SectionSelectionComboBox.getSelectedIndex());
     }//GEN-LAST:event_SectionSelectionComboBoxActionPerformed
 
     private void ImportAttendanceDataActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ImportAttendanceDataActionPerformed
     {//GEN-HEADEREND:event_ImportAttendanceDataActionPerformed
-        // TODO add your handling code here:
-
         fileChooseState = FileChooseState.StudentAttendance;
         FileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         FileChooser.showDialog(this, "Open");
-
     }//GEN-LAST:event_ImportAttendanceDataActionPerformed
 
     private void SectionsListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SectionsListMouseReleased
     {//GEN-HEADEREND:event_SectionsListMouseReleased
-        // TODO add your handling code here:
-        if (i_SelectedCourse == -1)
-        {
+        if (selectedCourse == -1)
             return;
-        }
 
         if (SectionsList.getSelectedIndex() != -1)
         {
-            if (courseManager.GetCourse(i_SelectedCourse).getSections().size() < 2)
-            {
+            // Disable remove button if only 1 section is left.
+            if (courseManager.GetCourse(selectedCourse).getSections().size() < 2)
                 RemoveSectionButton.setEnabled(false);
-            } else
-            {
+            else
                 RemoveSectionButton.setEnabled(true);
-            }
 
-            courseManager.GetCourse(i_SelectedCourse).setSection(SectionsList.getSelectedIndex());
-
+            // Set and select section.
+            courseManager.GetCourse(selectedCourse).setSection(SectionsList.getSelectedIndex());
             SelectSection(SectionsList.getSelectedIndex());
         }
 
+        // Pop-up edit dialog on double click.
         if (evt.getClickCount() == 2)
         {
-            Course c = courseManager.GetCourse(i_SelectedCourse);
-
+            Course c = courseManager.GetCourse(selectedCourse);
             EditSectionNameField.setText(c.getSelectedSection().GetName());
-
             EditSectionDialog.show();
-
         }
     }//GEN-LAST:event_SectionsListMouseReleased
 
     private void CoursesListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_CoursesListMouseReleased
     {//GEN-HEADEREND:event_CoursesListMouseReleased
-        // TODO add your handling code here:
+        // Select it.
         SelectCourse(CoursesList.getSelectedIndex());
-
+        
+        // Pop-up edit dialog if double clicked.
         if (evt.getClickCount() == 2)
         {
-            Course c = courseManager.GetCourse(i_SelectedCourse);
-
+            Course c = courseManager.GetCourse(selectedCourse);
             EditCourseIDField.setText(c.getID());
             EditCourseNameField.setText(c.getName());
             EditCourseDescField.setText(c.getDescription());
-
             EditCourseDialog.show();
-
         }
     }//GEN-LAST:event_CoursesListMouseReleased
 
@@ -4499,7 +4416,7 @@ public class UIManager extends javax.swing.JFrame
             return;
         }
 
-        String topic = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks().get(selected).getTopic();
+        String topic = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().get(selected).getTopic();
         SyllabusWeekTopicsArea.setText(topic);
     }//GEN-LAST:event_SyllabusWeekListMouseReleased
 
@@ -4512,11 +4429,12 @@ public class UIManager extends javax.swing.JFrame
 
             if (evt.getClickCount() == 2)
             {
-                String lo = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes().get(LearningOutcomeList.getSelectedIndex());
+                String lo = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes().get(LearningOutcomeList.getSelectedIndex());
                 SaveLOTextField.setText(lo);
                 EditLearningOutcomeDialog.show();
             }
-        } else
+        }
+        else
         {
             RemoveLearningOutcomeButton.setEnabled(false);
 
@@ -4529,28 +4447,16 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_AddExamButtonActionPerformed
         // TODO add your handling code here:
         Exam ex = new Exam(Exam.ExamType.Midterm, 0, null);
-        courseManager.GetCourse(i_SelectedCourse).addExam(ex);
+        courseManager.GetCourse(selectedCourse).addExam(ex);
         UpdateExams();
     }//GEN-LAST:event_AddExamButtonActionPerformed
 
     private void RemoveExamButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveExamButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveExamButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).removeExam(ExamList.getSelectedIndex());
+        courseManager.GetCourse(selectedCourse).removeExam(ExamList.getSelectedIndex());
         UpdateExams();
     }//GEN-LAST:event_RemoveExamButtonActionPerformed
-
-    private void AddQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddQuestionButtonActionPerformed
-    {//GEN-HEADEREND:event_AddQuestionButtonActionPerformed
-     
-    }//GEN-LAST:event_AddQuestionButtonActionPerformed
-
-    private void RemoveQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveQuestionButtonActionPerformed
-    {//GEN-HEADEREND:event_RemoveQuestionButtonActionPerformed
-        // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().removeQuestion(QuestionList.getSelectedIndex());
-        UpdateExams();
-    }//GEN-LAST:event_RemoveQuestionButtonActionPerformed
 
     private void ExamListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_ExamListMouseReleased
     {//GEN-HEADEREND:event_ExamListMouseReleased
@@ -4563,33 +4469,33 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_ExamTypeComboBoxActionPerformed
         // TODO add your handling code here:
         Exam.ExamType examType = Exam.ExamType.valueOf(ExamTypeComboBox.getSelectedIndex());
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setType(examType);
+        courseManager.GetCourse(selectedCourse).getSelectedExam().setType(examType);
         UpdateExams();
     }//GEN-LAST:event_ExamTypeComboBoxActionPerformed
 
     private void ExamDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_ExamDateChooserPropertyChange
     {//GEN-HEADEREND:event_ExamDateChooserPropertyChange
         // TODO add your handling code here:
-        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).getSelectedExamIndex() == -1)
+        if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
         {
             return;
         }
 
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setDate(ExamDateChooser.getDate());
+        courseManager.GetCourse(selectedCourse).getSelectedExam().setDate(ExamDateChooser.getDate());
     }//GEN-LAST:event_ExamDateChooserPropertyChange
 
     private void ExamPercentageFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ExamPercentageFieldActionPerformed
     {//GEN-HEADEREND:event_ExamPercentageFieldActionPerformed
         // TODO add your handling code here:
-        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).getSelectedExamIndex() == -1)
+        if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
         {
             return;
         }
         try
         {
             int spinnerVal = Integer.parseInt(ExamPercentageField.getText());
-            int examPercentage = courseManager.GetCourse(i_SelectedCourse).getRemainingExamPercentage();
-            int currentPercentage = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getPercentage();
+            int examPercentage = courseManager.GetCourse(selectedCourse).getRemainingExamPercentage();
+            int currentPercentage = courseManager.GetCourse(selectedCourse).getSelectedExam().getPercentage();
             if (spinnerVal > currentPercentage && spinnerVal > examPercentage)
             {
                 spinnerVal = currentPercentage + examPercentage;
@@ -4597,9 +4503,10 @@ public class UIManager extends javax.swing.JFrame
 
             ExamPercentageField.setText(Integer.toString(spinnerVal));
 
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setPercentage(spinnerVal);
-            courseManager.GetCourse(i_SelectedCourse).calculateRemainingExamPercentage();
-        } catch (NumberFormatException e)
+            courseManager.GetCourse(selectedCourse).getSelectedExam().setPercentage(spinnerVal);
+            courseManager.GetCourse(selectedCourse).calculateRemainingExamPercentage();
+        }
+        catch (NumberFormatException e)
         {
             // handle
         }
@@ -4609,7 +4516,7 @@ public class UIManager extends javax.swing.JFrame
 
     private void QuestionPointFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_QuestionPointFieldActionPerformed
     {//GEN-HEADEREND:event_QuestionPointFieldActionPerformed
-        if (i_SelectedCourse == -1 || courseManager.GetCourse(i_SelectedCourse).getSelectedExamIndex() == -1)
+        if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
         {
             return;
         }
@@ -4617,9 +4524,10 @@ public class UIManager extends javax.swing.JFrame
         try
         {
             int points = Integer.parseInt(QuestionPointField.getText());
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().setPoints(points);
+            courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().setPoints(points);
 
-        } catch (NumberFormatException e)
+        }
+        catch (NumberFormatException e)
         {
             // handle
         }
@@ -4644,7 +4552,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicsButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicsButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicsButtonActionPerformed
         DefaultListModel topicsListModel = new DefaultListModel();
-        ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks();
+        ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
 
         for (int i = 0; i < weeks.size(); i++)
         {
@@ -4662,7 +4570,7 @@ public class UIManager extends javax.swing.JFrame
         // TODO add your handling code here:
 
         DefaultListModel loListModel = new DefaultListModel();
-        ArrayList<String> learningOutcomes = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes();
+        ArrayList<String> learningOutcomes = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes();
 
         for (int i = 0; i < learningOutcomes.size(); i++)
         {
@@ -4678,12 +4586,12 @@ public class UIManager extends javax.swing.JFrame
     private void SelectLOListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
+        courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         int[] indices = SelectLOList.getSelectedIndices();
 
         for (int i = 0; i < indices.length; i++)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().addLO(indices[i]);
+            courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().addLO(indices[i]);
         }
 
         UpdateExams();
@@ -4705,12 +4613,12 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
+        courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         int[] indices = SelectTopicList.getSelectedIndices();
 
         for (int i = 0; i < indices.length; i++)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().addTopic(indices[i]);
+            courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().addTopic(indices[i]);
         }
 
         UpdateExams();
@@ -4732,7 +4640,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectLOListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectEmptyButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
+        courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         UpdateExams();
         SelectLODialog.dispose();
     }//GEN-LAST:event_SelectLOListSelectEmptyButtonActionPerformed
@@ -4740,7 +4648,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectEmptyButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
+        courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectEmptyButtonActionPerformed
@@ -4772,7 +4680,7 @@ public class UIManager extends javax.swing.JFrame
 
                 List<String> xData = new ArrayList<String>();
                 List<Integer> yData = new ArrayList<Integer>();
-                ArrayList<AttendanceDate> attDates = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getAttendanceDates();
+                ArrayList<AttendanceDate> attDates = courseManager.GetCourse(selectedCourse).getSelectedSection().getAttendanceDates();
 
                 int selectionIndex = AttendanceReportsComboBox.getSelectedIndex();
                 int totalAbs = 0;
@@ -4782,12 +4690,13 @@ public class UIManager extends javax.swing.JFrame
                     xData.add(str);
                     if (selectionIndex == 0)
                     {
-                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getTotalAbsentheismCountAtDate(i);
+                        int abs = courseManager.GetCourse(selectedCourse).getSelectedSection().getTotalAbsentheismCountAtDate(i);
                         totalAbs += abs;
                         yData.add(abs);
-                    } else
+                    }
+                    else
                     {
-                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getAbsenteeismOfStudentAtDate(i, selectionIndex - 1);
+                        int abs = courseManager.GetCourse(selectedCourse).getSelectedSection().getAbsenteeismOfStudentAtDate(i, selectionIndex - 1);
                         totalAbs += abs;
                         yData.add(abs);
                     }
@@ -4824,12 +4733,12 @@ public class UIManager extends javax.swing.JFrame
 
                 List<String> xData = new ArrayList<String>();
                 List<Integer> yData = new ArrayList<Integer>();
-                ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).getExams();
+                ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
 
                 int selectionIndex = AttendanceReportsComboBox.getSelectedIndex();
                 int totalAbs = 0;
 
-                Section section = courseManager.GetCourse(i_SelectedCourse).getSelectedSection();
+                Section section = courseManager.GetCourse(selectedCourse).getSelectedSection();
 
                 xData.add("First Week");
 
@@ -4837,7 +4746,8 @@ public class UIManager extends javax.swing.JFrame
                 {
                     int fw = section.getTotalAbsentheismCountAtDate(0);
                     yData.add(fw);
-                } else
+                }
+                else
                 {
                     int fw = section.getAbsenteeismOfStudentAtDate(0, selectionIndex - 1);
                     yData.add(fw);
@@ -4858,7 +4768,8 @@ public class UIManager extends javax.swing.JFrame
                         int abs = section.getAbsenteeismUntilDate(exams.get(i).getDate());
 
                         yData.add(abs);
-                    } else
+                    }
+                    else
                     {
                         int abs = section.getAbsenteeismOfStudentUntilDate(exams.get(i).getDate(), selectionIndex - 1);
 
@@ -4871,7 +4782,8 @@ public class UIManager extends javax.swing.JFrame
                     int abs = section.getAbsenteeismUntilDate(section.getAttendanceDates().get(section.getAttendanceDates().size() - 1).getDate());
                     totalAbs = abs;
                     yData.add(abs);
-                } else
+                }
+                else
                 {
                     int lw = section.getAbsenteeismOfStudentUntilDate(section.getAttendanceDates().get(section.getAttendanceDates().size() - 1).getDate(), selectionIndex - 1);
                     totalAbs = lw;
@@ -4909,8 +4821,8 @@ public class UIManager extends javax.swing.JFrame
                 };
                 chart.getStyler().setSeriesColors(sliceColors);
 
-                ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks();
-                ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).getExams();
+                ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
+                ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
 
                 for (int i = 0; i < weeks.size(); i++)
                 {
@@ -4918,7 +4830,7 @@ public class UIManager extends javax.swing.JFrame
 
                     for (int j = 0; j < exams.size(); j++)
                     {
-                       
+
                         ArrayList<Question> questions = exams.get(j).calculateQuestionSuccessRate();
                         for (int l = 0; l < questions.size(); l++)
                         {
@@ -4935,7 +4847,6 @@ public class UIManager extends javax.swing.JFrame
                     weeks.get(i).setSuccessScore(mySuccessRate);
                     String name = new StringBuilder().append("Week " + (i + 1)).append(weeks.get(i).getTopic()).toString();
                     chart.addSeries(name, mySuccessRate);
-                    System.out.println(mySuccessRate);
                 }
 
                 SwingWrapper wrapper = new SwingWrapper(chart);
@@ -4966,7 +4877,7 @@ public class UIManager extends javax.swing.JFrame
                 List<String> xData = new ArrayList<String>();
                 List<Float> yData = new ArrayList<Float>();
 
-                ArrayList<Exam> exams = courseManager.GetCourse(i_SelectedCourse).getExams();
+                ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
 
                 for (int i = 0; i < exams.size(); i++)
                 {
@@ -4982,7 +4893,7 @@ public class UIManager extends javax.swing.JFrame
                     ArrayList<Question> questions = exams.get(i).calculateQuestionSuccessRate();
                     float examOverallSuccess = 0;
                     examOverallSuccess = exams.get(i).getStudentScoreOverTotal();
-                
+
                     yData.add(examOverallSuccess);
                 }
                 String head = new StringBuilder().append("Exams").toString();
@@ -5005,27 +4916,29 @@ public class UIManager extends javax.swing.JFrame
 
             try
             {
-                resourceManager.setCurrentExam(courseManager.GetCourse(i_SelectedCourse).getSelectedExam());
+                resourceManager.setCurrentExam(courseManager.GetCourse(selectedCourse).getSelectedExam());
                 resourceManager.LoadExamXLSX(FileChooser.getSelectedFile());
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
 
             }
 
             UpdateExams();
             UpdateReports();
-        } else
+        }
+        else
         {
             try
             {
-                resourceManager.setCurrentSection(courseManager.GetCourse(i_SelectedCourse).getSelectedSection());
+                resourceManager.setCurrentSection(courseManager.GetCourse(selectedCourse).getSelectedSection());
                 resourceManager.LoadStudentXLSX(FileChooser.getSelectedFile());
 
                 UpdateStudents();
                 UpdateReports();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
-                System.out.println(ex.getMessage());
                 Logger.getLogger(UIManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -5056,16 +4969,20 @@ public class UIManager extends javax.swing.JFrame
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex)
+        }
+        catch (ClassNotFoundException ex)
         {
             java.util.logging.Logger.getLogger(UIManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
+        }
+        catch (InstantiationException ex)
         {
             java.util.logging.Logger.getLogger(UIManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
+        }
+        catch (IllegalAccessException ex)
         {
             java.util.logging.Logger.getLogger(UIManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
             java.util.logging.Logger.getLogger(UIManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
@@ -5104,7 +5021,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton AddNewCourseButton;
     private javax.swing.JDialog AddNewCourseDialog;
     private javax.swing.JButton AddNewLearningOutcomeButton;
-    private javax.swing.JButton AddQuestionButton;
     private javax.swing.JButton AddQuestionButton1;
     private javax.swing.JButton AddSectionAddButton;
     private javax.swing.JButton AddSectionButton;
@@ -5214,7 +5130,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton RemoveCourseButton;
     private javax.swing.JButton RemoveExamButton;
     private javax.swing.JButton RemoveLearningOutcomeButton;
-    private javax.swing.JButton RemoveQuestionButton;
     private javax.swing.JButton RemoveSectionButton;
     private javax.swing.JLabel ReportsImage;
     private keeptoo.KGradientPanel ReportsInnerPanel;
@@ -5289,7 +5204,6 @@ public class UIManager extends javax.swing.JFrame
     private javax.swing.JButton ViewAttendanceReportExamsButton;
     private javax.swing.JButton ViewExamGradesButton;
     private javax.swing.JButton ViewTopicSuccessButton;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

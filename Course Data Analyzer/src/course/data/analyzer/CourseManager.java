@@ -13,7 +13,6 @@ import java.util.*;
  */
 public class CourseManager
 {
-
     private int lastActionIndex;
     private ArrayList<Course> allCourses;
     private ResourceManager resourceManager;
@@ -76,6 +75,7 @@ public class CourseManager
 
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
+
     }
 
     // Adds new course - UNDO OPERATION
@@ -110,11 +110,12 @@ public class CourseManager
     // Removes an added course. - UNDO OPERATION
     public void RemoveCourse(Course c)
     {
+        // Select another one from the list.
+        int toSelect = allCourses.indexOf(c) == 0 ? -1 : allCourses.indexOf(c) - 1;
+        
         // Remove the course.
         allCourses.remove(c);
 
-        // Select another one from the list.
-        int toSelect = allCourses.indexOf(c) == 0 ? -1 : allCourses.indexOf(c) - 1;
         uiManager.SelectCourse(toSelect);
     }
 
