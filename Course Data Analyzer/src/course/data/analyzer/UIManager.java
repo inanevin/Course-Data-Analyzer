@@ -727,7 +727,7 @@ public class UIManager extends javax.swing.JFrame
     }
 
     private void DisposeEditCourseDialog()
-    {      
+    {
         // Reset components & dispose.
         EditCourseIDField.setText("");
         EditCourseNameField.setText("");
@@ -737,7 +737,7 @@ public class UIManager extends javax.swing.JFrame
     }
 
     private void DisposeAddSectionDialog()
-    {       
+    {
         // Reset components & dispose.
         AddSectionNameField.setText("");
         AddSectionWarning.setVisible(false);
@@ -746,7 +746,7 @@ public class UIManager extends javax.swing.JFrame
     }
 
     private void DisposeEditSectionDialog()
-    {       
+    {
         // Reset components & dispose.
         EditSectionNameField.setText("");
         EditSectionWarning.setVisible(false);
@@ -871,6 +871,42 @@ public class UIManager extends javax.swing.JFrame
         SettingsImage = new javax.swing.JLabel();
         TopRight = new javax.swing.JPanel();
         Center = new javax.swing.JPanel();
+        ExamsMainPanel = new javax.swing.JPanel();
+        DBTitlePanel4 = new javax.swing.JPanel();
+        DashboardMainTitle4 = new javax.swing.JLabel();
+        ExamsMP = new keeptoo.KGradientPanel();
+        ExamsNoCoursePanel = new keeptoo.KGradientPanel();
+        NoCourseSelectedLabel1 = new javax.swing.JLabel();
+        ExamsScrollPane = new javax.swing.JScrollPane();
+        ExamsInnerPanel = new keeptoo.KGradientPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        ExamList = new javax.swing.JList<>();
+        DashboardMainTitle6 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        AddExamButton = new javax.swing.JButton();
+        RemoveExamButton = new javax.swing.JButton();
+        ExamEditPanel = new javax.swing.JPanel();
+        DashboardMainTitle8 = new javax.swing.JLabel();
+        ExamTypeComboBox = new javax.swing.JComboBox<>();
+        DashboardMainTitle9 = new javax.swing.JLabel();
+        ExamDateChooser = new com.toedter.calendar.JDateChooser();
+        DashboardMainTitle10 = new javax.swing.JLabel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        QuestionList = new javax.swing.JList<>();
+        DashboardMainTitle7 = new javax.swing.JLabel();
+        DashboardMainTitle11 = new javax.swing.JLabel();
+        DashboardMainTitle12 = new javax.swing.JLabel();
+        DashboardMainTitle13 = new javax.swing.JLabel();
+        ExamPercentageField = new javax.swing.JTextField();
+        QuestionPointField = new javax.swing.JTextField();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        ExamTopicList = new javax.swing.JList<>();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        ExamLOList = new javax.swing.JList<>();
+        SelectTopicsButton = new javax.swing.JButton();
+        SelectLOButton = new javax.swing.JButton();
+        AddQuestionButton1 = new javax.swing.JButton();
         CoursesMainPanel = new javax.swing.JPanel();
         CoursesTitlePanel = new javax.swing.JPanel();
         CoursesMainTitle = new javax.swing.JLabel();
@@ -977,42 +1013,6 @@ public class UIManager extends javax.swing.JFrame
         ViewTopicSuccessButton = new javax.swing.JButton();
         ViewExamGradesButton = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
-        ExamsMainPanel = new javax.swing.JPanel();
-        DBTitlePanel4 = new javax.swing.JPanel();
-        DashboardMainTitle4 = new javax.swing.JLabel();
-        ExamsMP = new keeptoo.KGradientPanel();
-        ExamsNoCoursePanel = new keeptoo.KGradientPanel();
-        NoCourseSelectedLabel1 = new javax.swing.JLabel();
-        ExamsScrollPane = new javax.swing.JScrollPane();
-        ExamsInnerPanel = new keeptoo.KGradientPanel();
-        jPanel14 = new javax.swing.JPanel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        ExamList = new javax.swing.JList<>();
-        DashboardMainTitle6 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
-        AddExamButton = new javax.swing.JButton();
-        RemoveExamButton = new javax.swing.JButton();
-        ExamEditPanel = new javax.swing.JPanel();
-        DashboardMainTitle8 = new javax.swing.JLabel();
-        ExamTypeComboBox = new javax.swing.JComboBox<>();
-        DashboardMainTitle9 = new javax.swing.JLabel();
-        ExamDateChooser = new com.toedter.calendar.JDateChooser();
-        DashboardMainTitle10 = new javax.swing.JLabel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        QuestionList = new javax.swing.JList<>();
-        DashboardMainTitle7 = new javax.swing.JLabel();
-        DashboardMainTitle11 = new javax.swing.JLabel();
-        DashboardMainTitle12 = new javax.swing.JLabel();
-        DashboardMainTitle13 = new javax.swing.JLabel();
-        ExamPercentageField = new javax.swing.JTextField();
-        QuestionPointField = new javax.swing.JTextField();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        ExamTopicList = new javax.swing.JList<>();
-        jScrollPane16 = new javax.swing.JScrollPane();
-        ExamLOList = new javax.swing.JList<>();
-        SelectTopicsButton = new javax.swing.JButton();
-        SelectLOButton = new javax.swing.JButton();
-        AddQuestionButton1 = new javax.swing.JButton();
 
         EditCourseDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         EditCourseDialog.setTitle("Add New Course");
@@ -2350,6 +2350,416 @@ public class UIManager extends javax.swing.JFrame
         Center.setBackground(new java.awt.Color(26, 24, 26));
         Center.setLayout(new javax.swing.OverlayLayout(Center));
 
+        ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
+        ExamsMainPanel.setLayout(new java.awt.BorderLayout());
+
+        DBTitlePanel4.setBackground(new java.awt.Color(26, 24, 26));
+        DBTitlePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        DashboardMainTitle4.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle4.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle4.setText("Exams");
+        DashboardMainTitle4.setToolTipText("");
+
+        javax.swing.GroupLayout DBTitlePanel4Layout = new javax.swing.GroupLayout(DBTitlePanel4);
+        DBTitlePanel4.setLayout(DBTitlePanel4Layout);
+        DBTitlePanel4Layout.setHorizontalGroup(
+            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DashboardMainTitle4)
+                .addContainerGap(925, Short.MAX_VALUE))
+        );
+        DBTitlePanel4Layout.setVerticalGroup(
+            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(DashboardMainTitle4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        ExamsMainPanel.add(DBTitlePanel4, java.awt.BorderLayout.NORTH);
+
+        ExamsMP.setkEndColor(new java.awt.Color(26, 24, 26));
+        ExamsMP.setkStartColor(new java.awt.Color(26, 24, 26));
+        ExamsMP.setLayout(new java.awt.CardLayout());
+
+        ExamsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        ExamsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
+
+        NoCourseSelectedLabel1.setBackground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel1.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
+        NoCourseSelectedLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        NoCourseSelectedLabel1.setText("No course is selected. Please select or add a course from Courses Menu.");
+
+        javax.swing.GroupLayout ExamsNoCoursePanelLayout = new javax.swing.GroupLayout(ExamsNoCoursePanel);
+        ExamsNoCoursePanel.setLayout(ExamsNoCoursePanelLayout);
+        ExamsNoCoursePanelLayout.setHorizontalGroup(
+            ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(NoCourseSelectedLabel1)
+                .addContainerGap(208, Short.MAX_VALUE))
+        );
+        ExamsNoCoursePanelLayout.setVerticalGroup(
+            ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(NoCourseSelectedLabel1)
+                .addContainerGap(1104, Short.MAX_VALUE))
+        );
+
+        ExamsMP.add(ExamsNoCoursePanel, "card3");
+
+        ExamsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
+        ExamsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
+        ExamsInnerPanel.setLayout(new javax.swing.BoxLayout(ExamsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel14.setMaximumSize(new java.awt.Dimension(32767, 320));
+        jPanel14.setOpaque(false);
+        jPanel14.setPreferredSize(new java.awt.Dimension(811, 320));
+
+        ExamList.setBackground(new java.awt.Color(26, 24, 26));
+        ExamList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        ExamList.setForeground(new java.awt.Color(227, 227, 227));
+        ExamList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
+                ExamListMouseReleased(evt);
+            }
+        });
+        jScrollPane11.setViewportView(ExamList);
+
+        DashboardMainTitle6.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle6.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle6.setText("All Exams");
+        DashboardMainTitle6.setToolTipText("");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        ExamsInnerPanel.add(jPanel14);
+
+        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel16.setMaximumSize(new java.awt.Dimension(32767, 75));
+        jPanel16.setOpaque(false);
+        jPanel16.setPreferredSize(new java.awt.Dimension(826, 60));
+
+        AddExamButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        AddExamButton.setForeground(new java.awt.Color(51, 51, 51));
+        AddExamButton.setText("Add Exam");
+        AddExamButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        AddExamButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                AddExamButtonActionPerformed(evt);
+            }
+        });
+
+        RemoveExamButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        RemoveExamButton.setForeground(new java.awt.Color(51, 51, 51));
+        RemoveExamButton.setText("Remove Exam");
+        RemoveExamButton.setEnabled(false);
+        RemoveExamButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        RemoveExamButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                RemoveExamButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AddExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(RemoveExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(660, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(RemoveExamButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
+        );
+
+        ExamsInnerPanel.add(jPanel16);
+
+        ExamEditPanel.setOpaque(false);
+
+        DashboardMainTitle8.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle8.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        DashboardMainTitle8.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle8.setText("Type:");
+        DashboardMainTitle8.setToolTipText("");
+
+        ExamTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Midterm", "Final", "Quiz", "Lab", "Other" }));
+        ExamTypeComboBox.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ExamTypeComboBoxActionPerformed(evt);
+            }
+        });
+
+        DashboardMainTitle9.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle9.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        DashboardMainTitle9.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle9.setText("Date:");
+        DashboardMainTitle9.setToolTipText("");
+
+        ExamDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
+        {
+            public void propertyChange(java.beans.PropertyChangeEvent evt)
+            {
+                ExamDateChooserPropertyChange(evt);
+            }
+        });
+
+        DashboardMainTitle10.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle10.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        DashboardMainTitle10.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle10.setText("Percentage:");
+        DashboardMainTitle10.setToolTipText("");
+
+        QuestionList.setBackground(new java.awt.Color(26, 24, 26));
+        QuestionList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        QuestionList.setForeground(new java.awt.Color(227, 227, 227));
+        QuestionList.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
+                QuestionListMouseReleased(evt);
+            }
+        });
+        jScrollPane12.setViewportView(QuestionList);
+
+        DashboardMainTitle7.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle7.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle7.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle7.setText("Questions");
+        DashboardMainTitle7.setToolTipText("");
+
+        DashboardMainTitle11.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle11.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        DashboardMainTitle11.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle11.setText("Points:");
+        DashboardMainTitle11.setToolTipText("");
+
+        DashboardMainTitle12.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle12.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle12.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle12.setText("Topics");
+        DashboardMainTitle12.setToolTipText("");
+
+        DashboardMainTitle13.setBackground(new java.awt.Color(199, 50, 38));
+        DashboardMainTitle13.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
+        DashboardMainTitle13.setForeground(new java.awt.Color(227, 227, 227));
+        DashboardMainTitle13.setText("Learning Outcomes");
+        DashboardMainTitle13.setToolTipText("");
+
+        ExamPercentageField.setBackground(new java.awt.Color(26, 24, 26));
+        ExamPercentageField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        ExamPercentageField.setForeground(new java.awt.Color(227, 227, 227));
+        ExamPercentageField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ExamPercentageFieldActionPerformed(evt);
+            }
+        });
+
+        QuestionPointField.setEditable(false);
+        QuestionPointField.setBackground(new java.awt.Color(26, 24, 26));
+        QuestionPointField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
+        QuestionPointField.setForeground(new java.awt.Color(227, 227, 227));
+        QuestionPointField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                QuestionPointFieldActionPerformed(evt);
+            }
+        });
+
+        ExamTopicList.setBackground(new java.awt.Color(26, 24, 26));
+        ExamTopicList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        ExamTopicList.setForeground(new java.awt.Color(227, 227, 227));
+        jScrollPane13.setViewportView(ExamTopicList);
+
+        ExamLOList.setBackground(new java.awt.Color(26, 24, 26));
+        ExamLOList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        ExamLOList.setForeground(new java.awt.Color(227, 227, 227));
+        jScrollPane16.setViewportView(ExamLOList);
+
+        SelectTopicsButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        SelectTopicsButton.setForeground(new java.awt.Color(51, 51, 51));
+        SelectTopicsButton.setText("Select Topics");
+        SelectTopicsButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        SelectTopicsButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                SelectTopicsButtonActionPerformed(evt);
+            }
+        });
+
+        SelectLOButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        SelectLOButton.setForeground(new java.awt.Color(51, 51, 51));
+        SelectLOButton.setText("Select Learning Outcomes");
+        SelectLOButton.setPreferredSize(new java.awt.Dimension(135, 50));
+        SelectLOButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                SelectLOButtonActionPerformed(evt);
+            }
+        });
+
+        AddQuestionButton1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        AddQuestionButton1.setForeground(new java.awt.Color(51, 51, 51));
+        AddQuestionButton1.setText("Import Exam Results");
+        AddQuestionButton1.setPreferredSize(new java.awt.Dimension(135, 50));
+        AddQuestionButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                AddQuestionButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ExamEditPanelLayout = new javax.swing.GroupLayout(ExamEditPanel);
+        ExamEditPanel.setLayout(ExamEditPanelLayout);
+        ExamEditPanelLayout.setHorizontalGroup(
+            ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(DashboardMainTitle7, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                                        .addComponent(DashboardMainTitle11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(49, 49, 49)
+                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DashboardMainTitle13, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(SelectLOButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(DashboardMainTitle8)
+                        .addGap(18, 18, 18)
+                        .addComponent(ExamTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(DashboardMainTitle9)
+                        .addGap(18, 18, 18)
+                        .addComponent(ExamDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(DashboardMainTitle10)
+                        .addGap(18, 18, 18)
+                        .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(SelectTopicsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(417, Short.MAX_VALUE))
+        );
+        ExamEditPanelLayout.setVerticalGroup(
+            ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DashboardMainTitle8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ExamTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DashboardMainTitle9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(ExamDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DashboardMainTitle10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(32, 32, 32)
+                .addComponent(DashboardMainTitle7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
+                        .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DashboardMainTitle11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(22, 22, 22)
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DashboardMainTitle13, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SelectTopicsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SelectLOButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(164, Short.MAX_VALUE))
+        );
+
+        ExamsInnerPanel.add(ExamEditPanel);
+
+        ExamsScrollPane.setViewportView(ExamsInnerPanel);
+
+        ExamsMP.add(ExamsScrollPane, "card4");
+
+        ExamsMainPanel.add(ExamsMP, java.awt.BorderLayout.CENTER);
+
+        Center.add(ExamsMainPanel);
+
         CoursesMainPanel.setBackground(new java.awt.Color(26, 24, 26));
         CoursesMainPanel.setLayout(new java.awt.BorderLayout(5, 25));
 
@@ -3559,430 +3969,6 @@ public class UIManager extends javax.swing.JFrame
 
         Center.add(ReportsMainPanel);
 
-        ExamsMainPanel.setBackground(new java.awt.Color(26, 24, 26));
-        ExamsMainPanel.setLayout(new java.awt.BorderLayout());
-
-        DBTitlePanel4.setBackground(new java.awt.Color(26, 24, 26));
-        DBTitlePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        DashboardMainTitle4.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle4.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle4.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle4.setText("Exams");
-        DashboardMainTitle4.setToolTipText("");
-
-        javax.swing.GroupLayout DBTitlePanel4Layout = new javax.swing.GroupLayout(DBTitlePanel4);
-        DBTitlePanel4.setLayout(DBTitlePanel4Layout);
-        DBTitlePanel4Layout.setHorizontalGroup(
-            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle4)
-                .addContainerGap(860, Short.MAX_VALUE))
-        );
-        DBTitlePanel4Layout.setVerticalGroup(
-            DBTitlePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DBTitlePanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardMainTitle4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ExamsMainPanel.add(DBTitlePanel4, java.awt.BorderLayout.NORTH);
-
-        ExamsMP.setkEndColor(new java.awt.Color(26, 24, 26));
-        ExamsMP.setkStartColor(new java.awt.Color(26, 24, 26));
-        ExamsMP.setLayout(new java.awt.CardLayout());
-
-        ExamsNoCoursePanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        ExamsNoCoursePanel.setkStartColor(new java.awt.Color(26, 24, 26));
-
-        NoCourseSelectedLabel1.setBackground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel1.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
-        NoCourseSelectedLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        NoCourseSelectedLabel1.setText("No course is selected. Please select or add a course from Courses Menu.");
-
-        javax.swing.GroupLayout ExamsNoCoursePanelLayout = new javax.swing.GroupLayout(ExamsNoCoursePanel);
-        ExamsNoCoursePanel.setLayout(ExamsNoCoursePanelLayout);
-        ExamsNoCoursePanelLayout.setHorizontalGroup(
-            ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(143, Short.MAX_VALUE))
-        );
-        ExamsNoCoursePanelLayout.setVerticalGroup(
-            ExamsNoCoursePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExamsNoCoursePanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(NoCourseSelectedLabel1)
-                .addContainerGap(826, Short.MAX_VALUE))
-        );
-
-        ExamsMP.add(ExamsNoCoursePanel, "card3");
-
-        ExamsInnerPanel.setkEndColor(new java.awt.Color(26, 24, 26));
-        ExamsInnerPanel.setkStartColor(new java.awt.Color(26, 24, 26));
-        ExamsInnerPanel.setLayout(new javax.swing.BoxLayout(ExamsInnerPanel, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel14.setMaximumSize(new java.awt.Dimension(32767, 320));
-        jPanel14.setOpaque(false);
-        jPanel14.setPreferredSize(new java.awt.Dimension(811, 320));
-
-        ExamList.setBackground(new java.awt.Color(26, 24, 26));
-        ExamList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        ExamList.setForeground(new java.awt.Color(227, 227, 227));
-        ExamList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                ExamListMouseReleased(evt);
-            }
-        });
-        jScrollPane11.setViewportView(ExamList);
-
-        DashboardMainTitle6.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle6.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle6.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle6.setText("All Exams");
-        DashboardMainTitle6.setToolTipText("");
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(DashboardMainTitle6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        ExamsInnerPanel.add(jPanel14);
-
-        jPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel16.setMaximumSize(new java.awt.Dimension(32767, 75));
-        jPanel16.setOpaque(false);
-        jPanel16.setPreferredSize(new java.awt.Dimension(826, 60));
-
-        AddExamButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        AddExamButton.setForeground(new java.awt.Color(51, 51, 51));
-        AddExamButton.setText("Add Exam");
-        AddExamButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        AddExamButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                AddExamButtonActionPerformed(evt);
-            }
-        });
-
-        RemoveExamButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        RemoveExamButton.setForeground(new java.awt.Color(51, 51, 51));
-        RemoveExamButton.setText("Remove Exam");
-        RemoveExamButton.setEnabled(false);
-        RemoveExamButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        RemoveExamButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                RemoveExamButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(AddExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(RemoveExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(660, Short.MAX_VALUE))
-        );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddExamButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(RemoveExamButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addGap(24, 24, 24))
-        );
-
-        ExamsInnerPanel.add(jPanel16);
-
-        ExamEditPanel.setOpaque(false);
-
-        DashboardMainTitle8.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle8.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        DashboardMainTitle8.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle8.setText("Type:");
-        DashboardMainTitle8.setToolTipText("");
-
-        ExamTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Midterm", "Final", "Quiz", "Lab", "Other" }));
-        ExamTypeComboBox.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                ExamTypeComboBoxActionPerformed(evt);
-            }
-        });
-
-        DashboardMainTitle9.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle9.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        DashboardMainTitle9.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle9.setText("Date:");
-        DashboardMainTitle9.setToolTipText("");
-
-        ExamDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener()
-        {
-            public void propertyChange(java.beans.PropertyChangeEvent evt)
-            {
-                ExamDateChooserPropertyChange(evt);
-            }
-        });
-
-        DashboardMainTitle10.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle10.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        DashboardMainTitle10.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle10.setText("Percentage:");
-        DashboardMainTitle10.setToolTipText("");
-
-        QuestionList.setBackground(new java.awt.Color(26, 24, 26));
-        QuestionList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        QuestionList.setForeground(new java.awt.Color(227, 227, 227));
-        QuestionList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                QuestionListMouseReleased(evt);
-            }
-        });
-        jScrollPane12.setViewportView(QuestionList);
-
-        DashboardMainTitle7.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle7.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle7.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle7.setText("Questions");
-        DashboardMainTitle7.setToolTipText("");
-
-        DashboardMainTitle11.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle11.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        DashboardMainTitle11.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle11.setText("Points:");
-        DashboardMainTitle11.setToolTipText("");
-
-        DashboardMainTitle12.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle12.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle12.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle12.setText("Topics");
-        DashboardMainTitle12.setToolTipText("");
-
-        DashboardMainTitle13.setBackground(new java.awt.Color(199, 50, 38));
-        DashboardMainTitle13.setFont(new java.awt.Font("Prototype", 0, 24)); // NOI18N
-        DashboardMainTitle13.setForeground(new java.awt.Color(227, 227, 227));
-        DashboardMainTitle13.setText("Learning Outcomes");
-        DashboardMainTitle13.setToolTipText("");
-
-        ExamPercentageField.setBackground(new java.awt.Color(26, 24, 26));
-        ExamPercentageField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        ExamPercentageField.setForeground(new java.awt.Color(227, 227, 227));
-        ExamPercentageField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                ExamPercentageFieldActionPerformed(evt);
-            }
-        });
-
-        QuestionPointField.setEditable(false);
-        QuestionPointField.setBackground(new java.awt.Color(26, 24, 26));
-        QuestionPointField.setFont(new java.awt.Font("Monospaced", 1, 14)); // NOI18N
-        QuestionPointField.setForeground(new java.awt.Color(227, 227, 227));
-        QuestionPointField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                QuestionPointFieldActionPerformed(evt);
-            }
-        });
-
-        ExamTopicList.setBackground(new java.awt.Color(26, 24, 26));
-        ExamTopicList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        ExamTopicList.setForeground(new java.awt.Color(227, 227, 227));
-        ExamTopicList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                ExamTopicListMouseReleased(evt);
-            }
-        });
-        jScrollPane13.setViewportView(ExamTopicList);
-
-        ExamLOList.setBackground(new java.awt.Color(26, 24, 26));
-        ExamLOList.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
-        ExamLOList.setForeground(new java.awt.Color(227, 227, 227));
-        ExamLOList.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                ExamLOListMouseReleased(evt);
-            }
-        });
-        jScrollPane16.setViewportView(ExamLOList);
-
-        SelectTopicsButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        SelectTopicsButton.setForeground(new java.awt.Color(51, 51, 51));
-        SelectTopicsButton.setText("Select Topics");
-        SelectTopicsButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        SelectTopicsButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                SelectTopicsButtonActionPerformed(evt);
-            }
-        });
-
-        SelectLOButton.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        SelectLOButton.setForeground(new java.awt.Color(51, 51, 51));
-        SelectLOButton.setText("Select Learning Outcomes");
-        SelectLOButton.setPreferredSize(new java.awt.Dimension(135, 50));
-        SelectLOButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                SelectLOButtonActionPerformed(evt);
-            }
-        });
-
-        AddQuestionButton1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        AddQuestionButton1.setForeground(new java.awt.Color(51, 51, 51));
-        AddQuestionButton1.setText("Import Exam Results");
-        AddQuestionButton1.setPreferredSize(new java.awt.Dimension(135, 50));
-        AddQuestionButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                AddQuestionButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout ExamEditPanelLayout = new javax.swing.GroupLayout(ExamEditPanel);
-        ExamEditPanel.setLayout(ExamEditPanelLayout);
-        ExamEditPanelLayout.setHorizontalGroup(
-            ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(DashboardMainTitle7, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                                        .addComponent(DashboardMainTitle11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(49, 49, 49)
-                                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DashboardMainTitle13, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(SelectLOButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(DashboardMainTitle8)
-                        .addGap(18, 18, 18)
-                        .addComponent(ExamTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(DashboardMainTitle9)
-                        .addGap(18, 18, 18)
-                        .addComponent(ExamDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(DashboardMainTitle10)
-                        .addGap(18, 18, 18)
-                        .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(SelectTopicsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(417, Short.MAX_VALUE))
-        );
-        ExamEditPanelLayout.setVerticalGroup(
-            ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DashboardMainTitle8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ExamTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DashboardMainTitle9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(ExamDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DashboardMainTitle10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ExamPercentageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(32, 32, 32)
-                .addComponent(DashboardMainTitle7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(ExamEditPanelLayout.createSequentialGroup()
-                        .addComponent(AddQuestionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86)
-                        .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DashboardMainTitle11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(QuestionPointField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(22, 22, 22)
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DashboardMainTitle12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DashboardMainTitle13, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(ExamEditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SelectTopicsButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SelectLOButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(164, Short.MAX_VALUE))
-        );
-
-        ExamsInnerPanel.add(ExamEditPanel);
-
-        ExamsScrollPane.setViewportView(ExamsInnerPanel);
-
-        ExamsMP.add(ExamsScrollPane, "card4");
-
-        ExamsMainPanel.add(ExamsMP, java.awt.BorderLayout.CENTER);
-
-        Center.add(ExamsMainPanel);
-
         Main.add(Center, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(Main, java.awt.BorderLayout.CENTER);
@@ -4029,7 +4015,7 @@ public class UIManager extends javax.swing.JFrame
     }//GEN-LAST:event_AddCourseCancelButtonActionPerformed
 
     private void AddCourseIDFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddCourseIDFieldKeyReleased
-        
+
         if (courseManager.CheckIfExists(AddCourseIDField.getText()))
         {
             // The course already exists, set components accordingly.
@@ -4110,7 +4096,7 @@ public class UIManager extends javax.swing.JFrame
     }//GEN-LAST:event_EditCourseSaveButtonActionPerformed
 
     private void AddSectionNameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddSectionNameFieldKeyReleased
-        
+
         // Can not add an existing section.
         if (courseManager.GetCourse(selectedCourse).checkIfSectionExists(AddSectionNameField.getText()))
         {
@@ -4217,7 +4203,7 @@ public class UIManager extends javax.swing.JFrame
 
     private void SyllabusStartDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_SyllabusStartDateChooserPropertyChange
     {//GEN-HEADEREND:event_SyllabusStartDateChooserPropertyChange
-        
+
         // Return if null.
         Date date = SyllabusStartDateChooser.getDate();
         if (date == null)
@@ -4226,7 +4212,7 @@ public class UIManager extends javax.swing.JFrame
         // If end chooser is enabled check if the new start date is later than end date.
         if (SyllabusEndDateChooser.isEnabled())
         {
-            
+
             // Dont allow entering a start date that is later than the end date.
             Date courseEndDate = courseManager.GetCourse(selectedCourse).getSyllabus().getEndDate();
             if (courseEndDate != null)
@@ -4274,7 +4260,7 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_SyllabusWeekTopicsAreaKeyReleased
         int selected = SyllabusWeekList.getSelectedIndex();
         String text = SyllabusWeekTopicsArea.getText();
-        
+
         // Check the selected course and syllabus to avoid runtime errors.
         if (selectedCourse != -1 && courseManager.GetCourse(selectedCourse).getSyllabus() != null)
         {
@@ -4394,7 +4380,7 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_CoursesListMouseReleased
         // Select it.
         SelectCourse(CoursesList.getSelectedIndex());
-        
+
         // Pop-up edit dialog if double clicked.
         if (evt.getClickCount() == 2)
         {
@@ -4408,25 +4394,23 @@ public class UIManager extends javax.swing.JFrame
 
     private void SyllabusWeekListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SyllabusWeekListMouseReleased
     {//GEN-HEADEREND:event_SyllabusWeekListMouseReleased
-        // TODO add your handling code here:
+        // Return if null selected.
         int selected = SyllabusWeekList.getSelectedIndex();
-
         if (selected == -1)
-        {
             return;
-        }
 
+        // Set the topics.
         String topic = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks().get(selected).getTopic();
         SyllabusWeekTopicsArea.setText(topic);
     }//GEN-LAST:event_SyllabusWeekListMouseReleased
 
     private void LearningOutcomeListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_LearningOutcomeListMouseReleased
     {//GEN-HEADEREND:event_LearningOutcomeListMouseReleased
-        // TODO add your handling code here:
         if (LearningOutcomeList.getSelectedIndex() != -1)
         {
             RemoveLearningOutcomeButton.setEnabled(true);
 
+            // Pop edit dialog on double click.
             if (evt.getClickCount() == 2)
             {
                 String lo = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes().get(LearningOutcomeList.getSelectedIndex());
@@ -4435,17 +4419,15 @@ public class UIManager extends javax.swing.JFrame
             }
         }
         else
-        {
             RemoveLearningOutcomeButton.setEnabled(false);
 
-        }
-
+        // Select it.
         SelectLearningOutcome(LearningOutcomeList.getSelectedIndex());
     }//GEN-LAST:event_LearningOutcomeListMouseReleased
 
     private void AddExamButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddExamButtonActionPerformed
     {//GEN-HEADEREND:event_AddExamButtonActionPerformed
-        // TODO add your handling code here:
+        // Add exam & update.
         Exam ex = new Exam(Exam.ExamType.Midterm, 0, null);
         courseManager.GetCourse(selectedCourse).addExam(ex);
         UpdateExams();
@@ -4453,21 +4435,19 @@ public class UIManager extends javax.swing.JFrame
 
     private void RemoveExamButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveExamButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveExamButtonActionPerformed
-        // TODO add your handling code here:
+        // Remove exam & update GUI.
         courseManager.GetCourse(selectedCourse).removeExam(ExamList.getSelectedIndex());
         UpdateExams();
     }//GEN-LAST:event_RemoveExamButtonActionPerformed
 
     private void ExamListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_ExamListMouseReleased
     {//GEN-HEADEREND:event_ExamListMouseReleased
-        // TODO add your handling code here:
-
         SelectExam(ExamList.getSelectedIndex());
     }//GEN-LAST:event_ExamListMouseReleased
 
     private void ExamTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ExamTypeComboBoxActionPerformed
     {//GEN-HEADEREND:event_ExamTypeComboBoxActionPerformed
-        // TODO add your handling code here:
+        // Set exam type & update GUI.
         Exam.ExamType examType = Exam.ExamType.valueOf(ExamTypeComboBox.getSelectedIndex());
         courseManager.GetCourse(selectedCourse).getSelectedExam().setType(examType);
         UpdateExams();
@@ -4475,82 +4455,67 @@ public class UIManager extends javax.swing.JFrame
 
     private void ExamDateChooserPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_ExamDateChooserPropertyChange
     {//GEN-HEADEREND:event_ExamDateChooserPropertyChange
-        // TODO add your handling code here:
+        // Return if no course or exam is selected.
         if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
-        {
             return;
-        }
 
+        // Set date.
         courseManager.GetCourse(selectedCourse).getSelectedExam().setDate(ExamDateChooser.getDate());
     }//GEN-LAST:event_ExamDateChooserPropertyChange
 
     private void ExamPercentageFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ExamPercentageFieldActionPerformed
     {//GEN-HEADEREND:event_ExamPercentageFieldActionPerformed
-        // TODO add your handling code here:
+        // Return if no course & exam is selected.
         if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
-        {
             return;
-        }
+
         try
         {
+            // Try to parse spinner value, get percentage and current remaining percentage.
             int spinnerVal = Integer.parseInt(ExamPercentageField.getText());
-            int examPercentage = courseManager.GetCourse(selectedCourse).getRemainingExamPercentage();
+            int remainingExamPercentage = courseManager.GetCourse(selectedCourse).getRemainingExamPercentage();
             int currentPercentage = courseManager.GetCourse(selectedCourse).getSelectedExam().getPercentage();
-            if (spinnerVal > currentPercentage && spinnerVal > examPercentage)
-            {
-                spinnerVal = currentPercentage + examPercentage;
-            }
 
+            // If the new perc is bigger than existing one dont allow it to exceed remaining perc.
+            if (spinnerVal > currentPercentage && spinnerVal > remainingExamPercentage)
+                spinnerVal = currentPercentage + remainingExamPercentage;
+
+            // Set exam percentage.
             ExamPercentageField.setText(Integer.toString(spinnerVal));
-
             courseManager.GetCourse(selectedCourse).getSelectedExam().setPercentage(spinnerVal);
             courseManager.GetCourse(selectedCourse).calculateRemainingExamPercentage();
         }
         catch (NumberFormatException e)
         {
-            // handle
+            // could not parse.
         }
-
-
     }//GEN-LAST:event_ExamPercentageFieldActionPerformed
 
     private void QuestionPointFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_QuestionPointFieldActionPerformed
     {//GEN-HEADEREND:event_QuestionPointFieldActionPerformed
+        // Return if no course & exam is selected.
         if (selectedCourse == -1 || courseManager.GetCourse(selectedCourse).getSelectedExamIndex() == -1)
-        {
             return;
-        }
 
         try
         {
             int points = Integer.parseInt(QuestionPointField.getText());
             courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().setPoints(points);
-
         }
         catch (NumberFormatException e)
         {
-            // handle
+            // could not parse.
         }
     }//GEN-LAST:event_QuestionPointFieldActionPerformed
 
     private void QuestionListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_QuestionListMouseReleased
     {//GEN-HEADEREND:event_QuestionListMouseReleased
-        // TODO add your handling code here:
         SelectQuestion(QuestionList.getSelectedIndex());
     }//GEN-LAST:event_QuestionListMouseReleased
 
-    private void ExamTopicListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_ExamTopicListMouseReleased
-    {//GEN-HEADEREND:event_ExamTopicListMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ExamTopicListMouseReleased
-
-    private void ExamLOListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_ExamLOListMouseReleased
-    {//GEN-HEADEREND:event_ExamLOListMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ExamLOListMouseReleased
-
     private void SelectTopicsButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicsButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicsButtonActionPerformed
+        // Fill model for topics.
         DefaultListModel topicsListModel = new DefaultListModel();
         ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
 
@@ -4560,6 +4525,7 @@ public class UIManager extends javax.swing.JFrame
             topicsListModel.addElement(elementDisplay);
         }
 
+        // Set model.
         SelectTopicList.setModel(topicsListModel);
         ExamTopicList.clearSelection();
         SelectTopicDialog.show();
@@ -4567,8 +4533,7 @@ public class UIManager extends javax.swing.JFrame
 
     private void SelectLOButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOButtonActionPerformed
-        // TODO add your handling code here:
-
+        // Fill model for learning outcomes.
         DefaultListModel loListModel = new DefaultListModel();
         ArrayList<String> learningOutcomes = courseManager.GetCourse(selectedCourse).getSyllabus().getLearningOutcomes();
 
@@ -4578,6 +4543,7 @@ public class UIManager extends javax.swing.JFrame
             loListModel.addElement(elementDisplay);
         }
 
+        // Set model.
         SelectLOList.setModel(loListModel);
         ExamLOList.clearSelection();
         SelectLODialog.show();
@@ -4585,61 +4551,54 @@ public class UIManager extends javax.swing.JFrame
 
     private void SelectLOListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectButtonActionPerformed
-        // TODO add your handling code here:
+        // Add the selected learning outcomes.
         courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         int[] indices = SelectLOList.getSelectedIndices();
-
         for (int i = 0; i < indices.length; i++)
-        {
             courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().addLO(indices[i]);
-        }
 
+        // Update GUI & dispose.
         UpdateExams();
         SelectLODialog.dispose();
     }//GEN-LAST:event_SelectLOListSelectButtonActionPerformed
 
     private void SelectLOListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SelectLOListMouseReleased
     {//GEN-HEADEREND:event_SelectLOListMouseReleased
-        // TODO add your handling code here:
         SelectLOListSelectButton.setEnabled(SelectLOList.getSelectedIndex() != -1);
     }//GEN-LAST:event_SelectLOListMouseReleased
 
     private void SelectLOListCancelButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListCancelButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListCancelButtonActionPerformed
-        // TODO add your handling code here:
         SelectLODialog.dispose();
     }//GEN-LAST:event_SelectLOListCancelButtonActionPerformed
 
     private void SelectTopicListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectButtonActionPerformed
-        // TODO add your handling code here:
+        // Add selected learning outcomes.
         courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         int[] indices = SelectTopicList.getSelectedIndices();
 
         for (int i = 0; i < indices.length; i++)
-        {
             courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().addTopic(indices[i]);
-        }
 
+        // Update GUI & dispose.
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectButtonActionPerformed
 
     private void SelectTopicListMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_SelectTopicListMouseReleased
     {//GEN-HEADEREND:event_SelectTopicListMouseReleased
-        // TODO add your handling code here:
         SelectTopicListSelectButton.setEnabled(SelectTopicList.getSelectedIndex() != -1);
     }//GEN-LAST:event_SelectTopicListMouseReleased
 
     private void SelectTopicListCancelButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListCancelButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListCancelButtonActionPerformed
-        // TODO add your handling code here:
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListCancelButtonActionPerformed
 
     private void SelectLOListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectEmptyButtonActionPerformed
-        // TODO add your handling code here:
+        // Clear learning outcomes list & update.
         courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         UpdateExams();
         SelectLODialog.dispose();
@@ -4647,7 +4606,7 @@ public class UIManager extends javax.swing.JFrame
 
     private void SelectTopicListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectEmptyButtonActionPerformed
-        // TODO add your handling code here:
+        // Clear topics list and update.
         courseManager.GetCourse(selectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         UpdateExams();
         SelectTopicDialog.dispose();
@@ -4655,42 +4614,46 @@ public class UIManager extends javax.swing.JFrame
 
     private void AddQuestionButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddQuestionButton1ActionPerformed
     {//GEN-HEADEREND:event_AddQuestionButton1ActionPerformed
-        // TODO add your handling code here:
+        // Set current directory as the user directory and show dialog.
         fileChooseState = FileChooseState.ExamResults;
         FileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-
         FileChooser.showDialog(this, "Open");
 
     }//GEN-LAST:event_AddQuestionButton1ActionPerformed
 
     private void ViewAttendanceReportButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ViewAttendanceReportButtonActionPerformed
     {//GEN-HEADEREND:event_ViewAttendanceReportButtonActionPerformed
+        // Execute XChart frame in a new thread.
         Thread t = new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-
+                // Build category chart and adjust style.
                 CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Absenteeism Per Week").xAxisTitle("Weeks").yAxisTitle("Absenteeism").theme(ChartTheme.XChart).build();
                 chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
                 chart.getStyler().setAxisTickMarkLength(15);
                 chart.getStyler().setPlotMargin(20);
                 chart.getStyler().setPlotGridLinesVisible(true);
-                //chart.getStyler().setDefaultSeriesRenderStyle(CategorySeriesRenderStyle.Line);
 
+                // Init x & y data
                 List<String> xData = new ArrayList<String>();
                 List<Integer> yData = new ArrayList<Integer>();
                 ArrayList<AttendanceDate> attDates = courseManager.GetCourse(selectedCourse).getSelectedSection().getAttendanceDates();
 
+                // Fill x & y axes for attendance size.
                 int selectionIndex = AttendanceReportsComboBox.getSelectedIndex();
                 int totalAbs = 0;
+
                 for (int i = 0; i < attDates.size(); i++)
                 {
                     String str = new StringBuilder().append("Week ").append((i + 1)).toString();
                     xData.add(str);
+
+                    // If we selected ALL Students, get total absenteeism, if not get individual.
                     if (selectionIndex == 0)
                     {
-                        int abs = courseManager.GetCourse(selectedCourse).getSelectedSection().getTotalAbsentheismCountAtDate(i);
+                        int abs = courseManager.GetCourse(selectedCourse).getSelectedSection().getTotalAbsenteeismCountAtDate(i);
                         totalAbs += abs;
                         yData.add(abs);
                     }
@@ -4702,6 +4665,7 @@ public class UIManager extends javax.swing.JFrame
                     }
                 }
 
+                // Init wrapper & frame, then show them.
                 String head = new StringBuilder().append("Absenteeism: ").append(totalAbs).toString();
                 CategorySeries series = chart.addSeries(head, xData, yData);
                 SwingWrapper wrapper = new SwingWrapper(chart);
@@ -4718,12 +4682,13 @@ public class UIManager extends javax.swing.JFrame
 
     private void ViewAttendanceReportExamsButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ViewAttendanceReportExamsButtonActionPerformed
     {//GEN-HEADEREND:event_ViewAttendanceReportExamsButtonActionPerformed
+        // Execute XChart frame in a new thread.
         Thread t = new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-
+                // Build category chart and adjust style.
                 CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Total Absenteeism So Far").xAxisTitle("Exams").yAxisTitle("Absenteeism").theme(ChartTheme.XChart).build();
                 chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
                 chart.getStyler().setAxisTickMarkLength(15);
@@ -4731,20 +4696,21 @@ public class UIManager extends javax.swing.JFrame
                 chart.getStyler().setPlotGridLinesVisible(true);
                 chart.getStyler().setDefaultSeriesRenderStyle(CategorySeriesRenderStyle.Line);
 
+                // Init x & y data, as well as exam and secion data.
                 List<String> xData = new ArrayList<String>();
                 List<Integer> yData = new ArrayList<Integer>();
                 ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
-
                 int selectionIndex = AttendanceReportsComboBox.getSelectedIndex();
                 int totalAbs = 0;
-
                 Section section = courseManager.GetCourse(selectedCourse).getSelectedSection();
 
+                // Add first week manually.
                 xData.add("First Week");
 
+                // Set first week data, add total absenteeism or abs. per student depending on the selection index of combobox.
                 if (selectionIndex == 0)
                 {
-                    int fw = section.getTotalAbsentheismCountAtDate(0);
+                    int fw = section.getTotalAbsenteeismCountAtDate(0);
                     yData.add(fw);
                 }
                 else
@@ -4753,30 +4719,32 @@ public class UIManager extends javax.swing.JFrame
                     yData.add(fw);
                 }
 
+                // For all exams.
                 for (int i = 0; i < exams.size(); i++)
                 {
+                    // If no date is set skip this exam.
                     if (exams.get(i).getDate() == null)
-                    {
                         continue;
-                    }
-                    Date date = exams.get(i).getDate();
 
+                    // Get exam date and add it.
+                    Date date = exams.get(i).getDate();
                     String str = new StringBuilder().append(exams.get(i).getType().toString()).append(" " + new SimpleDateFormat("dd-MM-yyyy").format(date)).toString();
                     xData.add(str);
+
+                    // Add y Data as total abs. or abs. per student depending on the combobox selection.
                     if (selectionIndex == 0)
                     {
                         int abs = section.getAbsenteeismUntilDate(exams.get(i).getDate());
-
                         yData.add(abs);
                     }
                     else
                     {
                         int abs = section.getAbsenteeismOfStudentUntilDate(exams.get(i).getDate(), selectionIndex - 1);
-
                         yData.add(abs);
                     }
                 }
 
+                // Add last week depending as total abs. or abs. per student depending on selection index.
                 if (selectionIndex == 0)
                 {
                     int abs = section.getAbsenteeismUntilDate(section.getAttendanceDates().get(section.getAttendanceDates().size() - 1).getDate());
@@ -4789,8 +4757,11 @@ public class UIManager extends javax.swing.JFrame
                     totalAbs = lw;
                     yData.add(lw);
                 }
+
+                // Add last week manually.
                 xData.add("Last Week");
 
+                // Init wrapper & frame, then show them.
                 String head = new StringBuilder().append("Absenteeism: ").append(totalAbs).toString();
                 CategorySeries series = chart.addSeries(head, xData, yData);
                 SwingWrapper wrapper = new SwingWrapper(chart);
@@ -4821,34 +4792,37 @@ public class UIManager extends javax.swing.JFrame
                 };
                 chart.getStyler().setSeriesColors(sliceColors);
 
+                // Init weeks & exams for topic data.
                 ArrayList<Week> weeks = courseManager.GetCourse(selectedCourse).getSyllabus().getWeeks();
                 ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
 
+                // Iterate topics.
                 for (int i = 0; i < weeks.size(); i++)
                 {
                     float mySuccessRate = 0.0f;
 
                     for (int j = 0; j < exams.size(); j++)
                     {
-
+                        // Get every question in exam.
                         ArrayList<Question> questions = exams.get(j).calculateQuestionSuccessRate();
                         for (int l = 0; l < questions.size(); l++)
                         {
+                            // Iterate the topic list of every question.
                             for (int m = 0; m < questions.get(l).getTopicList().size(); m++)
                             {
+                                // Add the success rate to the topic if there is a match with the current iterated topic.
                                 if (questions.get(l).getTopicList().get(m) == i)
-                                {
-
                                     mySuccessRate += questions.get(l).getSuccessRate();
-                                }
                             }
                         }
                     }
+                    // Set the success score & add the data.
                     weeks.get(i).setSuccessScore(mySuccessRate);
                     String name = new StringBuilder().append("Week " + (i + 1)).append(weeks.get(i).getTopic()).toString();
                     chart.addSeries(name, mySuccessRate);
                 }
 
+                // Init wrapper & frame, then show them.
                 SwingWrapper wrapper = new SwingWrapper(chart);
                 JFrame frame = wrapper.displayChart();
                 javax.swing.SwingUtilities.invokeLater(
@@ -4861,41 +4835,45 @@ public class UIManager extends javax.swing.JFrame
 
     private void ViewExamGradesButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_ViewExamGradesButtonActionPerformed
     {//GEN-HEADEREND:event_ViewExamGradesButtonActionPerformed
+        // Execute XChart frame in a new thread.
         Thread t = new Thread(new Runnable()
         {
             @Override
             public void run()
             {
-
+                // Build category chart and adjust style.
                 CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Exam Grades").xAxisTitle("Exams").yAxisTitle("Grades").theme(ChartTheme.XChart).build();
                 chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
                 chart.getStyler().setAxisTickMarkLength(15);
                 chart.getStyler().setPlotMargin(20);
                 chart.getStyler().setPlotGridLinesVisible(true);
-                //chart.getStyler().setDefaultSeriesRenderStyle(CategorySeriesRenderStyle.Line);
 
+                // Init lists to collect data.
                 List<String> xData = new ArrayList<String>();
                 List<Float> yData = new ArrayList<Float>();
-
                 ArrayList<Exam> exams = courseManager.GetCourse(selectedCourse).getExams();
 
                 for (int i = 0; i < exams.size(); i++)
                 {
+                    // Get the date.
                     Date date = exams.get(i).getDate();
+
+                    // Format date and build string.
                     StringBuilder nameBuilder = new StringBuilder().append(exams.get(i).getType());
                     if (date != null)
-                    {
                         nameBuilder.append(" " + new SimpleDateFormat("dd-MM-yyyy").format(date));
-                    }
 
+                    // Add it to x data.
                     xData.add(nameBuilder.toString());
 
+                    // Get exam overall score and add it to y data.
                     ArrayList<Question> questions = exams.get(i).calculateQuestionSuccessRate();
                     float examOverallSuccess = 0;
                     examOverallSuccess = exams.get(i).getStudentScoreOverTotal();
-
                     yData.add(examOverallSuccess);
                 }
+
+                // Init wrapper & frame, then show them.
                 String head = new StringBuilder().append("Exams").toString();
                 CategorySeries series = chart.addSeries(head, xData, yData);
                 SwingWrapper wrapper = new SwingWrapper(chart);
@@ -4910,10 +4888,10 @@ public class UIManager extends javax.swing.JFrame
 
     private void FileChooserActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_FileChooserActionPerformed
     {//GEN-HEADEREND:event_FileChooserActionPerformed
-        // TODO add your handling code here:
+        // Check the state. State is determined by the button that initiates the file chooser dialog.
         if (fileChooseState == FileChooseState.ExamResults)
         {
-
+            // Try to load exam sheet.
             try
             {
                 resourceManager.setCurrentExam(courseManager.GetCourse(selectedCourse).getSelectedExam());
@@ -4921,9 +4899,10 @@ public class UIManager extends javax.swing.JFrame
             }
             catch (Exception e)
             {
-
+               
             }
-
+            
+            // Update GUI.
             UpdateExams();
             UpdateReports();
         }
@@ -4931,9 +4910,11 @@ public class UIManager extends javax.swing.JFrame
         {
             try
             {
+                // Try to load student sheet.
                 resourceManager.setCurrentSection(courseManager.GetCourse(selectedCourse).getSelectedSection());
                 resourceManager.LoadStudentXLSX(FileChooser.getSelectedFile());
 
+                // Update GUI.
                 UpdateStudents();
                 UpdateReports();
             }

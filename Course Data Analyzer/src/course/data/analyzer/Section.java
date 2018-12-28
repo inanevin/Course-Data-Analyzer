@@ -56,13 +56,13 @@ public class Section implements Serializable
         {
             if (date.after(attendanceDateList.get(i).getDate()))
             {
-                count += getTotalAbsentheismCountAtDate(i);
+                count += getTotalAbsenteeismCountAtDate(i);
             }
         }
         return count;
     }
 
-    public int getTotalAbsentheismCountAtDate(int attIndex)
+    public int getTotalAbsenteeismCountAtDate(int attIndex)
     {
         int total = 0;
         for (int i = 0; i < studentList.size(); i++)

@@ -179,8 +179,8 @@ public class Course implements Serializable
 
     public void edit(String id, String name, String Desc)
     {
-        id = id;
-        name = name;
+        this.id = id;
+        this.name = name;
         description = Desc;
     }
 
