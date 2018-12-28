@@ -18,6 +18,7 @@ import java.util.Map;
 public class Exam implements Serializable
 {
 
+    // Enumeration for exam type, utilities are added to map the types to int for proper conversion of int to enum and vice versa.
     public enum ExamType
     {
         Midterm(0),
@@ -37,15 +38,15 @@ public class Exam implements Serializable
 
         static
         {
-            for (ExamType pageType : ExamType.values())
+            for (ExamType examType : ExamType.values())
             {
-                map.put(pageType.value, pageType);
+                map.put(examType.value, examType);
             }
         }
 
-        public static ExamType valueOf(int pageType)
+        public static ExamType valueOf(int examType)
         {
-            return (ExamType) map.get(pageType);
+            return (ExamType) map.get(examType);
         }
 
         public int getValue()
@@ -54,132 +55,124 @@ public class Exam implements Serializable
         }
     }
 
-    private ArrayList<Question> _Questions;
-    private ExamType m_Type;
-    private int m_Percentage;
-    private Date m_Date;
-    private int i_SelectedQuestion = -1;
-    public float studentScoreOverTotal;
-    private ArrayList<Student> _Students;
-
-    public ArrayList<Student> getStudents()
-    {
-        return _Students;
-    }
-
-    public ArrayList<Question> CalculateQuestionSuccessRate()
-    {
-        studentScoreOverTotal = 0;
-        for (int i = 0; i < _Questions.size(); i++)
-        {
-            float questionMaxScore = _Questions.get(i).getPoints();
-            float totalQuestionScore = 0;
-            float totalStudentScore = 0;
-            for (int j = 0; j < _Students.size(); j++)
-            {
-                totalQuestionScore += questionMaxScore * (i + 1);
-
-                totalStudentScore += _Questions.get(i).getMap().get(_Students.get(j));
-            }
-
-            float rate = totalStudentScore / totalQuestionScore;
-            _Questions.get(i).setSuccessRate(rate);
-            studentScoreOverTotal += totalStudentScore / _Students.size();
-        }
-        
-        QuestionSuccessRateComparator comp = new QuestionSuccessRateComparator();
-        ArrayList<Question> copyList = new ArrayList<Question>(_Questions);
-        //copyList.sort(comp);
-        return copyList;
-    }
-
-    public int GetSelectedQuestionIndex()
-    {
-        return i_SelectedQuestion;
-    }
-
-    public Question GetSelectedQuestion()
-    {
-        return _Questions.get(i_SelectedQuestion);
-    }
-
-    public void SetSelectedQuestion(int i)
-    {
-        i_SelectedQuestion = i;
-    }
-
-    public ArrayList<Question> getQuestions()
-    {
-        return _Questions;
-    }
-
-    public void AddQuestion(Question q)
-    {
-        _Questions.add(q);
-        i_SelectedQuestion = _Questions.size() - 1;
-    }
-
-    public void RemoveQuestion(int index)
-    {
-        if (index < 0 || index > _Questions.size())
-        {
-            return;
-        }
-
-        _Questions.remove(index);
-        i_SelectedQuestion--;
-
-        if (i_SelectedQuestion < 0 && _Questions.size() > 0)
-        {
-            i_SelectedQuestion = 0;
-        }
-    }
+    private int percentage;
+    private int selectedQuestion = -1;
+    private float studentScoreOverTotal;
+    private ArrayList<Student> studentList;
+    private ArrayList<Question> questionList;
+    private ExamType type;
+    private Date date;
 
     public Exam(ExamType type, int percentage, Date date)
     {
-        m_Type = type;
-        m_Percentage = percentage;
-        m_Date = date;
-
-        if (_Questions == null)
-        {
-            _Questions = new ArrayList<Question>();
-        }
-
-        if (_Students == null)
-        {
-            _Students = new ArrayList<Student>();
-        }
-    }
-
-    public ExamType getType()
-    {
-        return m_Type;
-    }
-
-    public void setType(ExamType type)
-    {
-        this.m_Type = type;
+        this.type = type;
+        this.percentage = percentage;
+        this.date = date;
+        questionList = new ArrayList<Question>();
+        studentList = new ArrayList<Student>();
     }
 
     public int getPercentage()
     {
-        return m_Percentage;
+        return percentage;
     }
 
     public void setPercentage(int percentage)
     {
-        this.m_Percentage = percentage;
+        this.percentage = percentage;
+    }
+    
+    public float getStudentScoreOverTotal()
+    {
+        return studentScoreOverTotal;
+    }
+    
+    public int getSelectedQuestionIndex()
+    {
+        return selectedQuestion;
+    }
+
+    public Question getSelectedQuestion()
+    {
+        return questionList.get(selectedQuestion);
+    }
+
+    public void setSelectedQuestion(int i)
+    {
+        selectedQuestion = i;
+    }
+
+    public ArrayList<Question> getQuestions()
+    {
+        return questionList;
+    }
+    
+    public ArrayList<Student> getStudents()
+    {
+        return studentList;
+    }
+
+    public ExamType getType()
+    {
+        return type;
+    }
+
+    public void setType(ExamType type)
+    {
+        this.type = type;
     }
 
     public Date getDate()
     {
-        return m_Date;
+        return date;
     }
 
     public void setDate(Date date)
     {
-        this.m_Date = date;
+        this.date = date;
+    }
+
+
+    public ArrayList<Question> calculateQuestionSuccessRate()
+    {
+        studentScoreOverTotal = 0;
+        for (int i = 0; i < questionList.size(); i++)
+        {
+            float questionMaxScore = questionList.get(i).getPoints();
+            float totalQuestionScore = 0;
+            float totalStudentScore = 0;
+            for (int j = 0; j < studentList.size(); j++)
+            {
+                totalQuestionScore += questionMaxScore * (i + 1);
+
+                totalStudentScore += questionList.get(i).getStudentPointPair().get(studentList.get(j));
+            }
+
+            float rate = totalStudentScore / totalQuestionScore;
+            questionList.get(i).setSuccessRate(rate);
+            studentScoreOverTotal += totalStudentScore / studentList.size();
+        }
+
+        ArrayList<Question> copyList = new ArrayList<Question>(questionList);
+        return copyList;
+    }
+
+    public void addQuestion(Question q)
+    {
+        questionList.add(q);
+        selectedQuestion = questionList.size() - 1;
+    }
+
+    public void removeQuestion(int index)
+    {
+        if (index < 0 || index > questionList.size())
+            return;
+
+        questionList.remove(index);
+        selectedQuestion--;
+
+        if (selectedQuestion < 0 && questionList.size() > 0)
+            selectedQuestion = 0;
     }
 
 }

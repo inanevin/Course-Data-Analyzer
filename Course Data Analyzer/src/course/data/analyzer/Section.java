@@ -16,173 +16,108 @@ import java.util.Date;
 public class Section implements Serializable
 {
 
-    private String m_Name;
+    private String name;
+    public ArrayList<AttendanceDate> attendanceDateList;
+    public ArrayList<String> lectureList;
+    public ArrayList<Student> studentList;
 
-    public ArrayList<AttendanceDate> _AttendanceDates;
-    public ArrayList<String> _Lectures;
-    public ArrayList<Student> _Students;
-
-    public ArrayList<AttendanceDate> GetAttendanceDates()
+    public Section(String n)
     {
-        return _AttendanceDates;
+        name = n;
+        studentList = new ArrayList<Student>();
+        attendanceDateList = new ArrayList<AttendanceDate>();
+        lectureList = new ArrayList<String>();
     }
 
-    public int GetAbsenteeismUntilDate(Date date)
+    public String GetName()
+    {
+        return name;
+    }
+
+    public void SetName(String n)
+    {
+        name = n;
+    }
+
+    public ArrayList<AttendanceDate> getAttendanceDates()
+    {
+        return attendanceDateList;
+    }
+
+    public ArrayList<Student> GetStudents()
+    {
+        return studentList;
+    }
+
+    public int getAbsenteeismUntilDate(Date date)
     {
         int count = 0;
-        for (int i = 0; i < _AttendanceDates.size(); i++)
+        for (int i = 0; i < attendanceDateList.size(); i++)
         {
-            if (date.after(_AttendanceDates.get(i).getDate()))
+            if (date.after(attendanceDateList.get(i).getDate()))
             {
-                count += GetTotalAbsentheismCountAtDate(i);
+                count += getTotalAbsentheismCountAtDate(i);
             }
         }
-
         return count;
     }
 
-    public int GetTotalAbsentheismCountAtDate(int attIndex)
+    public int getTotalAbsentheismCountAtDate(int attIndex)
     {
         int total = 0;
-        for (int i = 0; i < _Students.size(); i++)
+        for (int i = 0; i < studentList.size(); i++)
         {
-            AttendanceInformation info = _AttendanceDates.get(attIndex).getStudentAttendancePair().get(_Students.get(i));
+            AttendanceInformation info = attendanceDateList.get(attIndex).getStudentAttendancePair().get(studentList.get(i));
             total += info.getAbsentCount();
         }
-
         return total;
     }
 
-    public int GetAbsenteeismOfStudentAtDate(int attIndex, int studentIndex)
+    public int getAbsenteeismOfStudentAtDate(int attIndex, int studentIndex)
     {
-
-        AttendanceInformation info = _AttendanceDates.get(attIndex).getStudentAttendancePair().get(_Students.get(studentIndex));
-
+        AttendanceInformation info = attendanceDateList.get(attIndex).getStudentAttendancePair().get(studentList.get(studentIndex));
         return info.getAbsentCount();
     }
 
-    public int GetAbsenteeismOfStudentUntilDate(Date date, int studentIndex)
+    public int getAbsenteeismOfStudentUntilDate(Date date, int studentIndex)
     {
-
         int count = 0;
-        for (int i = 0; i < _AttendanceDates.size(); i++)
+        for (int i = 0; i < attendanceDateList.size(); i++)
         {
-            if (date.after(_AttendanceDates.get(i).getDate()))
+            if (date.after(attendanceDateList.get(i).getDate()))
             {
-                AttendanceInformation info = _AttendanceDates.get(i).getStudentAttendancePair().get(_Students.get(studentIndex));
+                AttendanceInformation info = attendanceDateList.get(i).getStudentAttendancePair().get(studentList.get(studentIndex));
                 count += info.getAbsentCount();
             }
         }
-
         return count;
     }
 
     public void PrintStudentAttendanceLoad()
     {
-
-        for (int i = 0; i < _Students.size(); i++)
+        for (int i = 0; i < studentList.size(); i++)
         {
-            System.out.println("Student ID: " + _Students.get(i).getStringID() + "\n\n");
-
-            for (int j = 0; j < _AttendanceDates.size(); j++)
+            System.out.println("Student ID: " + studentList.get(i).getID() + "\n\n");
+            for (int j = 0; j < attendanceDateList.size(); j++)
             {
-                System.out.println(j + ". Attendance Date: " + _AttendanceDates.get(j).getDate() + "\n");
-
-                System.out.println("PresentCount: " + _AttendanceDates.get(j).getStudentAttendancePair().get(_Students.get(i)).getPresentCount());
-                System.out.println("AbsentCount: " + _AttendanceDates.get(j).getStudentAttendancePair().get(_Students.get(i)).getAbsentCount());
-
+                System.out.println(j + ". Attendance Date: " + attendanceDateList.get(j).getDate() + "\n");
+                System.out.println("PresentCount: " + attendanceDateList.get(j).getStudentAttendancePair().get(studentList.get(i)).getPresentCount());
+                System.out.println("AbsentCount: " + attendanceDateList.get(j).getStudentAttendancePair().get(studentList.get(i)).getAbsentCount());
             }
         }
-    }
-
-    public ArrayList<Student> GetStudents()
-    {
-        return _Students;
-    }
-
-    public String GetName()
-    {
-        return m_Name;
-    }
-
-    public void SetName(String n)
-    {
-        m_Name = n;
     }
 
     public void AddNewStudent(Student s)
     {
-        _Students.add(s);
+        studentList.add(s);
     }
 
     public void RemoveStudent(int index)
     {
-        if (index < 0 || index >= _Students.size())
-        {
+        if (index < 0 || index >= studentList.size())
             return;
-        }
 
-        _Students.remove(index);
-
-    }
-
-    public boolean CheckIfStudentExists(int ID)
-    {
-
-        for (int i = 0; i < _Students.size(); i++)
-        {
-            if (_Students.get(i).getID() == ID)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public Section(String n)
-    {
-        m_Name = n;
-
-        if (_Students == null)
-        {
-            _Students = new ArrayList<Student>();
-
-        }
-
-        if (_AttendanceDates == null)
-        {
-            _AttendanceDates = new ArrayList<AttendanceDate>();
-
-        }
-
-        if (_Lectures == null)
-        {
-            _Lectures = new ArrayList<String>();
-
-        }
-    }
-
-    public Section()
-    {
-
-        if (_Students == null)
-        {
-            _Students = new ArrayList<Student>();
-
-        }
-
-        if (_AttendanceDates == null)
-        {
-            _AttendanceDates = new ArrayList<AttendanceDate>();
-
-        }
-
-        if (_Lectures == null)
-        {
-            _Lectures = new ArrayList<String>();
-
-        }
+        studentList.remove(index);
     }
 
 }

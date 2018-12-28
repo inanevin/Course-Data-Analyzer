@@ -87,6 +87,11 @@ public class Course implements Serializable
     {
         return duplicationCount;
     }
+    
+    public void setDuplicationCount(int c)
+    {
+        duplicationCount = c;
+    }
 
     public String getID()
     {
@@ -154,7 +159,7 @@ public class Course implements Serializable
         setSection(--selectedSectionIndex);
     }
 
-    public boolean CheckIfSectionExists(String name)
+    public boolean checkIfSectionExists(String name)
     {
         for (int i = 0; i < sectionList.size(); i++)
         {
@@ -164,7 +169,7 @@ public class Course implements Serializable
         return false;
     }
 
-    public void CalculateRemainingExamPercentage()
+    public void calculateRemainingExamPercentage()
     {
         remainingExamPercentage = 100;
 
@@ -172,20 +177,20 @@ public class Course implements Serializable
             remainingExamPercentage -= examList.get(i).getPercentage();
     }
 
-    public void Edit(String id, String name, String Desc)
+    public void edit(String id, String name, String Desc)
     {
         id = id;
         name = name;
         description = Desc;
     }
 
-    public void AddExam(Exam exam)
+    public void addExam(Exam exam)
     {
         examList.add(exam);
         selectedExamIndex++;
     }
 
-    public void RemoveExam(int index)
+    public void removeExam(int index)
     {
         if (index < 0 || index > examList.size())
             return;
@@ -195,6 +200,7 @@ public class Course implements Serializable
         examList.remove(index);
         selectedExamIndex--;
 
+        // If we still have a number of exams but exam index is -1 (removed the first one), select the upper one.
         if (selectedExamIndex < 0 && examList.size() > 0)
             selectedExamIndex = 0;
     }

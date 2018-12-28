@@ -13,20 +13,27 @@ import javax.swing.JLabel;
 /**
  *
  * @author InanEvin
+ *
+ * Used for the actions of the labels and icons of the categories in the left panel.
+ *
  */
-public class MouseAdapterForMenu extends MouseAdapter {
+public class MouseAdapterForMenu extends MouseAdapter
+{
 
-    private int m_MenuIndex;
+    private int menuIndex;
     private UIManager uiManager;
 
-    public MouseAdapterForMenu(int menuIndex, UIManager uiMan) {
-        m_MenuIndex = menuIndex;
+    public MouseAdapterForMenu(int menuIndex, UIManager uiMan)
+    {
+        menuIndex = menuIndex;
         uiManager = uiMan;
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        if (e.getSource() instanceof JLabel) {
+    public void mouseEntered(MouseEvent e)
+    {
+        if (e.getSource() instanceof JLabel)
+        {
             Color clr = new Color(126, 138, 162);
             JLabel lbl = (JLabel) e.getSource();
             lbl.setForeground(clr);
@@ -34,8 +41,10 @@ public class MouseAdapterForMenu extends MouseAdapter {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        if (e.getSource() instanceof JLabel) {
+    public void mouseExited(MouseEvent e)
+    {
+        if (e.getSource() instanceof JLabel)
+        {
             Color clr = new Color(227, 227, 227);
             JLabel lbl = (JLabel) e.getSource();
             lbl.setForeground(clr);
@@ -43,7 +52,8 @@ public class MouseAdapterForMenu extends MouseAdapter {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        uiManager.SelectMenu(m_MenuIndex);
+    public void mouseClicked(MouseEvent e)
+    {
+        uiManager.SelectMenu(menuIndex);
     }
 }

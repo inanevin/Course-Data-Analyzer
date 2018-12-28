@@ -13,43 +13,45 @@ import javax.swing.JScrollPane;
 /**
  *
  * @author InanEvin
+ * 
+ * An item existing in the left panel of the GUI. Used for activation and deactivation of the panels for these categories.
+ * 
  */
 public class MenuBarItem
 {
 
-    private JPanel m_SelectablePanel;
-    private JPanel m_MainPanel;
+    private final JPanel selectablePanel;
+    private final JPanel mainPanel;
+    private final JPanel noCoursePanel;
     private UIManager uiManager;
-    private JPanel m_NoCoursePanel;
-    private JScrollPane m_InnerPanel;
-
-    public JPanel GetMainPanel()
-    {
-        return m_MainPanel;
-    }
-
-    public JPanel GetSelectablePanel()
-    {
-        return m_SelectablePanel;
-    }
-
-    public JPanel GetNoCoursePanel()
-    {
-        return m_NoCoursePanel;
-    }
-
-    public JScrollPane GetInnerPanel()
-    {
-        return m_InnerPanel;
-    }
+    private final JScrollPane innerPanel;
 
     public MenuBarItem(JPanel sp, JPanel mp, JScrollPane innp, JPanel ncp)
     {
-        m_SelectablePanel = sp;
-        m_MainPanel = mp;
-        m_InnerPanel = innp;
-        m_NoCoursePanel = ncp;
+        selectablePanel = sp;
+        mainPanel = mp;
+        innerPanel = innp;
+        noCoursePanel = ncp;
     }
 
+    public JPanel getMainPanel()
+    {
+        return mainPanel;
+    }
+
+    public JPanel getSelectablePanel()
+    {
+        return selectablePanel;
+    }
+
+    public JPanel getNoCoursePanel()
+    {
+        return noCoursePanel;
+    }
+
+    public JScrollPane getInnerPanel()
+    {
+        return innerPanel;
+    }
 
 }

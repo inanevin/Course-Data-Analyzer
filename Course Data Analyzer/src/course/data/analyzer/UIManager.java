@@ -6,51 +6,33 @@
 package course.data.analyzer;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
 import org.knowm.xchart.CategorySeries;
 import org.knowm.xchart.CategorySeries.CategorySeriesRenderStyle;
-import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler.ChartTheme;
 import org.knowm.xchart.style.Styler.LegendPosition;
-import org.knowm.xchart.style.colors.ChartColor;
-import org.knowm.xchart.style.colors.XChartSeriesColors;
-import org.knowm.xchart.style.markers.SeriesMarkers;
-import org.knowm.xchart.style.lines.SeriesLines;
 
 /**
  *
@@ -155,7 +137,7 @@ public class UIManager extends javax.swing.JFrame
 
     public void SelectQuestion(int question)
     {
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().SetSelectedQuestion(question);
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setSelectedQuestion(question);
         UpdateExams();
         UpdateReports();
     }
@@ -176,7 +158,7 @@ public class UIManager extends javax.swing.JFrame
     {
         if (i_SelectedCourse != -1)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().SetSelectedWeek(week);
+            courseManager.GetCourse(i_SelectedCourse).getSyllabus().setSelectedWeek(week);
         }
 
         UpdateSyllabus();
@@ -187,7 +169,7 @@ public class UIManager extends javax.swing.JFrame
     {
         if (i_SelectedCourse != -1)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSyllabus().SetSelectedLO(outcome);
+            courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO(outcome);
         }
 
         UpdateSyllabus();
@@ -292,7 +274,7 @@ public class UIManager extends javax.swing.JFrame
 
         for (int i = 0; i < students.size(); i++)
         {
-            String elementDisplay = new StringBuilder().append(students.get(i).getStringID()).toString();
+            String elementDisplay = new StringBuilder().append(students.get(i).getID()).toString();
             studentsModel.addElement(elementDisplay);
         }
 
@@ -347,7 +329,7 @@ public class UIManager extends javax.swing.JFrame
             }
 
             QuestionList.setModel(questionsModel);
-            QuestionList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestionIndex());
+            QuestionList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestionIndex());
 
             if (QuestionList.getSelectedIndex() != -1)
             {
@@ -355,9 +337,9 @@ public class UIManager extends javax.swing.JFrame
                 SelectTopicsButton.setEnabled(true);
                 RemoveQuestionButton.setEnabled(true);
                 QuestionPointField.setEnabled(true);
-                QuestionPointField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().getPoints()));
+                QuestionPointField.setText(Integer.toString(courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getPoints()));
 
-                ArrayList<Integer> topicIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().GetTopicList();
+                ArrayList<Integer> topicIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getTopicList();
 
                 DefaultListModel topicsModel = new DefaultListModel();
                 ArrayList<Week> weeks = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getWeeks();
@@ -371,7 +353,7 @@ public class UIManager extends javax.swing.JFrame
 
                 ExamTopicList.setModel(topicsModel);
 
-                ArrayList<Integer> loIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().GetLOList();
+                ArrayList<Integer> loIndices = courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().getLOList();
                 DefaultListModel loModel = new DefaultListModel();
                 ArrayList<String> learningOutcomes = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes();
 
@@ -419,7 +401,7 @@ public class UIManager extends javax.swing.JFrame
 
             for (int i = 0; i < studentList.size(); i++)
             {
-                String id = studentList.get(i).getStringID();
+                String id = studentList.get(i).getID();
                 cm.addElement(id);
             }
 
@@ -502,7 +484,7 @@ public class UIManager extends javax.swing.JFrame
         }
 
         SyllabusWeekList.setModel(syllabusWeeksModel);
-        SyllabusWeekList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSyllabus().GetSelectedWeek());
+        SyllabusWeekList.setSelectedIndex(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedWeek());
 
         ArrayList<String> lo = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getLearningOutcomes();
 
@@ -522,7 +504,7 @@ public class UIManager extends javax.swing.JFrame
 
         LearningOutcomeList.setModel(m);
 
-        int loIndex = courseManager.GetCourse(i_SelectedCourse).getSyllabus().GetSelectedLO();
+        int loIndex = courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO();
         LearningOutcomeList.setSelectedIndex(loIndex);
 
         System.out.println(loIndex);
@@ -706,20 +688,20 @@ public class UIManager extends javax.swing.JFrame
         }
 
         // Set selectable panel color to selected.
-        menu.GetSelectablePanel().setBackground(selectedMenuItemColor);
+        menu.getSelectablePanel().setBackground(selectedMenuItemColor);
 
         // Enable menu's main panel.
-        menu.GetMainPanel().setVisible(true);
-        menu.GetMainPanel().setEnabled(true);
+        menu.getMainPanel().setVisible(true);
+        menu.getMainPanel().setEnabled(true);
 
-        if (menu.GetNoCoursePanel() != null)
+        if (menu.getNoCoursePanel() != null)
         {
-            menu.GetNoCoursePanel().setVisible(i_SelectedCourse == -1);
+            menu.getNoCoursePanel().setVisible(i_SelectedCourse == -1);
         }
 
-        if (menu.GetInnerPanel() != null)
+        if (menu.getInnerPanel() != null)
         {
-            menu.GetInnerPanel().setVisible(i_SelectedCourse != -1);
+            menu.getInnerPanel().setVisible(i_SelectedCourse != -1);
         }
 
         // Set current selected.
@@ -739,11 +721,11 @@ public class UIManager extends javax.swing.JFrame
     {
 
         // Set selectable panel color to unselected.
-        menu.GetSelectablePanel().setBackground(unselectedMenuItemColor);
+        menu.getSelectablePanel().setBackground(unselectedMenuItemColor);
 
         // Disable menu's main panel.
-        menu.GetMainPanel().setVisible(false);
-        menu.GetMainPanel().setEnabled(false);
+        menu.getMainPanel().setVisible(false);
+        menu.getMainPanel().setEnabled(false);
     }
 
     private void DisposeAddNewCourseDialog()
@@ -4073,14 +4055,14 @@ public class UIManager extends javax.swing.JFrame
 
         CourseAction lastAction = courseActions.get(courseActions.size() - 1);
 
-        if (lastAction.GetIndex() == 1)
+        if (lastAction.getIndex() == 1)
         {
-            courseManager.RemoveCourse(lastAction.GetSubject());
+            courseManager.RemoveCourse(lastAction.getSubject());
         } else
         {
-            if (lastAction.GetIndex() == 2)
+            if (lastAction.getIndex() == 2)
             {
-                courseManager.AddNewCourse(lastAction.GetSubject(), lastAction.GetListIndex());
+                courseManager.AddNewCourse(lastAction.getSubject(), lastAction.getListIndex());
             }
         }
 
@@ -4173,7 +4155,7 @@ public class UIManager extends javax.swing.JFrame
 
     private void EditCourseSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCourseSaveButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).Edit(EditCourseIDField.getText(), EditCourseNameField.getText(), EditCourseDescField.getText());
+        courseManager.GetCourse(i_SelectedCourse).edit(EditCourseIDField.getText(), EditCourseNameField.getText(), EditCourseDescField.getText());
         SelectCourse(i_SelectedCourse);
 
         DisposeEditCourseDialog();
@@ -4186,7 +4168,7 @@ public class UIManager extends javax.swing.JFrame
     private void AddSectionNameFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AddSectionNameFieldKeyReleased
         // TODO add your handling code here:
 
-        if (courseManager.GetCourse(i_SelectedCourse).CheckIfSectionExists(AddSectionNameField.getText()))
+        if (courseManager.GetCourse(i_SelectedCourse).checkIfSectionExists(AddSectionNameField.getText()))
         {
             AddSectionWarning.setText("This section already exists!");
             AddSectionAddButton.setEnabled(false);
@@ -4236,7 +4218,7 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_EditSectionNameFieldKeyReleased
         // TODO add your handling code here:
 
-        if (courseManager.GetCourse(i_SelectedCourse).CheckIfSectionExists(EditSectionNameField.getText()))
+        if (courseManager.GetCourse(i_SelectedCourse).checkIfSectionExists(EditSectionNameField.getText()))
         {
             if (!courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetName().equals(EditSectionNameField.getText()))
             {
@@ -4278,8 +4260,8 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_RemoveLearningOutcomeButtonActionPerformed
         // TODO add your handling code here:
 
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().RemoveLearningOutcome(LearningOutcomeList.getSelectedIndex());
-        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().GetSelectedLO());
+        courseManager.GetCourse(i_SelectedCourse).getSyllabus().removeLearningOutcome(LearningOutcomeList.getSelectedIndex());
+        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO());
     }//GEN-LAST:event_RemoveLearningOutcomeButtonActionPerformed
 
     private void AddNewLearningOutcomeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddNewLearningOutcomeButtonActionPerformed
@@ -4377,12 +4359,12 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_AddLOAddButtonActionPerformed
         // TODO add your handling code here:
 
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().AddLearningOutcome(AddLOTextField.getText());
+        courseManager.GetCourse(i_SelectedCourse).getSyllabus().addLearningOutcome(AddLOTextField.getText());
         AddLOTextField.setText("");
         AddLOWarning.setVisible(false);
         AddLOAddButton.setEnabled(false);
 
-        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().GetSelectedLO());
+        SelectLearningOutcome(courseManager.GetCourse(i_SelectedCourse).getSyllabus().getSelectedLO());
 
         AddLearningOutcomeDialog.dispose();
 
@@ -4398,7 +4380,7 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_SaveLOSaveButtonActionPerformed
         // TODO add your handling code here:
 
-        courseManager.GetCourse(i_SelectedCourse).getSyllabus().EditLearningOutcome(LearningOutcomeList.getSelectedIndex(), SaveLOTextField.getText());
+        courseManager.GetCourse(i_SelectedCourse).getSyllabus().editLearningOutcome(LearningOutcomeList.getSelectedIndex(), SaveLOTextField.getText());
         SaveLOTextField.setText("");
         SaveLOWarning.setVisible(false);
         SaveLOSaveButton.setEnabled(false);
@@ -4547,29 +4529,26 @@ public class UIManager extends javax.swing.JFrame
     {//GEN-HEADEREND:event_AddExamButtonActionPerformed
         // TODO add your handling code here:
         Exam ex = new Exam(Exam.ExamType.Midterm, 0, null);
-        courseManager.GetCourse(i_SelectedCourse).AddExam(ex);
+        courseManager.GetCourse(i_SelectedCourse).addExam(ex);
         UpdateExams();
     }//GEN-LAST:event_AddExamButtonActionPerformed
 
     private void RemoveExamButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveExamButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveExamButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).RemoveExam(ExamList.getSelectedIndex());
+        courseManager.GetCourse(i_SelectedCourse).removeExam(ExamList.getSelectedIndex());
         UpdateExams();
     }//GEN-LAST:event_RemoveExamButtonActionPerformed
 
     private void AddQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AddQuestionButtonActionPerformed
     {//GEN-HEADEREND:event_AddQuestionButtonActionPerformed
-        // TODO add your handling code here:
-        Question q = new Question();
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().AddQuestion(q);
-        UpdateExams();
+     
     }//GEN-LAST:event_AddQuestionButtonActionPerformed
 
     private void RemoveQuestionButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RemoveQuestionButtonActionPerformed
     {//GEN-HEADEREND:event_RemoveQuestionButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().RemoveQuestion(QuestionList.getSelectedIndex());
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().removeQuestion(QuestionList.getSelectedIndex());
         UpdateExams();
     }//GEN-LAST:event_RemoveQuestionButtonActionPerformed
 
@@ -4619,7 +4598,7 @@ public class UIManager extends javax.swing.JFrame
             ExamPercentageField.setText(Integer.toString(spinnerVal));
 
             courseManager.GetCourse(i_SelectedCourse).getSelectedExam().setPercentage(spinnerVal);
-            courseManager.GetCourse(i_SelectedCourse).CalculateRemainingExamPercentage();
+            courseManager.GetCourse(i_SelectedCourse).calculateRemainingExamPercentage();
         } catch (NumberFormatException e)
         {
             // handle
@@ -4638,7 +4617,7 @@ public class UIManager extends javax.swing.JFrame
         try
         {
             int points = Integer.parseInt(QuestionPointField.getText());
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().setPoints(points);
+            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().setPoints(points);
 
         } catch (NumberFormatException e)
         {
@@ -4699,12 +4678,12 @@ public class UIManager extends javax.swing.JFrame
     private void SelectLOListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().ClearLOList();
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         int[] indices = SelectLOList.getSelectedIndices();
 
         for (int i = 0; i < indices.length; i++)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().AddRelatedLO(indices[i]);
+            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().addLO(indices[i]);
         }
 
         UpdateExams();
@@ -4726,12 +4705,12 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicListSelectButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().ClearTopicsList();
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         int[] indices = SelectTopicList.getSelectedIndices();
 
         for (int i = 0; i < indices.length; i++)
         {
-            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().AddRelatedTopic(indices[i]);
+            courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().addTopic(indices[i]);
         }
 
         UpdateExams();
@@ -4753,7 +4732,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectLOListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectLOListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectLOListSelectEmptyButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().ClearLOList();
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearLOList();
         UpdateExams();
         SelectLODialog.dispose();
     }//GEN-LAST:event_SelectLOListSelectEmptyButtonActionPerformed
@@ -4761,7 +4740,7 @@ public class UIManager extends javax.swing.JFrame
     private void SelectTopicListSelectEmptyButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_SelectTopicListSelectEmptyButtonActionPerformed
     {//GEN-HEADEREND:event_SelectTopicListSelectEmptyButtonActionPerformed
         // TODO add your handling code here:
-        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().GetSelectedQuestion().ClearTopicsList();
+        courseManager.GetCourse(i_SelectedCourse).getSelectedExam().getSelectedQuestion().clearTopicList();
         UpdateExams();
         SelectTopicDialog.dispose();
     }//GEN-LAST:event_SelectTopicListSelectEmptyButtonActionPerformed
@@ -4793,7 +4772,7 @@ public class UIManager extends javax.swing.JFrame
 
                 List<String> xData = new ArrayList<String>();
                 List<Integer> yData = new ArrayList<Integer>();
-                ArrayList<AttendanceDate> attDates = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetAttendanceDates();
+                ArrayList<AttendanceDate> attDates = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getAttendanceDates();
 
                 int selectionIndex = AttendanceReportsComboBox.getSelectedIndex();
                 int totalAbs = 0;
@@ -4803,12 +4782,12 @@ public class UIManager extends javax.swing.JFrame
                     xData.add(str);
                     if (selectionIndex == 0)
                     {
-                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetTotalAbsentheismCountAtDate(i);
+                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getTotalAbsentheismCountAtDate(i);
                         totalAbs += abs;
                         yData.add(abs);
                     } else
                     {
-                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().GetAbsenteeismOfStudentAtDate(i, selectionIndex - 1);
+                        int abs = courseManager.GetCourse(i_SelectedCourse).getSelectedSection().getAbsenteeismOfStudentAtDate(i, selectionIndex - 1);
                         totalAbs += abs;
                         yData.add(abs);
                     }
@@ -4856,11 +4835,11 @@ public class UIManager extends javax.swing.JFrame
 
                 if (selectionIndex == 0)
                 {
-                    int fw = section.GetTotalAbsentheismCountAtDate(0);
+                    int fw = section.getTotalAbsentheismCountAtDate(0);
                     yData.add(fw);
                 } else
                 {
-                    int fw = section.GetAbsenteeismOfStudentAtDate(0, selectionIndex - 1);
+                    int fw = section.getAbsenteeismOfStudentAtDate(0, selectionIndex - 1);
                     yData.add(fw);
                 }
 
@@ -4876,12 +4855,12 @@ public class UIManager extends javax.swing.JFrame
                     xData.add(str);
                     if (selectionIndex == 0)
                     {
-                        int abs = section.GetAbsenteeismUntilDate(exams.get(i).getDate());
+                        int abs = section.getAbsenteeismUntilDate(exams.get(i).getDate());
 
                         yData.add(abs);
                     } else
                     {
-                        int abs = section.GetAbsenteeismOfStudentUntilDate(exams.get(i).getDate(), selectionIndex - 1);
+                        int abs = section.getAbsenteeismOfStudentUntilDate(exams.get(i).getDate(), selectionIndex - 1);
 
                         yData.add(abs);
                     }
@@ -4889,12 +4868,12 @@ public class UIManager extends javax.swing.JFrame
 
                 if (selectionIndex == 0)
                 {
-                    int abs = section.GetAbsenteeismUntilDate(section.GetAttendanceDates().get(section.GetAttendanceDates().size() - 1).getDate());
+                    int abs = section.getAbsenteeismUntilDate(section.getAttendanceDates().get(section.getAttendanceDates().size() - 1).getDate());
                     totalAbs = abs;
                     yData.add(abs);
                 } else
                 {
-                    int lw = section.GetAbsenteeismOfStudentUntilDate(section.GetAttendanceDates().get(section.GetAttendanceDates().size() - 1).getDate(), selectionIndex - 1);
+                    int lw = section.getAbsenteeismOfStudentUntilDate(section.getAttendanceDates().get(section.getAttendanceDates().size() - 1).getDate(), selectionIndex - 1);
                     totalAbs = lw;
                     yData.add(lw);
                 }
@@ -4940,12 +4919,12 @@ public class UIManager extends javax.swing.JFrame
                     for (int j = 0; j < exams.size(); j++)
                     {
                        
-                        ArrayList<Question> questions = exams.get(j).CalculateQuestionSuccessRate();
+                        ArrayList<Question> questions = exams.get(j).calculateQuestionSuccessRate();
                         for (int l = 0; l < questions.size(); l++)
                         {
-                            for (int m = 0; m < questions.get(l).GetTopicList().size(); m++)
+                            for (int m = 0; m < questions.get(l).getTopicList().size(); m++)
                             {
-                                if (questions.get(l).GetTopicList().get(m) == i)
+                                if (questions.get(l).getTopicList().get(m) == i)
                                 {
 
                                     mySuccessRate += questions.get(l).getSuccessRate();
@@ -4953,7 +4932,7 @@ public class UIManager extends javax.swing.JFrame
                             }
                         }
                     }
-                    weeks.get(i).SetSuccessScore(mySuccessRate);
+                    weeks.get(i).setSuccessScore(mySuccessRate);
                     String name = new StringBuilder().append("Week " + (i + 1)).append(weeks.get(i).getTopic()).toString();
                     chart.addSeries(name, mySuccessRate);
                     System.out.println(mySuccessRate);
@@ -5000,9 +4979,9 @@ public class UIManager extends javax.swing.JFrame
 
                     xData.add(nameBuilder.toString());
 
-                    ArrayList<Question> questions = exams.get(i).CalculateQuestionSuccessRate();
+                    ArrayList<Question> questions = exams.get(i).calculateQuestionSuccessRate();
                     float examOverallSuccess = 0;
-                    examOverallSuccess = exams.get(i).studentScoreOverTotal;
+                    examOverallSuccess = exams.get(i).getStudentScoreOverTotal();
                 
                     yData.add(examOverallSuccess);
                 }
@@ -5026,7 +5005,7 @@ public class UIManager extends javax.swing.JFrame
 
             try
             {
-                resourceManager.SetCurrentExam(courseManager.GetCourse(i_SelectedCourse).getSelectedExam());
+                resourceManager.setCurrentExam(courseManager.GetCourse(i_SelectedCourse).getSelectedExam());
                 resourceManager.LoadExamXLSX(FileChooser.getSelectedFile());
             } catch (Exception e)
             {
@@ -5039,7 +5018,7 @@ public class UIManager extends javax.swing.JFrame
         {
             try
             {
-                resourceManager.SetCurrentSection(courseManager.GetCourse(i_SelectedCourse).getSelectedSection());
+                resourceManager.setCurrentSection(courseManager.GetCourse(i_SelectedCourse).getSelectedSection());
                 resourceManager.LoadStudentXLSX(FileChooser.getSelectedFile());
 
                 UpdateStudents();

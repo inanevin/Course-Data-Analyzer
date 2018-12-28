@@ -8,7 +8,6 @@ package course.data.analyzer;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,15 +15,11 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -36,22 +31,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ResourceManager
 {
 
-    private Section currentCourse;
     private Exam currentExam;
+    private Section currentCourse;
 
-    public void SetCurrentExam(Exam e)
+    public void setCurrentExam(Exam e)
     {
         currentExam = e;
     }
 
-    public void SetCurrentSection(Section s)
+    public void setCurrentSection(Section s)
     {
         currentCourse = s;
     }
 
     public void SaveCourseList(ArrayList<Course> list)
     {
-
         try
         {
             File f = new File(System.getProperty("user.dir"), "courseList.dat");
@@ -60,11 +54,11 @@ public class ResourceManager
             oos.writeObject(list);
             oos.close();
             fos.close();
-        } catch (IOException ioe)
+        }
+        catch (IOException ioe)
         {
             ioe.printStackTrace();
         }
-
     }
 
     public ArrayList<Course> LoadCourseList()
@@ -81,13 +75,14 @@ public class ResourceManager
 
             ois.close();
             fis.close();
-        } catch (IOException ioe)
+        }
+        catch (IOException ioe)
         {
-            //ioe.printStackTrace();
-        } catch (ClassNotFoundException c)
+            
+        }
+        catch (ClassNotFoundException c)
         {
-            System.out.println("Class not found");
-            //c.printStackTrace();
+            
             return new ArrayList<Course>();
         }
 
@@ -98,9 +93,7 @@ public class ResourceManager
     {
         File myFile = file;
         FileInputStream fis = new FileInputStream(myFile);
-
         XSSFWorkbook mw = new XSSFWorkbook(fis);
-
         XSSFSheet mySheet = mw.getSheetAt(0);
 
         Iterator<Row> rowIterator = mySheet.iterator();
@@ -110,33 +103,30 @@ public class ResourceManager
         currentExam.getQuestions().clear();
         boolean first = true;
         boolean breakOuter = false;
+
         while (rowIterator.hasNext())
         {
-
             Row row = rowIterator.next();
-
             Iterator<Cell> cellIterator = row.cellIterator();
 
             while (cellIterator.hasNext())
             {
                 Cell cell = cellIterator.next();
-
                 if (first)
                 {
                     String firstCell = cell.getStringCellValue();
 
                     if (!firstCell.equals("EXAMDATA"))
                     {
-                        
                         currentExam.getStudents().clear();
                         currentExam.getQuestions().clear();
                         breakOuter = true;
                         break;
                     }
-
                     first = false;
                     continue;
                 }
+
                 if (cell.getCellType() == CellType.NUMERIC)
                 {
                     if (cell.getAddress().getColumn() == 0)
@@ -145,22 +135,20 @@ public class ResourceManager
                         String studentID = objDefaultFormat.formatCellValue(cell, objFormulaEvaluator);
                         Student student = new Student(studentID);
                         currentExam.getStudents().add(student);
-                    } else
+                    }
+                    else
                     {
                         int point = (int) cell.getNumericCellValue();
                         int columnIndex = cell.getColumnIndex() - 1;
 
-                        currentExam.getQuestions().get(columnIndex).AddPair(currentExam.getStudents().get(currentExam.getStudents().size() - 1), point);
+                        currentExam.getQuestions().get(columnIndex).addStudentPointPair(currentExam.getStudents().get(currentExam.getStudents().size() - 1), point);
                     }
-
-                } else
+                }
+                else
                 {
                     if (cell.getCellType() == CellType.STRING)
                     {
-                        // QUESTION TITLES
-
                         String cellStr = cell.getStringCellValue();
-
                         StringBuilder pointsBuilder = new StringBuilder();
 
                         boolean inParanthesis = false;
@@ -171,46 +159,38 @@ public class ResourceManager
                             if (inParanthesis == true)
                             {
                                 if (cellStr.charAt(i) == ')')
-                                {
                                     inParanthesis = false;
-                                } else
-                                {
+                                else
                                     pointsBuilder.append(cellStr.charAt(i));
-                                }
-                            } else
+                            }
+                            else
                             {
                                 if (cellStr.charAt(i) == '(')
-                                {
                                     inParanthesis = true;
-                                }
                             }
                         }
 
                         String points = pointsBuilder.toString();
-
                         int point = 0;
 
                         try
                         {
                             point = Integer.parseInt(points);
 
-                        } catch (NumberFormatException e)
-                        {
-
                         }
-
+                        catch (NumberFormatException e)
+                        {
+                            e.printStackTrace();
+                        }
                         Question q = new Question(point);
                         currentExam.getQuestions().add(q);
-
                     }
                 }
 
             }
 
             if (breakOuter)
-            {
                 break;
-            }
         }
 
     }
@@ -219,9 +199,7 @@ public class ResourceManager
     {
         File myFile = file;
         FileInputStream fis = new FileInputStream(myFile);
-
         XSSFWorkbook mw = new XSSFWorkbook(fis);
-
         XSSFSheet mySheet = mw.getSheetAt(0);
 
         Iterator<Row> rowIterator = mySheet.iterator();
@@ -233,25 +211,22 @@ public class ResourceManager
         int cellCounter = 0;
         int attendanceDateCounter = 0;
         AttendanceInformation attInfo = null;
-        currentCourse._AttendanceDates.clear();
-        currentCourse._Lectures.clear();
-        currentCourse._Students.clear();
+        currentCourse.attendanceDateList.clear();
+        currentCourse.lectureList.clear();
+        currentCourse.studentList.clear();
         boolean first = true;
         boolean breakOuter = false;
+
         while (rowIterator.hasNext())
         {
-
             Row row = rowIterator.next();
-
             Iterator<Cell> cellIterator = row.cellIterator();
 
             while (cellIterator.hasNext())
             {
                 Cell cell = cellIterator.next();
-
                 if (first)
                 {
-
                     String firstCell = cell.getStringCellValue();
 
                     if (!firstCell.equals("ATTDATA"))
@@ -273,20 +248,21 @@ public class ResourceManager
                         String studentID = objDefaultFormat.formatCellValue(cell, objFormulaEvaluator);
                         Student student = new Student(studentID);
                         // System.out.println("Adding Student To List + " + student);
-                        currentCourse._Students.add(student);
+                        currentCourse.studentList.add(student);
 
                         if (!hasFinishedLectures)
                         {
-                            int attDataSize = currentCourse._AttendanceDates.size();
-                            int lectureDataSize = currentCourse._Lectures.size();
+                            int attDataSize = currentCourse.attendanceDateList.size();
+                            int lectureDataSize = currentCourse.lectureList.size();
                             try
                             {
                                 lecturePerDate = (lectureDataSize / attDataSize);
-                            } catch (ArithmeticException e)
+                            }
+                            catch (ArithmeticException e)
                             {
-                                currentCourse._AttendanceDates.clear();
-                                currentCourse._Lectures.clear();
-                                currentCourse._Students.clear();
+                                currentCourse.attendanceDateList.clear();
+                                currentCourse.lectureList.clear();
+                                currentCourse.studentList.clear();
                                 break;
                             }
                             hasFinishedLectures = true;
@@ -294,7 +270,8 @@ public class ResourceManager
                         attInfo = new AttendanceInformation();
                         attendanceDateCounter = 0;
                     }
-                } else
+                }
+                else
                 {
                     if (cell.getCellType() == CellType.STRING)
                     {
@@ -308,34 +285,39 @@ public class ResourceManager
                             {
                                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(cellStr);
                                 AttendanceDate attData = new AttendanceDate(date);
-                                currentCourse._AttendanceDates.add(attData);
-
-                            } catch (Exception e)
-                            {
+                                currentCourse.attendanceDateList.add(attData);
 
                             }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
 
-                        } else
+                        }
+                        else
                         {
                             boolean isLecture = IsInLectureFormat(cellStr);
 
                             if (isLecture)
                             {
-                                currentCourse._Lectures.add(cellStr);
-                            } else
+                                currentCourse.lectureList.add(cellStr);
+                            }
+                            else
                             {
                                 if (hasFinishedLectures)
                                 {
 
                                     if (cellStr.equals("OK") || cellStr.equals(""))
                                     {
-                                        attInfo.setPresentCount(attInfo.getPresentCount()+1);
-                                    } else
+                                        attInfo.setPresentCount(attInfo.getPresentCount() + 1);
+                                    }
+                                    else
                                     {
                                         if (cellStr.equals("ABSENT"))
                                         {
-                                            attInfo.setAbsentCount(attInfo.getAbsentCount()+1);
-                                        } else
+                                            attInfo.setAbsentCount(attInfo.getAbsentCount() + 1);
+                                        }
+                                        else
                                         {
                                             if (cellStr.equals("NOT ENROLLED"))
                                             {
@@ -345,7 +327,7 @@ public class ResourceManager
                                     }
 
                                     //System.out.println("Adding Student + " + _Students.get(_Students.size()-1) + " to the map of " + _AttendanceDates.get(attendanceDateCounter));
-                                    currentCourse._AttendanceDates.get(attendanceDateCounter).addPair(currentCourse._Students.get(currentCourse._Students.size() - 1), attInfo);
+                                    currentCourse.attendanceDateList.get(attendanceDateCounter).addPair(currentCourse.studentList.get(currentCourse.studentList.size() - 1), attInfo);
 
                                     cellCounter++;
                                     if (cellCounter == lecturePerDate)
@@ -375,24 +357,12 @@ public class ResourceManager
 
     private boolean IsInDateFormat(String s)
     {
-        if (s.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})"))
-        {
-            return true;
-        } else
+        return s.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})");
 
-        {
-            return false;
-        }
     }
 
     private boolean IsInLectureFormat(String s)
     {
-        if (s.matches("([0-9]{1}).Lecture"))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
+        return s.matches("([0-9]{1}).Lecture");
     }
 }

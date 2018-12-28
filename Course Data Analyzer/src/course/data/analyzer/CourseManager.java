@@ -14,79 +14,74 @@ import java.util.*;
 public class CourseManager
 {
 
-    private ArrayList<Course> _AllCourses;
+    private int lastActionIndex;
+    private ArrayList<Course> allCourses;
     private ResourceManager resourceManager;
     private UIManager uiManager;
-    private int lastActionIndex;
     private Course lastActionSubject;
 
     public CourseManager(UIManager um, ResourceManager rm)
     {
-
         uiManager = um;
         resourceManager = rm;
     }
 
+    public ArrayList<Course> GetCourseList()
+    {
+        return allCourses;
+    }
+
+    public Course GetCourse(int index)
+    {
+        if (index < -1 || allCourses.size() <= index)
+            throw new IndexOutOfBoundsException();
+
+        return allCourses.get(index);
+    }
+
     public void AddSectionToCourse(int course, String sc)
     {
-        _AllCourses.get(course).addSection(sc);
-        uiManager.SelectSection(_AllCourses.get(course).getSections().size()-1);
+        allCourses.get(course).addSection(sc);
+        uiManager.SelectSection(allCourses.get(course).getSections().size() - 1);
     }
 
     public void RemoveSectionFromCourse(int course)
     {
-        if (_AllCourses.get(course).getSections().size() < 1)
-        {
+        if (allCourses.get(course).getSections().size() < 1)
             return;
-        }
-        _AllCourses.get(course).removeSelectedSection();
-        uiManager.SelectSection(_AllCourses.get(course).getSelectedSectionIndex());
+
+        allCourses.get(course).removeSelectedSection();
+        uiManager.SelectSection(allCourses.get(course).getSelectedSectionIndex());
     }
 
     public void PopulateCourses()
     {
-        _AllCourses = resourceManager.LoadCourseList();
+        allCourses = resourceManager.LoadCourseList();
 
         // Choose the initially selected course, -1 if list is empty.
-        int selectionIndex = _AllCourses.size() == 0 ? -1 : 0;
+        int selectionIndex = allCourses.size() == 0 ? -1 : 0;
         uiManager.SelectCourse(selectionIndex);
     }
 
     public void SaveCourses()
     {
-        resourceManager.SaveCourseList(_AllCourses);
-    }
-
-    public ArrayList<Course> GetCourseList()
-    {
-        return _AllCourses;
-    }
-
-    public Course GetCourse(int index)
-    {
-        if (index < -1 || _AllCourses.size() <= index)
-        {
-            throw new IndexOutOfBoundsException();
-        }
-        return _AllCourses.get(index);
+        resourceManager.SaveCourseList(allCourses);
     }
 
     public void AddNewCourse(String id, String name, String desc)
     {
-
         // Instantiate a course and add it.
         Course c = new Course(id, name, desc);
-        _AllCourses.add(c);
+        allCourses.add(c);
 
         // Record last action for undo operation.
         uiManager.SetLastActionForCourses(c, 1);
-
     }
 
     // Adds new course - UNDO OPERATION
     public void AddNewCourse(Course c, int index)
     {
-        _AllCourses.add(index, c);
+        allCourses.add(index, c);
 
         // Update UI list.
         uiManager.SelectCourse(index);
@@ -94,15 +89,16 @@ public class CourseManager
 
     public void DuplicateCourse(int index)
     {
+        Course targetCourse = allCourses.get(index);
 
         // Increment the duplication count of the selected course.
-        _AllCourses.get(index).duplicationCount++;
+        targetCourse.setDuplicationCount(targetCourse.getDuplicationCount() + 1);
 
         // Copy constructor with duplication counter.
-        Course c = new Course(_AllCourses.get(index), _AllCourses.get(index).i_duplicationCount
+        Course c = new Course(targetCourse, targetCourse.getDuplicationCount());
 
         // Add the new course to list.
-        _AllCourses.add(index + 1, c);
+        allCourses.add(index + 1, c);
 
         // Update UI list.
         uiManager.SelectCourse(index + 1);
@@ -114,70 +110,36 @@ public class CourseManager
     // Removes an added course. - UNDO OPERATION
     public void RemoveCourse(Course c)
     {
-        int toSelect = _AllCourses.indexOf(c) == 0 ? -1 : _AllCourses.indexOf(c) - 1;
-
         // Remove the course.
-        _AllCourses.remove(c);
+        allCourses.remove(c);
 
+        // Select another one from the list.
+        int toSelect = allCourses.indexOf(c) == 0 ? -1 : allCourses.indexOf(c) - 1;
         uiManager.SelectCourse(toSelect);
     }
 
     public void RemoveCourse(int index)
     {
-
         // Record last action for undo operation.
-        uiManager.SetLastActionForCourses(_AllCourses.get(index), 2);
-
-        // Delete the section data of the course.
-        //_AllCourses.get(index).DeleteSectionData();
+        uiManager.SetLastActionForCourses(allCourses.get(index), 2);
 
         // Remove the target course and update the UI list.
-        _AllCourses.remove(index);
+        allCourses.remove(index);
 
-        int toSelect = ((index - 1) == -1 && _AllCourses.size() > 0) ? 0 : index - 1;
+        // Select another one from the list.
+        int toSelect = ((index - 1) == -1 && allCourses.size() > 0) ? 0 : index - 1;
         uiManager.SelectCourse(toSelect);
     }
 
-    public void RemoveCourse(String ID)
-    {
-
-        // Iterate & find the matching ID.
-        for (int i = 0; i < _AllCourses.size(); i++)
-        {
-            if (_AllCourses.get(i).getID() == ID)
-            {
-
-                // Record last action for undo operation.
-                uiManager.SetLastActionForCourses(_AllCourses.get(i), 2);
-
-                // Remove & break.
-                _AllCourses.remove(i);
-                break;
-
-            }
-        }
-    }
-
-    public void UndoCourseAction()
-    {
-        if (lastActionIndex == 1)
-        {
-
-        }
-    }
 
     public boolean CheckIfExists(String tt)
     {
-
         // Iterate courses and check if there exists a matching ID.
-        for (int i = 0; i < _AllCourses.size(); i++)
+        for (int i = 0; i < allCourses.size(); i++)
         {
-            if (_AllCourses.get(i).getID().equals(tt))
-            {
+            if (allCourses.get(i).getID().equals(tt))
                 return true;
-            }
         }
-
         return false;
     }
 

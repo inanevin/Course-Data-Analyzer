@@ -14,25 +14,38 @@ import java.util.Date;
  */
 public class Week implements Serializable
 {
-    private Date m_Date;
-    private String m_Topic;
+    private Date date;
+    private String topic;
     private float successScore;
-    public Date getDate() { return m_Date;}
-    public String getTopic() { return m_Topic; }
-    public void setTopic(String tpc) { m_Topic = tpc; }
     
-    public void SetSuccessScore(float s)
+    public Week(Date date)
     {
-        successScore = s;
-        
+        date = date;
     }
     
-    public float GetSuccessScore()
+    public Date getDate()
+    {
+        return date;
+    }
+
+    public String getTopic()
+    {
+        return topic;
+    }
+
+    public void setTopic(String tpc)
+    {
+        topic = tpc;
+    }
+
+    public void setSuccessScore(float s)
+    {
+        successScore = s;
+    }
+
+    public float getSuccessScore()
     {
         return successScore;
     }
-    public Week(Date date)
-    {
-        m_Date = date;
-    }
+
 }

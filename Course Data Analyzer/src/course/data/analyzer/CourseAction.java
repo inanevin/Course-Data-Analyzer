@@ -8,28 +8,17 @@ package course.data.analyzer;
 /**
  *
  * @author InanEvin
+ *
+ * This class is for recording the adding & removing courses through the GUI.
+ * Instances of these actions are used for undo operations.
+ *
  */
 public class CourseAction
 {
 
-    private Course m_ActionSubject;
-    private int m_ActionIndex;
-    private int m_ListIndex;
-
-    public int GetIndex()
-    {
-        return m_ActionIndex;
-    }
-
-    public Course GetSubject()
-    {
-        return m_ActionSubject;
-    }
-
-    public int GetListIndex()
-    {
-        return m_ListIndex;
-    }
+    private Course actionSubject;
+    private int actionIndex;
+    private int listIndex;
 
     public CourseAction(Course s, int i, int li) throws ActionIndexException
     {
@@ -37,8 +26,23 @@ public class CourseAction
         if (i != 1 && i != 2)
             throw new ActionIndexException("Action Index must be 1 or 2!");
 
-        m_ActionSubject = s;
-        m_ActionIndex = i;
-        m_ListIndex = li;
+        actionSubject = s;
+        actionIndex = i;
+        listIndex = li;
+    }
+
+    public int getIndex()
+    {
+        return actionIndex;
+    }
+
+    public Course getSubject()
+    {
+        return actionSubject;
+    }
+
+    public int getListIndex()
+    {
+        return listIndex;
     }
 }

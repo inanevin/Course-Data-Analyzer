@@ -15,108 +15,90 @@ import java.util.LinkedHashMap;
  */
 public class Question implements Serializable
 {
+
     private float successRate;
-    private int m_Points;
-    private ArrayList<Integer> _RelatedTopics;
-    private ArrayList<Integer> _RelatedLearningOutcomes;
-    public LinkedHashMap<Student, Integer> studentPointPairs = new LinkedHashMap<Student,Integer>();
-    
-    public LinkedHashMap<Student, Integer> getMap()
+    private int totalPoints;
+    private ArrayList<Integer> topicsIndex;
+    private ArrayList<Integer> learningOutcomesIndex;
+    public LinkedHashMap<Student, Integer> studentPointPairs;
+
+    // Used by resource manager when questions are red.
+    public Question(int p)
+    {
+        totalPoints = p;
+        studentPointPairs = new LinkedHashMap<Student, Integer>();
+        topicsIndex = new ArrayList<Integer>();
+        learningOutcomesIndex = new ArrayList<Integer>();
+    }
+
+    public LinkedHashMap<Student, Integer> getStudentPointPair()
     {
         return studentPointPairs;
     }
-    
-    public void setSuccessRate(float rate)
-    {
-        successRate = rate;
-    }
-    
+
     public float getSuccessRate()
     {
         return successRate;
     }
-    
-    public void AddPair(Student s, int p)
-    {
-        studentPointPairs.put(s, p);
-    }
-    
-    public ArrayList<Integer> GetTopicList()
-    {
-        return _RelatedTopics;
-    }
 
-    public ArrayList<Integer> GetLOList()
+    public void setSuccessRate(float rate)
     {
-        return _RelatedLearningOutcomes;
+        successRate = rate;
     }
 
     public int getPoints()
     {
-        return m_Points;
+        return totalPoints;
     }
 
     public void setPoints(int i)
     {
-        m_Points = i;
+        totalPoints = i;
     }
 
-    public Question()
+    public ArrayList<Integer> getTopicList()
     {
-        if (_RelatedTopics == null)
-        {
-            _RelatedTopics = new ArrayList<Integer>();
-        }
-
-        if (_RelatedLearningOutcomes == null)
-        {
-            _RelatedLearningOutcomes = new ArrayList<Integer>();
-        }
-    }
-    
-     public Question(int p)
-    {
-        m_Points = p;
-        if (_RelatedTopics == null)
-        {
-            _RelatedTopics = new ArrayList<Integer>();
-        }
-
-        if (_RelatedLearningOutcomes == null)
-        {
-            _RelatedLearningOutcomes = new ArrayList<Integer>();
-        }
+        return topicsIndex;
     }
 
-    
-    public void ClearLOList()
+    public ArrayList<Integer> getLOList()
     {
-        _RelatedLearningOutcomes.clear();
-    }
-    
-    public void ClearTopicsList()
-    {
-        _RelatedTopics.clear();
-    }
-    public void AddRelatedTopic(int topic)
-    {
-        _RelatedTopics.add(topic);
+        return learningOutcomesIndex;
     }
 
-    public void RemoveRelatedTopic(int topic)
+    public void clearLOList()
     {
-        _RelatedTopics.remove((Integer) topic);
+        learningOutcomesIndex.clear();
     }
 
-    public void AddRelatedLO(int lo)
+    public void clearTopicList()
     {
-        _RelatedLearningOutcomes.add(lo);
-       
+        topicsIndex.clear();
     }
 
-    public void RemoveRelatedLO(int lo)
+    public void addTopic(int topic)
     {
-        _RelatedLearningOutcomes.remove((Integer) lo);
+        topicsIndex.add(topic);
+    }
+
+    public void removeTopic(int topic)
+    {
+        topicsIndex.remove((Integer) topic);
+    }
+
+    public void addLO(int lo)
+    {
+        learningOutcomesIndex.add(lo);
+    }
+
+    public void removeLO(int lo)
+    {
+        learningOutcomesIndex.remove((Integer) lo);
+    }
+
+    public void addStudentPointPair(Student s, int p)
+    {
+        studentPointPairs.put(s, p);
     }
 
 }
