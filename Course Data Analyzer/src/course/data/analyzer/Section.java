@@ -46,8 +46,8 @@ public class Section implements Serializable
         int total = 0;
         for (int i = 0; i < _Students.size(); i++)
         {
-            AttendanceInformation info = _AttendanceDates.get(attIndex).GetMap().get(_Students.get(i));
-            total += info.absentCount;
+            AttendanceInformation info = _AttendanceDates.get(attIndex).getStudentAttendancePair().get(_Students.get(i));
+            total += info.getAbsentCount();
         }
 
         return total;
@@ -56,9 +56,9 @@ public class Section implements Serializable
     public int GetAbsenteeismOfStudentAtDate(int attIndex, int studentIndex)
     {
 
-        AttendanceInformation info = _AttendanceDates.get(attIndex).GetMap().get(_Students.get(studentIndex));
+        AttendanceInformation info = _AttendanceDates.get(attIndex).getStudentAttendancePair().get(_Students.get(studentIndex));
 
-        return info.absentCount;
+        return info.getAbsentCount();
     }
 
     public int GetAbsenteeismOfStudentUntilDate(Date date, int studentIndex)
@@ -69,8 +69,8 @@ public class Section implements Serializable
         {
             if (date.after(_AttendanceDates.get(i).getDate()))
             {
-                AttendanceInformation info = _AttendanceDates.get(i).GetMap().get(_Students.get(studentIndex));
-                count += info.absentCount;
+                AttendanceInformation info = _AttendanceDates.get(i).getStudentAttendancePair().get(_Students.get(studentIndex));
+                count += info.getAbsentCount();
             }
         }
 
@@ -88,8 +88,8 @@ public class Section implements Serializable
             {
                 System.out.println(j + ". Attendance Date: " + _AttendanceDates.get(j).getDate() + "\n");
 
-                System.out.println("PresentCount: " + _AttendanceDates.get(j).GetMap().get(_Students.get(i)).presentCount);
-                System.out.println("AbsentCount: " + _AttendanceDates.get(j).GetMap().get(_Students.get(i)).absentCount);
+                System.out.println("PresentCount: " + _AttendanceDates.get(j).getStudentAttendancePair().get(_Students.get(i)).getPresentCount());
+                System.out.println("AbsentCount: " + _AttendanceDates.get(j).getStudentAttendancePair().get(_Students.get(i)).getAbsentCount());
 
             }
         }

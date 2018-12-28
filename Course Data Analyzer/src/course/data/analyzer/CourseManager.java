@@ -29,18 +29,18 @@ public class CourseManager
 
     public void AddSectionToCourse(int course, String sc)
     {
-        _AllCourses.get(course).AddSection(sc);
-        uiManager.SelectSection(_AllCourses.get(course).GetSections().size()-1);
+        _AllCourses.get(course).addSection(sc);
+        uiManager.SelectSection(_AllCourses.get(course).getSections().size()-1);
     }
 
     public void RemoveSectionFromCourse(int course)
     {
-        if (_AllCourses.get(course).GetSections().size() < 1)
+        if (_AllCourses.get(course).getSections().size() < 1)
         {
             return;
         }
-        _AllCourses.get(course).RemoveSelectedSection();
-        uiManager.SelectSection(_AllCourses.get(course).GetSelectedSectionIndex());
+        _AllCourses.get(course).removeSelectedSection();
+        uiManager.SelectSection(_AllCourses.get(course).getSelectedSectionIndex());
     }
 
     public void PopulateCourses()
@@ -96,10 +96,10 @@ public class CourseManager
     {
 
         // Increment the duplication count of the selected course.
-        _AllCourses.get(index).i_DuplicationCount++;
+        _AllCourses.get(index).duplicationCount++;
 
         // Copy constructor with duplication counter.
-        Course c = new Course(_AllCourses.get(index), _AllCourses.get(index).i_DuplicationCount);
+        Course c = new Course(_AllCourses.get(index), _AllCourses.get(index).i_duplicationCount
 
         // Add the new course to list.
         _AllCourses.add(index + 1, c);
@@ -144,7 +144,7 @@ public class CourseManager
         // Iterate & find the matching ID.
         for (int i = 0; i < _AllCourses.size(); i++)
         {
-            if (_AllCourses.get(i).GetID() == ID)
+            if (_AllCourses.get(i).getID() == ID)
             {
 
                 // Record last action for undo operation.
@@ -172,7 +172,7 @@ public class CourseManager
         // Iterate courses and check if there exists a matching ID.
         for (int i = 0; i < _AllCourses.size(); i++)
         {
-            if (_AllCourses.get(i).GetID().equals(tt))
+            if (_AllCourses.get(i).getID().equals(tt))
             {
                 return true;
             }

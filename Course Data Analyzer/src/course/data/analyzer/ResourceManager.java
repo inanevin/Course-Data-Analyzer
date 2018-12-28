@@ -329,23 +329,23 @@ public class ResourceManager
 
                                     if (cellStr.equals("OK") || cellStr.equals(""))
                                     {
-                                        attInfo.presentCount++;
+                                        attInfo.setPresentCount(attInfo.getPresentCount()+1);
                                     } else
                                     {
                                         if (cellStr.equals("ABSENT"))
                                         {
-                                            attInfo.absentCount++;
+                                            attInfo.setAbsentCount(attInfo.getAbsentCount()+1);
                                         } else
                                         {
                                             if (cellStr.equals("NOT ENROLLED"))
                                             {
-                                                attInfo.isNotEnrolled = true;
+                                                attInfo.setIsNotEnrolled(true);
                                             }
                                         }
                                     }
 
                                     //System.out.println("Adding Student + " + _Students.get(_Students.size()-1) + " to the map of " + _AttendanceDates.get(attendanceDateCounter));
-                                    currentCourse._AttendanceDates.get(attendanceDateCounter).AddPair(currentCourse._Students.get(currentCourse._Students.size() - 1), attInfo);
+                                    currentCourse._AttendanceDates.get(attendanceDateCounter).addPair(currentCourse._Students.get(currentCourse._Students.size() - 1), attInfo);
 
                                     cellCounter++;
                                     if (cellCounter == lecturePerDate)

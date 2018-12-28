@@ -17,204 +17,186 @@ import java.util.ArrayList;
 /**
  *
  * @author InanEvin
+ *
+ * The main course class that holds all the necessary information and includes
+ * course operations.
+ *
  */
 public class Course implements Serializable
 {
 
-    private String m_ID;
-    private String m_Name;
-    private String m_Description;
-    public int i_DuplicationCount;
-    private ArrayList<Section> _Sections;
-    private int i_SelectedSection = 0;
-    private Syllabus m_Syllabus;
-    private ArrayList<Exam> _Exams;
-    private int i_SelectedExam = -1;
+    private int selectedExamIndex = -1;
+    private int selectedSectionIndex = 0;
     private int remainingExamPercentage = 100;
+    private int duplicationCount;
+    private String id;
+    private String name;
+    private String description;
+    private Syllabus syllabus;
+    private ArrayList<Exam> examList;
+    private ArrayList<Section> sectionList;
 
-
-    public Syllabus GetSyllabus()
+    public Course(String i, String n, String d)
     {
-        return m_Syllabus;
+        // Init fields.
+        id = i;
+        name = n;
+        description = d;
+        sectionList = new ArrayList<Section>();
+        sectionList.add(new Section("Section 1"));
+        selectedSectionIndex = 0;
+        examList = new ArrayList<Exam>();
+        syllabus = new Syllabus();
     }
 
-    public int GetSelectedExamIndex()
+    // Constructor for duplicated course.
+    public Course(Course c, int duplicationCount)
     {
-        return i_SelectedExam;
+        // Init fields.
+        id = (new StringBuilder().
+                append(c.getID()).
+                append(duplicationCount)).
+                toString();
+
+        name = c.getName();
+        description = c.getDescription();
+        sectionList = c.getSections();
+        sectionList = new ArrayList<Section>();
+        sectionList.add(new Section("Section 1"));
+        selectedSectionIndex = 0;
+        examList = new ArrayList<Exam>();
+        syllabus = new Syllabus();
     }
 
-    public String GetID()
+    public int getSelectedExamIndex()
     {
-        return m_ID;
+        return selectedExamIndex;
     }
 
-    public String GetName()
+    public int getSelectedSectionIndex()
     {
-        return m_Name;
+        return selectedSectionIndex;
     }
 
-    public String GetDescription()
+    public int getRemainingExamPercentage()
     {
-        return m_Description;
+        return remainingExamPercentage;
     }
 
-    public int GetSelectedSectionIndex()
+    public int getDuplicationCount()
     {
-        return i_SelectedSection;
+        return duplicationCount;
     }
 
-    public Section GetSelectedSection()
+    public String getID()
     {
-        return _Sections.get(i_SelectedSection);
+        return id;
     }
 
-    public void SetSection(int i)
+    public String getName()
     {
+        return name;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public Syllabus getSyllabus()
+    {
+        return syllabus;
+    }
+
+    public ArrayList<Exam> getExams()
+    {
+        return examList;
+    }
+
+    public Exam getSelectedExam()
+    {
+        return examList.get(selectedExamIndex);
+    }
+
+    public Section getSelectedSection()
+    {
+        return sectionList.get(selectedSectionIndex);
+    }
+
+    public ArrayList<Section> getSections()
+    {
+        return sectionList;
+    }
+
+    public void setSelectedExam(int i)
+    {
+        selectedExamIndex = i;
+    }
+
+    public void setSection(int i)
+    {
+        // Always make sure we have one section at least.
         if (i == -1)
-        {
             i = 0;
-        }
-        i_SelectedSection = i;
+        
+        selectedSectionIndex = i;
     }
 
-    public void AddSection(String name)
+    public void addSection(String name)
     {
-        _Sections.add(new Section(name));
-        SetSection(++i_SelectedSection);
+        sectionList.add(new Section(name));
+        setSection(++selectedSectionIndex);
     }
 
-    public void RemoveSelectedSection()
+    public void removeSelectedSection()
     {
-        _Sections.remove(_Sections.get(i_SelectedSection));
-        SetSection(--i_SelectedSection);
+        sectionList.remove(sectionList.get(selectedSectionIndex));
+        setSection(--selectedSectionIndex);
     }
 
     public boolean CheckIfSectionExists(String name)
     {
-        for (int i = 0; i < _Sections.size(); i++)
+        for (int i = 0; i < sectionList.size(); i++)
         {
-            if (_Sections.get(i).GetName().equals(name))
-            {
+            if (sectionList.get(i).GetName().equals(name))
                 return true;
-            }
         }
-
         return false;
-    }
-
-    public Course(String i, String n, String d)
-    {
-        m_ID = i;
-        m_Name = n;
-        m_Description = d;
-
-        if (_Sections == null)
-        {
-            _Sections = new ArrayList<Section>();
-            _Sections.add(new Section("Section 1"));
-            i_SelectedSection = 0;
-        }
-
-        if (_Exams == null)
-        {
-            _Exams = new ArrayList<Exam>();
-        }
-
-        
-
-        m_Syllabus = new Syllabus();
-    }
-
-    public Course(Course c, int duplicationCount)
-    {
-        m_ID = (new StringBuilder().
-                append(c.GetID()).
-                append(duplicationCount)).
-                toString();
-
-        m_Name = c.GetName();
-        m_Description = c.GetDescription();
-        _Sections = c.GetSections();
-
-        if (_Sections == null)
-        {
-            _Sections = new ArrayList<Section>();
-            _Sections.add(new Section("Section 1"));
-            i_SelectedSection = 0;
-        }
-
-        if (_Exams == null)
-        {
-            _Exams = new ArrayList<Exam>();
-        }
-
-
-        m_Syllabus = new Syllabus();
-    }
-
-    public int GetRemainingExamPercentage()
-    {
-        return remainingExamPercentage;
     }
 
     public void CalculateRemainingExamPercentage()
     {
         remainingExamPercentage = 100;
 
-        for (int i = 0; i < _Exams.size(); i++)
-        {
-            remainingExamPercentage -= _Exams.get(i).getPercentage();
-        }
-    }
-
-    public ArrayList<Section> GetSections()
-    {
-        return _Sections;
-    }
-
-    public ArrayList<Exam> GetExams()
-    {
-        return _Exams;
-    }
-
-    public Exam GetSelectedExam()
-    {
-        return _Exams.get(i_SelectedExam);
+        for (int i = 0; i < examList.size(); i++)
+            remainingExamPercentage -= examList.get(i).getPercentage();
     }
 
     public void Edit(String id, String name, String Desc)
     {
-        m_ID = id;
-        m_Name = name;
-        m_Description = Desc;
+        id = id;
+        name = name;
+        description = Desc;
     }
 
     public void AddExam(Exam exam)
     {
-        _Exams.add(exam);
-        i_SelectedExam++;
+        examList.add(exam);
+        selectedExamIndex++;
     }
 
     public void RemoveExam(int index)
     {
-        if (index < 0 || index > _Exams.size())
-        {
+        if (index < 0 || index > examList.size())
             return;
-        }
 
-        remainingExamPercentage += _Exams.get(index).getPercentage();
-        _Exams.remove(index);
-        i_SelectedExam--;
+        // Update remaining percentage then remove.
+        remainingExamPercentage += examList.get(index).getPercentage();
+        examList.remove(index);
+        selectedExamIndex--;
 
-        if (i_SelectedExam < 0 && _Exams.size() > 0)
-        {
-            i_SelectedExam = 0;
-        }
-    }
-
-    public void SetSelectedExam(int i)
-    {
-        i_SelectedExam = i;
+        if (selectedExamIndex < 0 && examList.size() > 0)
+            selectedExamIndex = 0;
     }
 
 }
